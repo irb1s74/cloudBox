@@ -6,11 +6,9 @@ interface MainProps {
   className?: string
 }
 
-const Main: FC<MainProps> = ({ className }) => {
-  return (
+const Main: FC<MainProps> = ({ className }) => (
     <div className={classNames(styles.Main, {}, [className])}>
       Main
     </div>
   )
-}
 export default Main

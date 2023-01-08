@@ -6,10 +6,8 @@ interface NotFoundProps {
     className?: string
 }
 
-export const NotFound: FC<NotFoundProps> = ({className}) => {
-    return (
+export const NotFound: FC<NotFoundProps> = ({className}) => (
         <div className={classNames(styles.NotFound, {}, [className])}>
             Страница не найдена
         </div>
     );
-};

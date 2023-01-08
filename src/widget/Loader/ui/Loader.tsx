@@ -6,8 +6,7 @@ interface LoaderProps {
   className?: string
 }
 
-export const Loader: FC<LoaderProps> = ({ className }) => {
-  return (
+export const Loader: FC<LoaderProps> = ({ className }) => (
     <Box sx={{ position: 'relative' }}>
       <CircularProgress
         variant='determinate'
@@ -36,4 +35,3 @@ export const Loader: FC<LoaderProps> = ({ className }) => {
       />
     </Box>
   )
-}
