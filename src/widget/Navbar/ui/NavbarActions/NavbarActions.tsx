@@ -1,44 +1,60 @@
-import React, { FC, Fragment, useState } from 'react'
-import { Search } from 'shared/ui/Search/Search'
-import { DropList } from 'shared/ui/DropList/DropList'
-import { BiLogOut } from 'react-icons/bi'
-import { ListItemIcon, ListItemText, MenuItem } from '@mui/material'
-import { Avatar } from 'shared/ui/Avatar/Avatar'
-import classNames from 'classnames'
-import styles from '../Navbar.module.scss'
+import React, { FC, Fragment, useState } from 'react';
+import { Search } from 'shared/ui/Search/Search';
+import { DropList } from 'shared/ui/DropList/DropList';
+import { BiLogOut } from 'react-icons/bi';
+import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
+import { Avatar } from 'shared/ui/Avatar/Avatar';
+import { useGoogleLogout } from 'react-google-login';
+import classNames from 'classnames';
+import { googleSetting } from 'shared/const/googleSetting';
+import { useDispatch } from 'react-redux';
+import { userActions } from 'entities/User';
+import styles from '../Navbar.module.scss';
 
 interface NavbarActionsProps {
-  className?: string
+    className?: string;
 }
 
 export const NavbarActions: FC<NavbarActionsProps> = ({ className }) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-  return (
-    <>
-      <div className={classNames(styles.NavbarActions, {}, [className])}>
-        <Search />
-        <div onClick={handleClick} className={styles.NavbarAvatar}>
-          <Avatar />
-        </div>
-      </div>
-      <DropList anchorEl={anchorEl} open={open}
-                handleClose={handleClose}>
-        <MenuItem
-          // onClick={signOut}
-        >
-          <ListItemIcon>
-            <BiLogOut size={22}/>
-          </ListItemIcon>
-          <ListItemText>Выйти</ListItemText>
-        </MenuItem>
-      </DropList>
-    </>
-  )
-}
+    const dispatch = useDispatch();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const onLogoutSuccess = () => {
+        dispatch(userActions.logout());
+    };
+
+    const { signOut } = useGoogleLogout({
+        clientId: googleSetting.clientId,
+        onLogoutSuccess,
+    });
+
+    return (
+        <>
+            <div className={classNames(styles.NavbarActions, {}, [className])}>
+                <Search />
+                <div onClick={handleClick} className={styles.NavbarAvatar}>
+                    <Avatar />
+                </div>
+            </div>
+            <DropList anchorEl={anchorEl} open={open}
+                      handleClose={handleClose}>
+                <MenuItem
+                    onClick={signOut}
+                >
+                    <ListItemIcon>
+                        <BiLogOut size={22} />
+                    </ListItemIcon>
+                    <ListItemText>Выйти</ListItemText>
+                </MenuItem>
+            </DropList>
+        </>
+    );
+};

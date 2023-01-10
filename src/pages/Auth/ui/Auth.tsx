@@ -1,9 +1,20 @@
-import React from 'react'
+import { FC, Suspense } from 'react';
+import classNames from 'classnames';
+import { LoginForm } from 'feature/AuthByEmail';
+import { Loader } from 'widget/Loader';
+import styles from './Auth.module.scss';
 
-const Auth = () => {
-  return (
-    <div />
-  )
+interface AuthProps {
+    className?: string;
 }
 
-export default Auth
+const Auth: FC<AuthProps> = ({ className }) => {
+    return (
+        <div className={classNames(styles.Auth, {}, [className])}>
+            <Suspense fallback={<Loader />}>
+                <LoginForm />
+            </Suspense>
+        </div>
+    );
+};
+export default Auth;

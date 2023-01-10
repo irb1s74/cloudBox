@@ -1,8 +1,10 @@
-import { UserSchema} from "entities/User";
-import {AnyAction, CombinedState, EnhancedStore, Reducer, ReducersMapObject} from "@reduxjs/toolkit";
+import { UserSchema } from 'entities/User';
+import { AnyAction, CombinedState, EnhancedStore, Reducer, ReducersMapObject } from '@reduxjs/toolkit';
+import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
 
 export interface StateSchema {
-    user: UserSchema
+    user: UserSchema;
+    loginForm?: LoginSchema;
 }
 
 export type StateSchemaKey = keyof StateSchema;

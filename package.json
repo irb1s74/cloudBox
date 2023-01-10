@@ -50,14 +50,14 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/material": "^5.11.1",
-    "@reduxjs/toolkit": "^1.9.1",
-    "add": "^2.0.6",
+    "@reduxjs/toolkit": "^1.8.0",
+    "axios": "^1.2.2",
     "classnames": "^2.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-google-login": "^5.2.2",
     "react-icons": "^4.7.1",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.4.5",
-    "yarn": "^1.22.19"
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.4.5"
   }
 }

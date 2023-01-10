@@ -12,7 +12,7 @@ const RequireAuth: FC<ReactAuthProps> = ({ children }) => {
 
     if (!auth) {
         return (
-            <Navigate to='' />
+            <Navigate to='/auth' />
         );
     }
 

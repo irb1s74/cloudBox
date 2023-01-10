@@ -5,9 +5,9 @@ import { StoreProvide } from 'app/providers/StoreProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <StoreProvide>
-        <BrowserRouter>
+    <BrowserRouter>
+        <StoreProvide>
             <App />
-        </BrowserRouter>
-    </StoreProvide>,
+        </StoreProvide>
+    </BrowserRouter>,
 );
