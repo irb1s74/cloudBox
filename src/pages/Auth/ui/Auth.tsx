@@ -1,7 +1,7 @@
 import { FC, Suspense } from 'react';
 import classNames from 'classnames';
 import { LoginForm } from 'feature/AuthByEmail';
-import { Loader } from 'widget/Loader';
+import { PageLoader } from 'widget/PageLoader';
 import styles from './Auth.module.scss';
 
 interface AuthProps {
@@ -11,7 +11,7 @@ interface AuthProps {
 const Auth: FC<AuthProps> = ({ className }) => {
     return (
         <div className={classNames(styles.Auth, {}, [className])}>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<PageLoader />}>
                 <LoginForm />
             </Suspense>
         </div>

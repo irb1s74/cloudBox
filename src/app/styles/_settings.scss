@@ -131,15 +131,16 @@ a {
 ::-webkit-scrollbar {
   width: 10px;
   height: 4px;
-  background-color: var(--bg-color);
+  background-color: var(--gray-color);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 25px;
-  background-color: var(--primary-color);
+  background-color: var(--accent-color);
 }
 
+
 *::selection {
-  color: var(--secondary-color);
-  background-color: var(--primary-color);
+  color: var(--light-color);
+  background-color: var(--accent-color);
 }

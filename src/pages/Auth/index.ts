@@ -1,1 +1,3 @@
-export {AuthAsync as Auth} from './ui/Auth.async'
+import Auth from './ui/Auth';
+
+export { Auth };

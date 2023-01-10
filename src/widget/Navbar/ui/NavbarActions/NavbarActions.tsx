@@ -4,11 +4,9 @@ import { DropList } from 'shared/ui/DropList/DropList';
 import { BiLogOut } from 'react-icons/bi';
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import { Avatar } from 'shared/ui/Avatar/Avatar';
-import { useGoogleLogout } from 'react-google-login';
 import classNames from 'classnames';
-import { googleSetting } from 'shared/const/googleSetting';
-import { useDispatch } from 'react-redux';
-import { userActions } from 'entities/User';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserAuthData, userActions } from 'entities/User';
 import styles from '../Navbar.module.scss';
 
 interface NavbarActionsProps {
@@ -17,6 +15,7 @@ interface NavbarActionsProps {
 
 export const NavbarActions: FC<NavbarActionsProps> = ({ className }) => {
     const dispatch = useDispatch();
+    const user = useSelector(getUserAuthData);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -27,27 +26,22 @@ export const NavbarActions: FC<NavbarActionsProps> = ({ className }) => {
         setAnchorEl(null);
     };
 
-    const onLogoutSuccess = () => {
+    const onLogout = () => {
         dispatch(userActions.logout());
     };
-
-    const { signOut } = useGoogleLogout({
-        clientId: googleSetting.clientId,
-        onLogoutSuccess,
-    });
 
     return (
         <>
             <div className={classNames(styles.NavbarActions, {}, [className])}>
                 <Search />
                 <div onClick={handleClick} className={styles.NavbarAvatar}>
-                    <Avatar />
+                    <Avatar user={user} />
                 </div>
             </div>
             <DropList anchorEl={anchorEl} open={open}
                       handleClose={handleClose}>
                 <MenuItem
-                    onClick={signOut}
+                    onClick={onLogout}
                 >
                     <ListItemIcon>
                         <BiLogOut size={22} />

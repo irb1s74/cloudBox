@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
 import { loginByGoogleToken } from 'feature/AuthByEmail/model/services/loginByGoogleToken';
+import { loginByEmail } from 'feature/AuthByEmail/model/services/loginByEmail';
 
 const initialState: LoginSchema = {
     email: undefined,
@@ -21,14 +22,14 @@ export const loginSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(loginByGoogleToken.pending, (state, action) => {
+            .addCase(loginByEmail.pending, (state, action) => {
                 state.isLoading = true;
             })
-            .addCase(loginByGoogleToken.fulfilled, (state, action) => {
+            .addCase(loginByEmail.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.error = undefined;
             })
-            .addCase(loginByGoogleToken.rejected, (state, action) => {
+            .addCase(loginByEmail.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             });

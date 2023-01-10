@@ -8,4 +8,5 @@ export enum AppRoutes {
 
 export type AppRoutesProps = RouteProps & {
     authOnly?: boolean;
+    noAuthOnly?: boolean;
 };

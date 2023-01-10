@@ -1,6 +1,6 @@
 import { ChangeEvent, ChangeEventHandler, FC, useCallback } from 'react';
 import classNames from 'classnames';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { DynamicModuleLoader, ReducersList } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
 import { loginByEmail } from 'feature/AuthByEmail/model/services/loginByEmail';
@@ -59,6 +59,11 @@ const LoginForm: FC<LoginFormProps> = ({ className }) => {
                         label='Password'
                         fullWidth
                     />
+                    {error && (
+                        <Typography color="error">
+                            {error}
+                        </Typography>
+                    )}
                 </div>
                 <Button onClick={onLoginClick} variant='contained' fullWidth>войти</Button>
             </div>

@@ -1,14 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 import { Suspense, useCallback } from 'react';
-import { Loader } from 'widget/Loader';
+import AlreadyAuth from 'app/providers/router/ui/AlreadyAuth';
+import { PageLoader } from 'widget/PageLoader';
 import { AppRoutesProps } from '../types/index';
 import { routeConfig } from '../config/routerConfig';
 import RequireAuth from './RequireAuth';
 
 export const AppRouter = () => {
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
+
         const element = (
-            <Suspense fallback={<Loader />}>{route.element}</Suspense>
+            <Suspense fallback={<PageLoader />}>{route.element}</Suspense>
         );
 
         return (
@@ -18,7 +20,7 @@ export const AppRouter = () => {
                 element={route.authOnly ? (
                     <RequireAuth>{element}</RequireAuth>
                 ) : (
-                    element
+                    <AlreadyAuth>{element}</AlreadyAuth>
                 )}
             />
         );
