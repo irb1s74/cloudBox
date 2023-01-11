@@ -1,9 +1,14 @@
 import { UserSchema } from 'entities/User';
 import { AnyAction, CombinedState, EnhancedStore, Reducer, ReducersMapObject } from '@reduxjs/toolkit';
 import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
+import { AxiosInstance } from 'axios';
+import { rtkApi } from 'shared/api/rtkApi';
 
 export interface StateSchema {
     user: UserSchema;
+    [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
+
+    // async
     loginForm?: LoginSchema;
 }
 
@@ -20,3 +25,6 @@ export interface ReduxStoreWithManager extends EnhancedStore<StateSchema> {
     reducerManager: ReducerManager;
 }
 
+export interface ThunkExtraArg {
+    api: AxiosInstance;
+}

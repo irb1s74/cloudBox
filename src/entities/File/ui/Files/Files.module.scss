@@ -1,0 +1,11 @@
+.Files {
+  height: 100%;
+  width: 100%;
+
+  &__name {
+    font-size: 24px;
+    color: var(--dark-color);
+    font-weight: bold;
+    padding: 18px;
+  }
+}

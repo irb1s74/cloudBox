@@ -3,9 +3,10 @@ import classNames from 'classnames';
 import { AppRouter } from 'app/providers/router';
 import { Navbar } from 'widget/Navbar';
 import { Sidebar } from 'widget/Sidebar';
-import './styles/index.scss';
 import { useDispatch } from 'react-redux';
 import { userActions } from 'entities/User';
+import './styles/index.scss';
+
 
 interface AppProps {
     className?: string;

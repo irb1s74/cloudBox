@@ -1,13 +1,13 @@
-import { ChangeEvent, ChangeEventHandler, FC, useCallback } from 'react';
+import { ChangeEvent, FC, useCallback } from 'react';
 import classNames from 'classnames';
 import { Button, TextField, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { DynamicModuleLoader, ReducersList } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
 import { loginByEmail } from 'feature/AuthByEmail/model/services/loginByEmail';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { getLoginEmail } from '../model/selectors/getLoginEmail/getLoginEmail';
 import { getLoginPassword } from '../model/selectors/getLoginPassowrd/getLoginPassword';
 import { getLoginError } from '../model/selectors/getLoginError/getLoginError';
-import { loginByGoogleToken } from '../model/services/loginByGoogleToken';
 import { loginActions, loginReducer } from '../model/slice/loginSlice';
 import styles from './LoginForm.module.scss';
 
@@ -20,7 +20,7 @@ const initialReducers: ReducersList = {
 };
 
 const LoginForm: FC<LoginFormProps> = ({ className }) => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
 
     const email = useSelector(getLoginEmail);
     const password = useSelector(getLoginPassword);
