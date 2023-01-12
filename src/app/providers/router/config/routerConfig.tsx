@@ -5,7 +5,7 @@ import { AppRoutes, AppRoutesProps } from '../types';
 
 
 export const RoutePath: Record<AppRoutes, string> = {
-    [AppRoutes.MAIN]: '/',
+    [AppRoutes.MAIN]: '/files',
     [AppRoutes.AUTH]: '/auth',
     [AppRoutes.NOT_FOUND]: '*',
 };

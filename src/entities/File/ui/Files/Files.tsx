@@ -5,7 +5,7 @@ import { createSearchParams, useNavigate, useSearchParams } from 'react-router-d
 import { FileMenu } from 'entities/File/ui/FileMenu/FileMenu';
 import { Disk } from 'widget/Disk';
 import { fileService } from 'entities/File';
-import { Typography } from '@mui/material';
+import { SelectChangeEvent, Typography } from '@mui/material';
 import { PageLoader } from 'widget/PageLoader';
 import { IFile } from '../../model/types/index';
 import styles from './Files.module.scss';
@@ -34,7 +34,7 @@ export const Files = () => {
         token: user.token,
     });
 
-    const handleSelectFile = useCallback(
+    const handleSelectFileId = useCallback(
         (fileId: number) => () => {
             const condidate = files.find((file) => file.id === fileId);
             if (selectFileId === fileId && condidate.type === 'dir') {
@@ -52,6 +52,16 @@ export const Files = () => {
         },
         [files, navigate, selectFileId],
     );
+
+    const handleSelectSort = useCallback((event: SelectChangeEvent) => {
+        if (event.target.value === 'ascending') {
+            setOptionSort(true);
+        } else if (event.target.value === 'descending') {
+            setOptionSort(false);
+        } else {
+            setSort(event.target.value);
+        }
+    }, []);
 
     const handleOpenMenu = useCallback(
         (event: MouseEvent<HTMLElement>, fileId: number) => {
@@ -74,9 +84,12 @@ export const Files = () => {
             {error && <Typography color='error'> Произошла ошибка при загрузке</Typography>}
             <Disk
                 handleOpenMenu={handleOpenMenu}
-                handleSelectFile={handleSelectFile}
-                files={files}
+                handleSelectFileId={handleSelectFileId}
+                handleSelectSort={handleSelectSort}
                 selectFileId={selectFileId}
+                sort={sort}
+                optionSort={optionSort}
+                files={files}
                 user={user}
             />
             <FileMenu

@@ -4,7 +4,7 @@ import styles from './Disk.module.scss';
 
 interface DiskGridProps {
     files: IFile[];
-    handleSelectFile: (fileId: number) => () => void;
+    handleSelectFileId: (fileId: number) => () => void;
     selectFileId: number | null;
     handleOpenMenu: (
         event: MouseEvent<HTMLElement>,
@@ -13,13 +13,13 @@ interface DiskGridProps {
 }
 
 export const DiskGrid: FC<DiskGridProps> = (props) => {
-    const { files, selectFileId, handleOpenMenu, handleSelectFile } = props;
+    const { files, selectFileId, handleOpenMenu, handleSelectFileId } = props;
     return (
         <div className={styles.Disk__grid}>
             {files && files.map((file, index) => (
                 <div
                     key={file.id}
-                    onClick={handleSelectFile(file.id)}
+                    onClick={handleSelectFileId(file.id)}
                     onContextMenu={(event) => handleOpenMenu(event, file.id)}
                     className={styles.Disk__gridItem}
                 >

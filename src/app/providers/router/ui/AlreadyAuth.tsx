@@ -11,7 +11,7 @@ const AlreadyAuth: FC<ReactAuthProps> = ({ children }) => {
     const auth = useSelector(getUserAuthData);
     if (auth) {
         return (
-            <Navigate to='/' />
+            <Navigate to='/files' />
         );
     }
 

@@ -13,6 +13,8 @@ const getFileIcon = (icon: string): ReactElement | null => {
             return <FcImageFile size='50' />;
         case 'jpg':
             return <FcImageFile size='50' />;
+        case 'gif':
+            return <FcImageFile size='50' />;
         default:
             return <FcFile size='50' />;
     }
