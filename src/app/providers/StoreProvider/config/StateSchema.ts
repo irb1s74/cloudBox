@@ -3,6 +3,7 @@ import { AnyAction, CombinedState, EnhancedStore, Reducer, ReducersMapObject } f
 import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
 import { AxiosInstance } from 'axios';
 import { rtkApi } from 'shared/api/rtkApi';
+import { CreateDirSchema } from 'feature/CreateDir';
 
 export interface StateSchema {
     user: UserSchema;
@@ -10,6 +11,7 @@ export interface StateSchema {
 
     // async
     loginForm?: LoginSchema;
+    createDir?: CreateDirSchema;
 }
 
 export type StateSchemaKey = keyof StateSchema;

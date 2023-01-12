@@ -6,6 +6,8 @@ import { Sidebar } from 'widget/Sidebar';
 import { useDispatch } from 'react-redux';
 import { userActions } from 'entities/User';
 import './styles/index.scss';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
+import { refByToken } from 'entities/User/model/services/refByToken';
 
 
 interface AppProps {
@@ -13,10 +15,10 @@ interface AppProps {
 }
 
 export const App: FC<AppProps> = ({ className }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     useLayoutEffect(() => {
-        dispatch(userActions.initialAuthData());
+        dispatch(refByToken());
     }, [dispatch]);
 
     return (

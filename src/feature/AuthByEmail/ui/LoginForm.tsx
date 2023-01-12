@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DynamicModuleLoader, ReducersList } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
 import { loginByEmail } from 'feature/AuthByEmail/model/services/loginByEmail';
 import { ThunkDispatch } from '@reduxjs/toolkit';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { getLoginEmail } from '../model/selectors/getLoginEmail/getLoginEmail';
 import { getLoginPassword } from '../model/selectors/getLoginPassowrd/getLoginPassword';
 import { getLoginError } from '../model/selectors/getLoginError/getLoginError';
@@ -20,7 +21,7 @@ const initialReducers: ReducersList = {
 };
 
 const LoginForm: FC<LoginFormProps> = ({ className }) => {
-    const dispatch = useDispatch<ThunkDispatch<any, any, any>>();
+    const dispatch = useAppDispatch();
 
     const email = useSelector(getLoginEmail);
     const password = useSelector(getLoginPassword);

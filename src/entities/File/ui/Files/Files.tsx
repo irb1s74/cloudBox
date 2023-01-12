@@ -57,7 +57,6 @@ export const Files = () => {
         (event: MouseEvent<HTMLElement>, fileId: number) => {
             event.preventDefault();
             setSelectFileId(fileId);
-            console.log(fileId, files.find((file) => file.id === fileId));
             file.current = files && files.find((file) => file.id === fileId);
             setAnchorEl(event.currentTarget);
         },

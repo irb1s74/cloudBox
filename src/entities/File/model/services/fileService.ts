@@ -18,14 +18,13 @@ export const fileService = rtkApi.injectEndpoints({
             providesTags: (result) => ['Files'],
         }),
         createDir: build.mutation<IFile[],
-            { path: string | undefined; token: string; name: string }>({
-            query: ({ path = '', token, name }) => ({
+            { path: string | undefined; name: string }>({
+            query: ({ path = '', name }) => ({
                 url: `file/create`,
                 body: { name, path },
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${token}`,
                 },
                 method: 'POST',
             }),
