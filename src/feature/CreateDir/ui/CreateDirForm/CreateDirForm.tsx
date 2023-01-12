@@ -1,11 +1,11 @@
-import { ChangeEvent, FC } from 'react';
-import { Button, Card, CardActions, CardContent, CardHeader, Divider, TextField } from '@mui/material';
+import { ChangeEvent, FC, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getNameDir } from 'feature/CreateDir/model/selectors/getNameDir/getNameDir';
+import { useSearchParams } from 'react-router-dom';
+import { Button, Card, CardActions, CardContent, CardHeader, Divider, TextField, Typography } from '@mui/material';
+import { fileService } from 'entities/File';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { DynamicModuleLoader, ReducersList } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
-import { fileService } from 'entities/File';
-import { useSearchParams } from 'react-router-dom';
+import { getNameDir } from '../../model/selectors/getNameDir/getNameDir';
 import { createDirActions, createDirReducer } from '../../model/slice/createDirSlice';
 
 const initialReducers: ReducersList = {
@@ -17,11 +17,14 @@ export interface CreateDirFormProps {
 }
 
 const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
-    const [usePath] = useSearchParams();
-    const path = usePath.get('path');
     const dispatch = useAppDispatch();
     const name = useSelector(getNameDir);
+    const [usePath] = useSearchParams();
+    const path = usePath.get('path');
+
+    const [formError, setFormError] = useState('');
     const [createDir, { data: res, error, isLoading }] = fileService.useCreateDirMutation();
+
     const handleOnChangeName = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(createDirActions.setNameDir(event.target.value));
     };
@@ -33,11 +36,10 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
                 handleCloseModal();
             })
             .catch((error) => {
-                // if (error.status === 400) {
-                //     formik.errors.name = 'Директория с таким именем уже существует';
-                // }
+                if (error.status === 400) {
+                    setFormError('Директория с таким именем уже существует');
+                }
             });
-        ;
     };
 
     return (
@@ -53,6 +55,9 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
                         label='Название директории'
                         fullWidth
                     />
+                    {formError && (
+                        <Typography textAlign='center' color='error'>{formError}</Typography>
+                    )}
                 </CardContent>
                 <CardActions>
                     <Button

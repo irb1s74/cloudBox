@@ -54,7 +54,7 @@ module.exports = {
         'jsx-a11y/click-events-have-key-events': 'off',
         // Checks rules of Hooks
         'react-hooks/exhaustive-deps': 'error',
-        'react-hooks/rules-of-hooks': 'warn', // sad
+        'react-hooks/rules-of-hooks': 'warn',
         // Checks effect dependencies,
         'no-param-reassign': 'off',
         'no-undef': 'off',
@@ -63,6 +63,7 @@ module.exports = {
         'react/jsx-max-props-per-line': ['error', { maximum: 4 }],
         'jsx-a11y/no-noninteractive-element-interactions': 'off',
         'consistent-return': 'off', // check
+        'react/jsx-no-useless-fragment': 'off',
     },
     globals: {
         __IS_DEV__: true,

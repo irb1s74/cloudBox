@@ -31,7 +31,7 @@ export const DynamicModuleLoader = (props: DynamicModuleLoaderProps) => {
                 });
             };
         }
-    }, []);
+    }, [reducers, removeAfterUnmount, store.reducerManager]);
 
     return (
         <>
