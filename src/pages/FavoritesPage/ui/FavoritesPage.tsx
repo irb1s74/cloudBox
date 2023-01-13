@@ -1,15 +1,20 @@
-import { useCallback, useRef, useState, MouseEvent } from 'react';
-import { useSelector } from 'react-redux';
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { getUserAuthData } from 'entities/User';
-import { FileMenu, fileService, IFile } from 'entities/File';
-import { Disk } from 'widget/Disk';
+import { FC, MouseEvent, useCallback, useRef, useState } from 'react';
+import classNames from 'classnames';
 import { PageLoader } from 'widget/PageLoader';
 import { SelectChangeEvent, Typography } from '@mui/material';
-import styles from './Files.module.scss';
+import { Disk, DiskList } from 'widget/Disk';
+import { useSelector } from 'react-redux';
+import { getUserAuthData } from 'entities/User';
+import { FileMenu, fileService, IFile } from 'entities/File';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 
+import styles from './FavoritesPage.module.scss';
 
-const FilesPage = () => {
+interface FavoritesPageProps {
+    className?: string;
+}
+
+const FavoritesPage: FC<FavoritesPageProps> = ({ className }) => {
     const user = useSelector(getUserAuthData);
     const file = useRef<IFile>();
     const navigate = useNavigate();
@@ -20,6 +25,7 @@ const FilesPage = () => {
     const [optionSort, setOptionSort] = useState<boolean>(true);
     const path = usePath.get('path');
     const open = Boolean(anchorEl);
+
 
     const {
         data: files,
@@ -74,24 +80,19 @@ const FilesPage = () => {
         setAnchorEl(null);
     };
 
-    if (isLoading) {
-        return (<PageLoader />)
-    }
-
     return (
-        <section className={styles.Files}>
-            <div className={styles.Files__name}>Файлы</div>
+        <section className={classNames(styles.FavoritesPage, {}, [className])}>
+            <div className={styles.FavoritesPage__name}>Избранное</div>
+            {isLoading && <PageLoader />}
             {error && <Typography color='error'> Произошла ошибка при загрузке</Typography>}
-            <Disk
-                handleOpenMenu={handleOpenMenu}
-                handleSelectFileId={handleSelectFileId}
-                handleSelectSort={handleSelectSort}
-                selectFileId={selectFileId}
-                sort={sort}
-                optionSort={optionSort}
+
+            <DiskList
                 files={files}
-                user={user}
+                handleSelectFileId={handleSelectFileId}
+                selectFileId={selectFileId}
+                handleOpenMenu={handleOpenMenu}
             />
+
             <FileMenu
                 anchorEl={anchorEl}
                 open={open}
@@ -103,4 +104,4 @@ const FilesPage = () => {
     );
 };
 
-export default FilesPage;
+export default FavoritesPage;

@@ -3,10 +3,11 @@ import {
     List,
     ListItemButton,
     ListItemIcon,
-    ListItemText, Stack, Typography,
+    ListItemText,
 } from '@mui/material';
 import { getFileIcon, IFile } from 'entities/File';
 import { sizeFormatter } from 'shared/lib/sizeFormatter/sizeFormatter';
+import { EmptyData } from 'shared/ui/EmptyData/EmptyData';
 import dayjs from 'dayjs';
 
 interface DiskListProps {
@@ -31,11 +32,10 @@ const DiskList: FC<DiskListProps> = (props) => {
 
     if (!checkFiles) {
         return (
-            <Stack sx={{ width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
-                <Typography color='secondary'>Тут нету файлов</Typography>
-            </Stack>
+            <EmptyData />
         );
     }
+
 
     return (
         <List sx={{ width: '100%', height: '100%' }}>

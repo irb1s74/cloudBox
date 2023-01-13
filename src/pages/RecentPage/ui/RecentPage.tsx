@@ -1,15 +1,19 @@
-import { useCallback, useRef, useState, MouseEvent } from 'react';
-import { useSelector } from 'react-redux';
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { getUserAuthData } from 'entities/User';
-import { FileMenu, fileService, IFile } from 'entities/File';
-import { Disk } from 'widget/Disk';
+import { FC, MouseEvent, useCallback, useRef, useState } from 'react';
+import classNames from 'classnames';
 import { PageLoader } from 'widget/PageLoader';
 import { SelectChangeEvent, Typography } from '@mui/material';
-import styles from './Files.module.scss';
+import { Disk, DiskList } from 'widget/Disk';
+import { useSelector } from 'react-redux';
+import { getUserAuthData } from 'entities/User';
+import { FileMenu, fileService, IFile } from 'entities/File';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import styles from './RecentPage.module.scss';
 
+interface FavoritesPageProps {
+    className?: string;
+}
 
-const FilesPage = () => {
+const RecentPage: FC<FavoritesPageProps> = ({ className }) => {
     const user = useSelector(getUserAuthData);
     const file = useRef<IFile>();
     const navigate = useNavigate();
@@ -20,6 +24,7 @@ const FilesPage = () => {
     const [optionSort, setOptionSort] = useState<boolean>(true);
     const path = usePath.get('path');
     const open = Boolean(anchorEl);
+
 
     const {
         data: files,
@@ -74,23 +79,16 @@ const FilesPage = () => {
         setAnchorEl(null);
     };
 
-    if (isLoading) {
-        return (<PageLoader />)
-    }
-
     return (
-        <section className={styles.Files}>
-            <div className={styles.Files__name}>Файлы</div>
-            {error && <Typography color='error'> Произошла ошибка при загрузке</Typography>}
-            <Disk
-                handleOpenMenu={handleOpenMenu}
-                handleSelectFileId={handleSelectFileId}
-                handleSelectSort={handleSelectSort}
-                selectFileId={selectFileId}
-                sort={sort}
-                optionSort={optionSort}
+        <section className={classNames(styles.RecentPage, {}, [className])}>
+            <div className={styles.RecentPage__name}>Последние</div>
+            {isLoading && <PageLoader />}
+            {error && <Typography color='error'>Произошла ошибка при загрузке</Typography>}
+            <DiskList
                 files={files}
-                user={user}
+                handleSelectFileId={handleSelectFileId}
+                selectFileId={selectFileId}
+                handleOpenMenu={handleOpenMenu}
             />
             <FileMenu
                 anchorEl={anchorEl}
@@ -103,4 +101,4 @@ const FilesPage = () => {
     );
 };
 
-export default FilesPage;
+export default RecentPage;

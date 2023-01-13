@@ -4,14 +4,13 @@ import { rtkApi } from 'shared/api/rtkApi';
 export const fileService = rtkApi.injectEndpoints({
     endpoints: (build) => ({
         getFilesByPath: build.query<IFile[],
-            { path: string | undefined; token: string; sort: string; option: boolean }>({
-            query: ({ path = '', token, sort, option }) => ({
+            { path: string | undefined; sort: string; option: boolean }>({
+            query: ({ path = '', sort, option }) => ({
                 url: `file/path`,
                 body: { path, sort, option },
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${token}`,
                 },
                 method: 'POST',
             }),

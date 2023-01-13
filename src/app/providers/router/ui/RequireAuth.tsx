@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { getUserAuthData } from 'entities/User';
+import { getUserAuthData, getUserIsLoadingAuth } from 'entities/User';
 import { Navigate } from 'react-router-dom';
 
 interface ReactAuthProps {
@@ -9,8 +9,9 @@ interface ReactAuthProps {
 
 const RequireAuth: FC<ReactAuthProps> = ({ children }) => {
     const auth = useSelector(getUserAuthData);
+    const isAuthLoading = useSelector(getUserIsLoadingAuth);
 
-    if (!auth) {
+    if (!auth && !isAuthLoading) {
         return (
             <Navigate to='/auth' />
         );

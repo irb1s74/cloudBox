@@ -1,0 +1,17 @@
+.FavoritesPage {
+  width: calc(100% - 18px);
+  height: calc(100% - 18px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+
+  &__name {
+    width: 100%;
+    text-align: left;
+    font-size: 24px;
+    color: var(--dark-color);
+    font-weight: bold;
+    padding: 18px;
+  }
+}
