@@ -1,5 +1,6 @@
 import { FC, MouseEvent } from 'react';
 import { IFile, File } from 'entities/File';
+import { EmptyData } from 'shared/ui/EmptyData/EmptyData';
 import styles from './Disk.module.scss';
 
 interface DiskGridProps {
@@ -14,9 +15,18 @@ interface DiskGridProps {
 
 export const DiskGrid: FC<DiskGridProps> = (props) => {
     const { files, selectFileId, handleOpenMenu, handleSelectFileId } = props;
+
+    const checkFiles = files && files.length;
+
+    if (!checkFiles) {
+        return (
+            <EmptyData />
+        );
+    }
+
     return (
         <div className={styles.Disk__grid}>
-            {files && files.map((file, index) => (
+            {files.map((file, index) => (
                 <div
                     key={file.id}
                     onClick={handleSelectFileId(file.id)}

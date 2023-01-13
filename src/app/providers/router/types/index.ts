@@ -1,7 +1,7 @@
 import { RouteProps } from 'react-router-dom';
 
 export enum AppRoutes {
-    MAIN = 'MAIN',
+    FILES = 'FILES',
     NOT_FOUND = 'NOT_FOUND',
     AUTH = 'AUTH'
 }

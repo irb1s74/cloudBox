@@ -8,7 +8,7 @@ interface AuthProps {
     className?: string;
 }
 
-const Auth: FC<AuthProps> = ({ className }) => {
+export const AuthPage: FC<AuthProps> = ({ className }) => {
     return (
         <div className={classNames(styles.Auth, {}, [className])}>
             <Suspense fallback={<PageLoader />}>
@@ -17,4 +17,3 @@ const Auth: FC<AuthProps> = ({ className }) => {
         </div>
     );
 };
-export default Auth;

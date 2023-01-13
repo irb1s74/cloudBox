@@ -16,16 +16,16 @@ html {
 #root {
   margin: 0;
   min-width: 320px;
-  min-height: 100%;
+  width: 100vw;
+  height: 100vh;
   font-size: 16px;
-  height: 100%;
   font-family: var(--font-family);
   text-size-adjust: 100%;
 }
 
 .app {
-  width: 100vw;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
   color: var(--dark-color);
   background-color: var(--gray-color);
 }
@@ -94,9 +94,11 @@ a {
   max-width: var(--container-width);
 }
 
-.flex {
+.app-flex {
   display: flex;
   width: 100%;
+  height: 100%;
+  max-height: calc(100vh - 70px);
 }
 
 .flex-grow {

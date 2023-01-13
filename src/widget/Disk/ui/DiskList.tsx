@@ -3,7 +3,7 @@ import {
     List,
     ListItemButton,
     ListItemIcon,
-    ListItemText,
+    ListItemText, Stack, Typography,
 } from '@mui/material';
 import { getFileIcon, IFile } from 'entities/File';
 import { sizeFormatter } from 'shared/lib/sizeFormatter/sizeFormatter';
@@ -26,9 +26,20 @@ const DiskList: FC<DiskListProps> = (props) => {
         handleOpenMenu,
         selectFileId,
     } = props;
+
+    const checkFiles = files && files.length;
+
+    if (!checkFiles) {
+        return (
+            <Stack sx={{ width: '100%', height: '100%' }} alignItems='center' justifyContent='center'>
+                <Typography color='secondary'>Тут нету файлов</Typography>
+            </Stack>
+        );
+    }
+
     return (
         <List sx={{ width: '100%', height: '100%' }}>
-            {files && files.map((file, index) => (
+            {files.map((file, index) => (
                 <ListItemButton
                     key={file.id}
                     onClick={handleSelectFileId(file.id)}

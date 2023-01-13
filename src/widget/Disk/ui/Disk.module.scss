@@ -1,9 +1,18 @@
 .Disk {
+  width: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+  background-color: #FFF;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
   &__scroll {
     display: block;
     overflow-y: auto;
     width: 100%;
-    max-height: calc(100vh - 219px);
+    height: 100%;
   }
 
   &__grid {

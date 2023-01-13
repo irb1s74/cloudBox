@@ -25,7 +25,7 @@ export const App: FC<AppProps> = ({ className }) => {
         <div className={classNames('app', {}, ['light'])}>
             <Suspense fallback=''>
                 <Navbar />
-                <div className='flex'>
+                <div className='app-flex'>
                     <Sidebar />
                     <AppRouter />
                 </div>

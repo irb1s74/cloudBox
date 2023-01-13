@@ -1,7 +1,18 @@
 import { ChangeEvent, FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { Button, Card, CardActions, CardContent, CardHeader, Divider, TextField, Typography } from '@mui/material';
+import { IoClose } from 'react-icons/io5';
+import {
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    Divider, IconButton,
+    Stack,
+    TextField,
+    Typography,
+} from '@mui/material';
 import { fileService } from 'entities/File';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { DynamicModuleLoader, ReducersList } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
@@ -44,14 +55,20 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
 
     return (
         <DynamicModuleLoader reducers={initialReducers}>
-            <Card sx={{ width: 345, height: 250 }}>
-                <CardHeader title='Создать директорию' />
+            <Card sx={{ width: 385 }}>
+                {/* <CardHeader title='Создать директорию' /> */}
+                <Stack sx={{ p: '16px' }} direction='row' alignItems='center' justifyContent='space-between'>
+                    <Typography variant='h5'>Создать директорию</Typography>
+                    <IconButton onClick={handleCloseModal}>
+                        <IoClose />
+                    </IconButton>
+                </Stack>
                 <Divider />
                 <CardContent>
                     <TextField
                         value={name}
                         onChange={handleOnChangeName}
-                        variant='filled'
+                        variant='outlined'
                         label='Название директории'
                         fullWidth
                     />

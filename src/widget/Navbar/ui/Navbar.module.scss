@@ -3,7 +3,7 @@
   max-height: 70px;
   display: flex;
   align-items: center;
-  padding: 10px 50px;
+  padding: 10px 20px;
 }
 
 .NavbarNavigation {
@@ -24,12 +24,13 @@
     color: var(--dark-color);
   }
 }
-.NavbarActions{
+
+.NavbarActions {
   display: flex;
   align-items: center;
 }
 
-.NavbarAvatar{
+.NavbarAvatar {
   margin-left: 20px;
   cursor: pointer;
 }

@@ -3,6 +3,7 @@ import { SelectChangeEvent, Stack } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { IUser } from 'entities/User';
 import { fileService, IFile } from 'entities/File';
+import { USER_DISK_ALIGNMENT_KEY } from 'shared/const/localstorage';
 import DiskList from './DiskList';
 import DiskSetting from './DiskSetting';
 import { DiskGrid } from './DiskGrid';
@@ -24,7 +25,8 @@ interface DiskProps {
 
 export const Disk: FC<DiskProps> = (props) => {
     const { user, files, selectFileId, handleOpenMenu, handleSelectFileId, sort, handleSelectSort, optionSort } = props;
-    const [alignment, setAlignment] = useState('grid');
+
+    const [alignment, setAlignment] = useState(localStorage.getItem(USER_DISK_ALIGNMENT_KEY));
     const [dragEnter, setDragEnter] = useState(false);
     const [usePath] = useSearchParams();
     const [uploadFile] = fileService.useUploadFileMutation();
@@ -34,17 +36,13 @@ export const Disk: FC<DiskProps> = (props) => {
         newAlignment: string,
     ) => {
         if (newAlignment !== null) {
+            localStorage.setItem(USER_DISK_ALIGNMENT_KEY, newAlignment);
             setAlignment(newAlignment);
         }
     }, []);
 
-
     return (
-        <Stack
-            sx={{ overflowY: 'auto', height: '100%' }}
-            alignItems='flex-end'
-            direction='column'
-        >
+        <div className={styles.Disk}>
             <DiskSetting
                 alignment={alignment}
                 sort={sort}
@@ -69,7 +67,7 @@ export const Disk: FC<DiskProps> = (props) => {
                     />
                 )}
             </div>
-        </Stack>
+        </div>
     );
 };
 

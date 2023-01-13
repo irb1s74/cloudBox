@@ -40,11 +40,10 @@ const DiskSetting: FC<DiskSettingProps> = (props) => {
 
     return (
         <Stack
-            sx={{ mr: '25px', mb: '25px', color: '#00C2FFFF' }}
+            sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
             direction='row'
             alignItems='center'
-            justifyContent='center'
-            spacing={2}
+            justifyContent='space-between'
         >
             <FormControl sx={{ m: 1, minWidth: 230 }}>
                 <InputLabel>Сортировать по</InputLabel>

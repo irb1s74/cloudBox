@@ -9,6 +9,12 @@ export const theme = createTheme({
             main: '#1F1F1F',
         },
     },
+    typography: {
+        fontFamily: [
+            'Inter',
+            'sans-serif',
+        ].join(','),
+    },
     components: {
         MuiButton: {
             styleOverrides: {
