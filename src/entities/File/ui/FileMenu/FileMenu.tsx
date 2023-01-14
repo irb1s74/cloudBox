@@ -29,11 +29,11 @@ export const FileMenu: FC<FileMenuProps> = (props) => {
 
     const dispatch = useAppDispatch();
     const [deleteFile] = useDeleteFileMutation();
-    const [addToFavorite] = useAddToFavoriteMutation();
+    const [addToFavorite, { isLoading }] = useAddToFavoriteMutation();
     const {
         data: favoriteFile,
         error,
-        isLoading,
+        isFetching,
         refetch,
     } = useGetFavoriteFileQuery({ fileId: file?.id });
 
@@ -43,10 +43,10 @@ export const FileMenu: FC<FileMenuProps> = (props) => {
         }
     };
 
-    const handleAddToFavorite = () => {
+    const handleAddToFavorite = async () => {
         if (file?.id) {
-            addToFavorite({ fileId: file.id });
-            refetch();
+            await addToFavorite({ fileId: file.id });
+            await refetch();
         }
     };
 
@@ -77,7 +77,7 @@ export const FileMenu: FC<FileMenuProps> = (props) => {
                 </ListItemIcon>
                 <ListItemText>Переименовать</ListItemText>
             </MenuItem>
-            <MenuItem onClick={handleAddToFavorite} disabled={isLoading}>
+            <MenuItem onClick={handleAddToFavorite} disabled={isFetching || isLoading}>
                 <ListItemIcon>
                     <HiBookmarkAlt size={22} />
                 </ListItemIcon>
