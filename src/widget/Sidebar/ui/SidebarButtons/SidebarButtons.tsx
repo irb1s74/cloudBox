@@ -2,7 +2,7 @@ import { FC, useCallback, useRef, useState } from 'react';
 import { HiCloudUpload, HiOutlinePlus } from 'react-icons/hi';
 import { useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
-import { fileService } from 'entities/File';
+import { useUploadFileMutation } from 'entities/File';
 import { IUser } from 'entities/User';
 import { CreateDirModal } from 'feature/CreateDir';
 import styles from '../Sidebar.module.scss';
@@ -12,11 +12,14 @@ interface SidebarButtonsProps {
     user?: IUser;
 }
 
-export const SidebarButtons: FC<SidebarButtonsProps> = ({ className, user }) => {
+export const SidebarButtons: FC<SidebarButtonsProps> = ({
+    className,
+    user,
+}) => {
     const filesInput = useRef(document.createElement('input'));
     const [modalIsOpen, setModalOpen] = useState(false);
     const [usePath] = useSearchParams();
-    const [uploadFile] = fileService.useUploadFileMutation();
+    const [uploadFile] = useUploadFileMutation();
 
     const handleOpenCreateDirModal = () => {
         setModalOpen(true);
@@ -28,16 +31,15 @@ export const SidebarButtons: FC<SidebarButtonsProps> = ({ className, user }) => 
     const handleUpdateFiles = () => {
         const path = usePath.get('path');
         if (filesInput.current.files && filesInput.current.files.length) {
-            Array.from(filesInput.current.files)
-                .forEach(async (file) => {
-                    const formData = new FormData();
-                    formData.append('file', file);
-                    formData.append('path', path || '');
-                    await uploadFile({
-                        token: user.token,
-                        formData,
-                    });
+            Array.from(filesInput.current.files).forEach(async (file) => {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('path', path || '');
+                await uploadFile({
+                    token: user.token,
+                    formData,
                 });
+            });
         }
     };
 
@@ -46,18 +48,25 @@ export const SidebarButtons: FC<SidebarButtonsProps> = ({ className, user }) => 
     };
 
     return (
-        <div className={classNames(styles.SidebarWrapperButtons, {}, [className])}>
+        <div
+            className={classNames(styles.SidebarWrapperButtons, {}, [
+                className,
+            ])}
+        >
             <button
-                type='button'
+                type="button"
                 onClick={handleSelectFiles}
-                className={classNames(styles.SidebarButton, ['btn-reset', styles.SidebarButton__accent])}
+                className={classNames(styles.SidebarButton, [
+                    'btn-reset',
+                    styles.SidebarButton__accent,
+                ])}
             >
                 <HiCloudUpload className={styles.SidebarBtnIcon} size={25} />
                 Загрузить
                 <input
                     ref={filesInput}
                     onChange={handleUpdateFiles}
-                    type='file'
+                    type="file"
                     multiple
                     hidden
                 />
@@ -65,7 +74,7 @@ export const SidebarButtons: FC<SidebarButtonsProps> = ({ className, user }) => 
             <button
                 onClick={handleOpenCreateDirModal}
                 className={classNames(styles.SidebarButton, ['btn-reset'])}
-                type='button'
+                type="button"
             >
                 <HiOutlinePlus className={styles.SidebarBtnIcon} size={25} />
                 Создать

@@ -10,24 +10,37 @@ interface SidebarNavigationProps {
 
 const listRender = [
     {
-        'name': 'Последние',
-        'path': 'recent',
-        'icon': <HiClock size='30' className={styles.SidebarNavigation__itemIcon} />,
+        name: 'Последние',
+        path: 'recent',
+        icon: (
+            <HiClock size="30" className={styles.SidebarNavigation__itemIcon} />
+        ),
     },
     {
-        'name': 'Файлы',
-        'path': 'files',
-        'icon': <HiFolder size='30' className={styles.SidebarNavigation__itemIcon} />,
+        name: 'Файлы',
+        path: 'files',
+        icon: (
+            <HiFolder
+                size="30"
+                className={styles.SidebarNavigation__itemIcon}
+            />
+        ),
     },
     {
-        'name': 'Избранное',
-        'path': 'favorites',
-        'icon': <HiBookmark size='30' className={styles.SidebarNavigation__itemIcon} />,
+        name: 'Избранное',
+        path: 'favorites',
+        icon: (
+            <HiBookmark
+                size="30"
+                className={styles.SidebarNavigation__itemIcon}
+            />
+        ),
     },
 ];
 
-
-export const SidebarNavigation: FC<SidebarNavigationProps> = ({ className }) => {
+export const SidebarNavigation: FC<SidebarNavigationProps> = ({
+    className,
+}) => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -38,20 +51,29 @@ export const SidebarNavigation: FC<SidebarNavigationProps> = ({ className }) => 
     };
 
     return (
-        <nav className={classNames(styles.SidebarNavigation, {}, [className])} title='Sidebar Nav'>
-            <ul className={classNames(styles.SidebarNavigation__list, ['list-reset'])}>
+        <nav
+            className={classNames(styles.SidebarNavigation, {}, [className])}
+            title="Sidebar Nav"
+        >
+            <ul
+                className={classNames(styles.SidebarNavigation__list, [
+                    'list-reset',
+                ])}
+            >
                 {listRender.map((item, index) => (
                     <li
                         key={`${item.name}-${index}`}
                         onClick={toNavigate(item.path)}
                         className={classNames(styles.SidebarNavigation__item, {
-                                [styles.SidebarNavigation__itemActive]: location.pathname.split('/')[1] === item.path,
-                            },
-                        )}
+                            [styles.SidebarNavigation__itemActive]:
+                                location.pathname.split('/')[1] === item.path,
+                        })}
                     >
                         <div className={styles.SidebarNavigation__itemWrapper}>
                             {item.icon}
-                            <div className={styles.SidebarNavigation__itemName}>{item.name}</div>
+                            <div className={styles.SidebarNavigation__itemName}>
+                                {item.name}
+                            </div>
                         </div>
                     </li>
                 ))}

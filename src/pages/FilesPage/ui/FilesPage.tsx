@@ -1,13 +1,17 @@
 import { useCallback, useRef, useState, MouseEvent } from 'react';
 import { useSelector } from 'react-redux';
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+    createSearchParams,
+    useNavigate,
+    useSearchParams,
+} from 'react-router-dom';
 import { getUserAuthData } from 'entities/User';
-import { FileMenu, fileService, IFile } from 'entities/File';
+import { FileMenu, IFile, useGetFilesByPathQuery } from 'entities/File';
 import { Disk } from 'widget/Disk';
 import { PageLoader } from 'widget/PageLoader';
 import { SelectChangeEvent, Typography } from '@mui/material';
+import { USER_DISK_SORT_KEY } from 'shared/const/localstorage';
 import styles from './Files.module.scss';
-
 
 const FilesPage = () => {
     const user = useSelector(getUserAuthData);
@@ -16,7 +20,9 @@ const FilesPage = () => {
     const [selectFileId, setSelectFileId] = useState<number | null>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [usePath] = useSearchParams();
-    const [sort, setSort] = useState<string>('time');
+    const [sort, setSort] = useState<string>(
+        localStorage.getItem(USER_DISK_SORT_KEY) || 'createdAt',
+    );
     const [optionSort, setOptionSort] = useState<boolean>(true);
     const path = usePath.get('path');
     const open = Boolean(anchorEl);
@@ -25,7 +31,7 @@ const FilesPage = () => {
         data: files,
         error,
         isLoading,
-    } = fileService.useGetFilesByPathQuery({
+    } = useGetFilesByPathQuery({
         path: path || '',
         sort,
         option: optionSort,
@@ -56,6 +62,7 @@ const FilesPage = () => {
         } else if (event.target.value === 'descending') {
             setOptionSort(false);
         } else {
+            localStorage.setItem(USER_DISK_SORT_KEY, event.target.value);
             setSort(event.target.value);
         }
     }, []);
@@ -75,13 +82,18 @@ const FilesPage = () => {
     };
 
     if (isLoading) {
-        return (<PageLoader />)
+        return <PageLoader />;
     }
 
     return (
         <section className={styles.Files}>
             <div className={styles.Files__name}>Файлы</div>
-            {error && <Typography color='error'> Произошла ошибка при загрузке</Typography>}
+            {error && (
+                <Typography color="error">
+                    {' '}
+                    Произошла ошибка при загрузке
+                </Typography>
+            )}
             <Disk
                 handleOpenMenu={handleOpenMenu}
                 handleSelectFileId={handleSelectFileId}

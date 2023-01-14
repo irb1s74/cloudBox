@@ -12,7 +12,7 @@ interface AvatarProps {
 export const Avatar: FC<AvatarProps> = ({ user = {}, className }) => (
     <div className={classNames(styles.Avatar, {}, [className])}>
         <img
-            loading='lazy'
+            loading="lazy"
             src={'avatar' in user ? user.avatar : undefined}
             alt={'nickname' in user ? user.nickname : ''}
             className={styles.AvatarImage}

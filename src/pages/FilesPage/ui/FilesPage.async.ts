@@ -1,3 +1,3 @@
-import { lazy } from 'react'
+import { lazy } from 'react';
 
-export const FilesPageAsync = lazy(() => import('./FilesPage'))
+export const FilesPageAsync = lazy(() => import('./FilesPage'));

@@ -1,5 +1,11 @@
 import { UserSchema } from 'entities/User';
-import { AnyAction, CombinedState, EnhancedStore, Reducer, ReducersMapObject } from '@reduxjs/toolkit';
+import {
+    AnyAction,
+    CombinedState,
+    EnhancedStore,
+    Reducer,
+    ReducersMapObject,
+} from '@reduxjs/toolkit';
 import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
 import { AxiosInstance } from 'axios';
 import { rtkApi } from 'shared/api/rtkApi';
@@ -18,7 +24,10 @@ export type StateSchemaKey = keyof StateSchema;
 
 export interface ReducerManager {
     getReducerMap: () => ReducersMapObject<StateSchema>;
-    reduce: (state: StateSchema, action: AnyAction) => CombinedState<StateSchema>;
+    reduce: (
+        state: StateSchema,
+        action: AnyAction,
+    ) => CombinedState<StateSchema>;
     add: (key: StateSchemaKey, reducer: Reducer) => void;
     remove: (key: StateSchemaKey) => void;
 }

@@ -4,10 +4,8 @@ import { refByToken } from '../services/refByToken';
 import { IUser, UserSchema } from '../types/User';
 
 const initialState: UserSchema = {
-        isAuthLoading: true,
-    }
-;
-
+    isAuthLoading: true,
+};
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -40,7 +38,6 @@ export const userSlice = createSlice({
             });
     },
 });
-
 
 export const { actions: userActions } = userSlice;
 export const { reducer: userReducer } = userSlice;

@@ -1,8 +1,8 @@
 import { FC, useState, MouseEvent, useCallback } from 'react';
-import { Backdrop, SelectChangeEvent, Stack } from '@mui/material';
+import { Backdrop, SelectChangeEvent } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { IUser } from 'entities/User';
-import { fileService, IFile } from 'entities/File';
+import { IFile, useUploadFileMutation } from 'entities/File';
 import { USER_DISK_ALIGNMENT_KEY } from 'shared/const/localstorage';
 import { GiFiles } from 'react-icons/gi';
 import DiskList from './DiskList';
@@ -12,14 +12,11 @@ import { DiskGrid } from './DiskGrid';
 import styles from './Disk.module.scss';
 
 interface DiskProps {
-    user: IUser,
-    files: IFile[],
-    selectFileId: number | null,
-    handleSelectFileId: (fileId: number) => () => void,
-    handleOpenMenu: (
-        event: MouseEvent<HTMLElement>,
-        index: number,
-    ) => void;
+    user: IUser;
+    files: IFile[];
+    selectFileId: number | null;
+    handleSelectFileId: (fileId: number) => () => void;
+    handleOpenMenu: (event: MouseEvent<HTMLElement>, index: number) => void;
     sort: string;
     optionSort: boolean;
     handleSelectSort: (event: SelectChangeEvent) => void;
@@ -37,20 +34,22 @@ export const Disk: FC<DiskProps> = (props) => {
         optionSort,
     } = props;
 
-    const [alignment, setAlignment] = useState(localStorage.getItem(USER_DISK_ALIGNMENT_KEY));
+    const [alignment, setAlignment] = useState(
+        localStorage.getItem(USER_DISK_ALIGNMENT_KEY),
+    );
     const [dragEnter, setDragEnter] = useState(false);
     const [usePath] = useSearchParams();
-    const [uploadFile] = fileService.useUploadFileMutation();
+    const [uploadFile] = useUploadFileMutation();
 
-    const handleChangeAlignment = useCallback((
-        event: MouseEvent<HTMLElement>,
-        newAlignment: string,
-    ) => {
-        if (newAlignment !== null) {
-            localStorage.setItem(USER_DISK_ALIGNMENT_KEY, newAlignment);
-            setAlignment(newAlignment);
-        }
-    }, []);
+    const handleChangeAlignment = useCallback(
+        (event: MouseEvent<HTMLElement>, newAlignment: string) => {
+            if (newAlignment !== null) {
+                localStorage.setItem(USER_DISK_ALIGNMENT_KEY, newAlignment);
+                setAlignment(newAlignment);
+            }
+        },
+        [],
+    );
 
     const dragEnterFunc = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
@@ -126,16 +125,18 @@ export const Disk: FC<DiskProps> = (props) => {
                 )}
             </div>
             <Backdrop
-                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                sx={{
+                    color: '#fff',
+                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                }}
                 onDrop={dropFile}
                 onDragStart={dragStart}
                 onDragOver={dragOver}
                 onDragLeave={dragLeave}
                 open={dragEnter}
             >
-                <GiFiles size={80} color='#FFF' />
+                <GiFiles size={80} color="#FFF" />
             </Backdrop>
         </div>
     );
 };
-

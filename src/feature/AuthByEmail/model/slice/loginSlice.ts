@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
-import { loginByGoogleToken } from 'feature/AuthByEmail/model/services/loginByGoogleToken';
 import { loginByEmail } from 'feature/AuthByEmail/model/services/loginByEmail';
 
 const initialState: LoginSchema = {

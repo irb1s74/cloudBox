@@ -22,11 +22,12 @@ export const SidebarUsage: FC<SidebarUsageProps> = ({ className, user }) => {
         <div className={classNames(styles.SidebarUsage, {}, [className])}>
             <BorderLinearProgress
                 sx={{ width: '100%' }}
-                variant='determinate'
+                variant="determinate"
                 value={value}
             />
             <div className={styles.SidebarUsage__text}>
-                Свободно {sizeFormatter(unUsedSpace)} из {sizeFormatter(userDiskSpace)}
+                Свободно {sizeFormatter(unUsedSpace)} из{' '}
+                {sizeFormatter(userDiskSpace)}
             </div>
         </div>
     );

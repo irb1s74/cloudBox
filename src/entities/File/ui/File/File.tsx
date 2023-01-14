@@ -12,7 +12,13 @@ interface FileProps {
 
 export const File: FC<FileProps> = ({ file, active, className }) => {
     return (
-        <div className={classNames(styles.File, { [styles.File__active]: active }, [className])}>
+        <div
+            className={classNames(
+                styles.File,
+                { [styles.File__active]: active },
+                [className],
+            )}
+        >
             <div className={styles.File__icon}>{getFileIcon(file.type)}</div>
             <div className={styles.File__name}>{file.name}</div>
         </div>

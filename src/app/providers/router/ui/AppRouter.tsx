@@ -8,7 +8,6 @@ import RequireAuth from './RequireAuth';
 
 export const AppRouter = () => {
     const renderWithWrapper = useCallback((route: AppRoutesProps) => {
-
         const element = (
             <Suspense fallback={<PageLoader />}>{route.element}</Suspense>
         );
@@ -17,16 +16,18 @@ export const AppRouter = () => {
             <Route
                 key={route.path}
                 path={route.path}
-                element={route.authOnly ? (
-                    <RequireAuth>{element}</RequireAuth>
-                ) : (
-                    <AlreadyAuth>{element}</AlreadyAuth>
-                )}
+                element={
+                    route.authOnly ? (
+                        <RequireAuth>{element}</RequireAuth>
+                    ) : (
+                        <AlreadyAuth>{element}</AlreadyAuth>
+                    )
+                }
             />
         );
     }, []);
 
-
-    return <Routes> {Object.values(routeConfig).map(renderWithWrapper)}</Routes>;
+    return (
+        <Routes> {Object.values(routeConfig).map(renderWithWrapper)}</Routes>
+    );
 };
-

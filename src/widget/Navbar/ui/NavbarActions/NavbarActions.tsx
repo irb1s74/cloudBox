@@ -38,11 +38,8 @@ export const NavbarActions: FC<NavbarActionsProps> = ({ className }) => {
                     <Avatar user={user} />
                 </div>
             </div>
-            <DropList anchorEl={anchorEl} open={open}
-                      handleClose={handleClose}>
-                <MenuItem
-                    onClick={onLogout}
-                >
+            <DropList anchorEl={anchorEl} open={open} handleClose={handleClose}>
+                <MenuItem onClick={onLogout}>
                     <ListItemIcon>
                         <BiLogOut size={22} />
                     </ListItemIcon>

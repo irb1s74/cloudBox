@@ -10,9 +10,7 @@ interface ReactAuthProps {
 const AlreadyAuth: FC<ReactAuthProps> = ({ children }) => {
     const auth = useSelector(getUserAuthData);
     if (auth) {
-        return (
-            <Navigate to='/files' />
-        );
+        return <Navigate to="/files" />;
     }
 
     return children;

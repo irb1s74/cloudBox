@@ -2,11 +2,15 @@ import { FC, MouseEvent, useCallback, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { PageLoader } from 'widget/PageLoader';
 import { SelectChangeEvent, Typography } from '@mui/material';
-import { Disk, DiskList } from 'widget/Disk';
+import { DiskList } from 'widget/Disk';
 import { useSelector } from 'react-redux';
 import { getUserAuthData } from 'entities/User';
-import { FileMenu, fileService, IFile } from 'entities/File';
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import { FileMenu, IFile, useGetRecentFilesQuery } from 'entities/File';
+import {
+    createSearchParams,
+    useNavigate,
+    useSearchParams,
+} from 'react-router-dom';
 import styles from './RecentPage.module.scss';
 
 interface FavoritesPageProps {
@@ -20,21 +24,12 @@ const RecentPage: FC<FavoritesPageProps> = ({ className }) => {
     const [selectFileId, setSelectFileId] = useState<number | null>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [usePath] = useSearchParams();
-    const [sort, setSort] = useState<string>('time');
+    const [sort, setSort] = useState<string>('createdAt');
     const [optionSort, setOptionSort] = useState<boolean>(true);
     const path = usePath.get('path');
     const open = Boolean(anchorEl);
 
-
-    const {
-        data: files,
-        error,
-        isLoading,
-    } = fileService.useGetFilesByPathQuery({
-        path: path || '',
-        sort,
-        option: optionSort,
-    });
+    const { data: files, error, isLoading } = useGetRecentFilesQuery(undefined);
 
     const handleSelectFileId = useCallback(
         (fileId: number) => () => {
@@ -79,11 +74,18 @@ const RecentPage: FC<FavoritesPageProps> = ({ className }) => {
         setAnchorEl(null);
     };
 
+    if (isLoading) {
+        return <PageLoader />;
+    }
+
     return (
         <section className={classNames(styles.RecentPage, {}, [className])}>
             <div className={styles.RecentPage__name}>Последние</div>
-            {isLoading && <PageLoader />}
-            {error && <Typography color='error'>Произошла ошибка при загрузке</Typography>}
+            {error && (
+                <Typography color="error">
+                    Произошла ошибка при загрузке
+                </Typography>
+            )}
             <DiskList
                 files={files}
                 handleSelectFileId={handleSelectFileId}

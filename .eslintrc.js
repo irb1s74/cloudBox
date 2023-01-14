@@ -8,9 +8,7 @@ module.exports = {
         'airbnb',
         'prettier',
     ],
-    overrides: [{
-        files: '**/src/**/*.test.{ts,tsx}',
-    }],
+
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaFeatures: {
@@ -24,8 +22,10 @@ module.exports = {
         '@typescript-eslint',
         'react-hooks',
         'prettier',
+        'unused-imports',
     ],
     rules: {
+        'unused-imports/no-unused-imports': 'error',
         'react/jsx-filename-extension': [
             2,
             {
@@ -52,20 +52,22 @@ module.exports = {
         ],
         'jsx-a11y/no-static-element-interactions': 'off',
         'jsx-a11y/click-events-have-key-events': 'off',
+        'react-hooks/rules-of-hooks': 'error',
         // Checks rules of Hooks
         'react-hooks/exhaustive-deps': 'error',
-        'react-hooks/rules-of-hooks': 'warn', // sad
         // Checks effect dependencies,
         'no-param-reassign': 'off',
         'no-undef': 'off',
         'react/no-array-index-key': 'off',
         'arrow-body-style': 'off',
         'react/jsx-max-props-per-line': ['error', { maximum: 4 }],
-        'jsx-a11y/no-noninteractive-element-interactions': 'off',
-        'consistent-return': 'off', // check
-        'react/jsx-no-useless-fragment': 'warn',
     },
+
+
     globals: {
         __IS_DEV__: true,
     },
+    overrides: [{
+        files: '**/src/**/*.test.{ts,tsx}',
+    }],
 };

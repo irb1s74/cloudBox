@@ -12,9 +12,7 @@ const RequireAuth: FC<ReactAuthProps> = ({ children }) => {
     const isAuthLoading = useSelector(getUserIsLoadingAuth);
 
     if (!auth && !isAuthLoading) {
-        return (
-            <Navigate to='/auth' />
-        );
+        return <Navigate to="/auth" />;
     }
 
     return children;

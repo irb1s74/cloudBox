@@ -8,20 +8,31 @@ interface downloadFileProps {
     file: IFile;
 }
 
-export const downloadFile = createAsyncThunk<void, downloadFileProps, { rejectValue: string }>(
-    'file/downloadFile',
-    async ({ file }, thunkAPI) => {
-        try {
-            const user = JSON.parse(localStorage.getItem(USER_LOCALSTORAGE_KEY));
-            axios.post(`file/download/${file.id}`, {}, {
-                baseURL: rootURL,
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
+export const downloadFile = createAsyncThunk<
+    void,
+    downloadFileProps,
+    { rejectValue: string }
+>('file/downloadFile', async ({ file }, thunkAPI) => {
+    try {
+        const user = JSON.parse(localStorage.getItem(USER_LOCALSTORAGE_KEY));
+        axios
+            .post(
+                `file/download/${file.id}`,
+                {},
+                {
+                    baseURL: rootURL,
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                    responseType: 'blob',
                 },
-                responseType: 'blob',
-            }).then(async (response) => {
-                const isJsonBlob = (data: AxiosResponse) => data instanceof Blob && data.type === 'application/json';
-                const responseData = isJsonBlob(response?.data) ? await (response?.data)?.text() : response?.data || {};
+            )
+            .then(async (response) => {
+                const isJsonBlob = (data: AxiosResponse) =>
+                    data instanceof Blob && data.type === 'application/json';
+                const responseData = isJsonBlob(response?.data)
+                    ? await response?.data?.text()
+                    : response?.data || {};
                 const downloadUrl = window.URL.createObjectURL(responseData);
                 const link = document.createElement('a');
                 link.href = downloadUrl;
@@ -30,9 +41,7 @@ export const downloadFile = createAsyncThunk<void, downloadFileProps, { rejectVa
                 link.click();
                 link.remove();
             });
-            ;
-        } catch (e) {
-            return thunkAPI.rejectWithValue('Произошла ошибка');
-        }
-    },
-);
+    } catch (e) {
+        return thunkAPI.rejectWithValue('Произошла ошибка');
+    }
+});

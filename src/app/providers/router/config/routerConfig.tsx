@@ -5,7 +5,6 @@ import { FavoritesPage } from 'pages/FavoritesPage';
 import { RecentPage } from 'pages/RecentPage';
 import { AppRoutes, AppRoutesProps } from '../types';
 
-
 export const RoutePath: Record<AppRoutes, string> = {
     [AppRoutes.FILES]: '/files',
     [AppRoutes.FAVORITES]: '/favorites',

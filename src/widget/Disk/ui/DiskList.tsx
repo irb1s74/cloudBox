@@ -14,28 +14,17 @@ interface DiskListProps {
     files: IFile[];
     handleSelectFileId: (fileId: number) => () => void;
     selectFileId: number | null;
-    handleOpenMenu: (
-        event: MouseEvent<HTMLElement>,
-        index: number,
-    ) => void;
+    handleOpenMenu: (event: MouseEvent<HTMLElement>, index: number) => void;
 }
 
 const DiskList: FC<DiskListProps> = (props) => {
-    const {
-        files,
-        handleSelectFileId,
-        handleOpenMenu,
-        selectFileId,
-    } = props;
+    const { files, handleSelectFileId, handleOpenMenu, selectFileId } = props;
 
     const checkFiles = files && files.length;
 
     if (!checkFiles) {
-        return (
-            <EmptyData />
-        );
+        return <EmptyData />;
     }
-
 
     return (
         <List sx={{ width: '100%', height: '100%' }}>

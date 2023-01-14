@@ -9,7 +9,7 @@ import {
 } from 'react-icons/hi';
 import { CgRename } from 'react-icons/cg';
 import { IUser } from 'entities/User';
-import { fileService, IFile } from 'entities/File';
+import { IFile, useDeleteFileMutation } from 'entities/File';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { downloadFile } from 'entities/File/model/services/downloadFile';
 
@@ -22,16 +22,10 @@ interface FileMenuProps {
 }
 
 export const FileMenu: FC<FileMenuProps> = (props) => {
-    const {
-        anchorEl,
-        open,
-        handleClose,
-        user,
-        file,
-    } = props;
+    const { anchorEl, open, handleClose, user, file } = props;
 
     const dispatch = useAppDispatch();
-    const [deleteFile] = fileService.useDeleteFileMutation();
+    const [deleteFile] = useDeleteFileMutation();
 
     const handleDelete = async () => {
         if (file?.id) {
@@ -44,7 +38,6 @@ export const FileMenu: FC<FileMenuProps> = (props) => {
             dispatch(downloadFile({ file }));
         }
     };
-
 
     return (
         <DropList anchorEl={anchorEl} open={open} handleClose={handleClose}>

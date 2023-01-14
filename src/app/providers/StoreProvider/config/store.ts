@@ -1,4 +1,8 @@
-import { configureStore, ConfigureStoreOptions, ReducersMapObject } from '@reduxjs/toolkit';
+import {
+    configureStore,
+    ConfigureStoreOptions,
+    ReducersMapObject,
+} from '@reduxjs/toolkit';
 import { userReducer } from 'entities/User';
 import { createReducerManager } from 'app/providers/StoreProvider/config/reducerManager';
 import { $api } from 'shared/api/api';
@@ -13,15 +17,13 @@ export function createReduxStore(
     const rootReducer: ReducersMapObject<StateSchema> = {
         ...asyncReducers,
         user: userReducer,
-        [rtkApi.reducerPath]: rtkApi.reducer
+        [rtkApi.reducerPath]: rtkApi.reducer,
     };
     const reducerManager = createReducerManager(rootReducer);
-
 
     const extraArg: ThunkExtraArg = {
         api: $api,
     };
-
 
     const store = configureStore<StateSchema>({
         reducer: reducerManager.reduce,

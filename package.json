@@ -8,7 +8,7 @@
     "build:prod": "webpack --env mode=production",
     "build:dev": "webpack --env mode=development",
     "eslint:fix": "eslint \"**/*.{ts,tsx}\" --fix",
-    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
+    "format": "prettier --write \"**/*.{ts,tsx}\" --config ./.prettierrc"
   },
   "keywords": [],
   "author": "Nikolay Belyaev",
@@ -32,6 +32,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.7.2",

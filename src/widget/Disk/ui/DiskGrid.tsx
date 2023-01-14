@@ -7,10 +7,7 @@ interface DiskGridProps {
     files: IFile[];
     handleSelectFileId: (fileId: number) => () => void;
     selectFileId: number | null;
-    handleOpenMenu: (
-        event: MouseEvent<HTMLElement>,
-        index: number,
-    ) => void;
+    handleOpenMenu: (event: MouseEvent<HTMLElement>, index: number) => void;
 }
 
 export const DiskGrid: FC<DiskGridProps> = (props) => {
@@ -19,9 +16,7 @@ export const DiskGrid: FC<DiskGridProps> = (props) => {
     const checkFiles = files && files.length;
 
     if (!checkFiles) {
-        return (
-            <EmptyData />
-        );
+        return <EmptyData />;
     }
 
     return (

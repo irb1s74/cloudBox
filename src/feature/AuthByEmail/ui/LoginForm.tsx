@@ -1,10 +1,12 @@
 import { ChangeEvent, FC, useCallback } from 'react';
 import classNames from 'classnames';
 import { Button, TextField, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { DynamicModuleLoader, ReducersList } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
+import { useSelector } from 'react-redux';
+import {
+    DynamicModuleLoader,
+    ReducersList,
+} from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
 import { loginByEmail } from 'feature/AuthByEmail/model/services/loginByEmail';
-import { ThunkDispatch } from '@reduxjs/toolkit';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { getLoginEmail } from '../model/selectors/getLoginEmail/getLoginEmail';
 import { getLoginPassword } from '../model/selectors/getLoginPassowrd/getLoginPassword';
@@ -27,13 +29,19 @@ const LoginForm: FC<LoginFormProps> = ({ className }) => {
     const password = useSelector(getLoginPassword);
     const error = useSelector(getLoginError);
 
-    const onChangeEmail = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(loginActions.setEmail(event.target.value));
-    }, [dispatch]);
+    const onChangeEmail = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            dispatch(loginActions.setEmail(event.target.value));
+        },
+        [dispatch],
+    );
 
-    const onChangePassword = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(loginActions.setPassword(event.target.value));
-    }, [dispatch]);
+    const onChangePassword = useCallback(
+        (event: ChangeEvent<HTMLInputElement>) => {
+            dispatch(loginActions.setPassword(event.target.value));
+        },
+        [dispatch],
+    );
 
     const onLoginClick = useCallback(() => {
         dispatch(loginByEmail({ email, password }));
@@ -47,26 +55,24 @@ const LoginForm: FC<LoginFormProps> = ({ className }) => {
                     <TextField
                         value={email}
                         onChange={onChangeEmail}
-                        variant='filled'
-                        type='email'
-                        label='Email'
+                        variant="filled"
+                        type="email"
+                        label="Email"
                         fullWidth
                     />
                     <TextField
                         value={password}
                         onChange={onChangePassword}
-                        variant='filled'
-                        type='password'
-                        label='Password'
+                        variant="filled"
+                        type="password"
+                        label="Password"
                         fullWidth
                     />
-                    {error && (
-                        <Typography color="error">
-                            {error}
-                        </Typography>
-                    )}
+                    {error && <Typography color="error">{error}</Typography>}
                 </div>
-                <Button onClick={onLoginClick} variant='contained' fullWidth>войти</Button>
+                <Button onClick={onLoginClick} variant="contained" fullWidth>
+                    войти
+                </Button>
             </div>
         </DynamicModuleLoader>
     );

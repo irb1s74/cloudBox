@@ -1,1 +1,1 @@
-export {FilesPageAsync as FilesPage} from './ui/FilesPage.async';
+export { FilesPageAsync as FilesPage } from './ui/FilesPage.async';

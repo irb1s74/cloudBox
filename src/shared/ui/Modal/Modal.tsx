@@ -4,10 +4,10 @@ import classNames from 'classnames';
 import styles from './Modal.module.scss';
 
 interface ModalProps {
-    className?: string,
-    children?: ReactNode,
-    isOpen?: boolean,
-    onClose?: () => void
+    className?: string;
+    children?: ReactNode;
+    isOpen?: boolean;
+    onClose?: () => void;
 }
 
 export const Modal: FC<ModalProps> = (props) => {
@@ -28,9 +28,7 @@ export const Modal: FC<ModalProps> = (props) => {
         <Portal>
             <div className={classNames(styles.Modal, mods, [className])}>
                 <div className={styles.overlay} onMouseUp={onClose}>
-                    <div onMouseUp={onContentClick}>
-                        {children}
-                    </div>
+                    <div onMouseUp={onContentClick}>{children}</div>
                 </div>
             </div>
         </Portal>

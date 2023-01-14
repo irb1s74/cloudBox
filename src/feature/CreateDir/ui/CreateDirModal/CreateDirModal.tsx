@@ -9,12 +9,13 @@ interface CreateDirModalProps {
     onClose?: () => void;
 }
 
-export const CreateDirModal: FC<CreateDirModalProps> = ({ className, isOpen, onClose }) => {
+export const CreateDirModal: FC<CreateDirModalProps> = ({
+    className,
+    isOpen,
+    onClose,
+}) => {
     return (
-        <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-        >
+        <Modal isOpen={isOpen} onClose={onClose}>
             <Suspense fallback={<PageLoader />}>
                 <CreateDirFormAsync handleCloseModal={onClose} />
             </Suspense>

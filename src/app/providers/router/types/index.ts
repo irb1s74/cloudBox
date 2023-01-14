@@ -5,7 +5,7 @@ export enum AppRoutes {
     FAVORITES = 'FAVORITES',
     RECENT = 'RECENT',
     NOT_FOUND = 'NOT_FOUND',
-    AUTH = 'AUTH'
+    AUTH = 'AUTH',
 }
 
 export type AppRoutesProps = RouteProps & {
