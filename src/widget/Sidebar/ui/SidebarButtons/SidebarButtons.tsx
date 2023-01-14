@@ -3,19 +3,14 @@ import { HiCloudUpload, HiOutlinePlus } from 'react-icons/hi';
 import { useSearchParams } from 'react-router-dom';
 import classNames from 'classnames';
 import { useUploadFileMutation } from 'entities/File';
-import { IUser } from 'entities/User';
 import { CreateDirModal } from 'feature/CreateDir';
 import styles from '../Sidebar.module.scss';
 
 interface SidebarButtonsProps {
     className?: string;
-    user?: IUser;
 }
 
-export const SidebarButtons: FC<SidebarButtonsProps> = ({
-    className,
-    user,
-}) => {
+export const SidebarButtons: FC<SidebarButtonsProps> = ({ className }) => {
     const filesInput = useRef(document.createElement('input'));
     const [modalIsOpen, setModalOpen] = useState(false);
     const [usePath] = useSearchParams();
@@ -36,7 +31,6 @@ export const SidebarButtons: FC<SidebarButtonsProps> = ({
                 formData.append('file', file);
                 formData.append('path', path || '');
                 await uploadFile({
-                    token: user.token,
                     formData,
                 });
             });

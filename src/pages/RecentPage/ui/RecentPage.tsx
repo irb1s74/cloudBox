@@ -92,13 +92,14 @@ const RecentPage: FC<FavoritesPageProps> = ({ className }) => {
                 selectFileId={selectFileId}
                 handleOpenMenu={handleOpenMenu}
             />
-            <FileMenu
-                anchorEl={anchorEl}
-                open={open}
-                handleClose={handleClose}
-                user={user}
-                file={file.current}
-            />
+            {file.current && (
+                <FileMenu
+                    anchorEl={anchorEl}
+                    open={open}
+                    handleClose={handleClose}
+                    file={file.current}
+                />
+            )}
         </section>
     );
 };

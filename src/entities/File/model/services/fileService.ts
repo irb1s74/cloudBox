@@ -1,5 +1,5 @@
-import { IFile } from 'entities/File';
 import { rtkApi } from 'shared/api/rtkApi';
+import { IFile } from '../types/index';
 
 const fileService = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -40,7 +40,18 @@ const fileService = rtkApi.injectEndpoints({
             transformResponse: (response: { file: IFile }[]) => {
                 return response.map((item) => item.file);
             },
-            providesTags: (result) => ['Files'],
+            providesTags: (result) => ['Favorites'],
+        }),
+        getFavoriteFile: build.query<IFile, { fileId: number }>({
+            query: ({ fileId }) => ({
+                url: `favorites/${fileId}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                method: 'GET',
+                refetchOnMountOrArgChange: true,
+            }),
         }),
         createDir: build.mutation<
             IFile[],
@@ -57,41 +68,54 @@ const fileService = rtkApi.injectEndpoints({
             }),
             invalidatesTags: ['Files'],
         }),
-        uploadFile: build.mutation<
-            IFile[],
-            { token: string; formData: FormData }
-        >({
-            query: ({ token, formData }) => ({
+        addToFavorite: build.mutation<IFile[], { fileId: number }>({
+            query: ({ fileId }) => ({
+                url: 'favorites',
+                body: { fileId },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                method: 'POST',
+            }),
+            transformResponse: (response: { file: IFile }[]) => {
+                return response.map((item) => item.file);
+            },
+            invalidatesTags: ['Favorites'],
+        }),
+        uploadFile: build.mutation<IFile[], { formData: FormData }>({
+            query: ({ formData }) => ({
                 url: `file/upload`,
                 body: formData,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${token}`,
                 },
                 method: 'POST',
             }),
             invalidatesTags: ['Files'],
         }),
-        deleteFile: build.mutation<IFile[], { token: string; fileId: number }>({
-            query: ({ token, fileId }) => ({
+        deleteFile: build.mutation<IFile[], { fileId: number }>({
+            query: ({ fileId }) => ({
                 url: `file/delete/${fileId}`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/octet-stream',
                     'Content-Disposition': 'attachment',
-                    Authorization: `Bearer ${token}`,
                 },
                 method: 'DELETE',
             }),
-            invalidatesTags: ['Files'],
+            invalidatesTags: ['Files', 'Favorites'],
         }),
     }),
 });
+
 export const {
     useGetFilesByPathQuery,
-    useUploadFileMutation,
+    useGetFavoriteFileQuery,
     useGetFavoritesFilesQuery,
-    useDeleteFileMutation,
-    useCreateDirMutation,
     useGetRecentFilesQuery,
+    useUploadFileMutation,
+    useDeleteFileMutation,
+    useAddToFavoriteMutation,
+    useCreateDirMutation,
 } = fileService;

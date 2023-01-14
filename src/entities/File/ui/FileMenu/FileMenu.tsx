@@ -8,32 +8,49 @@ import {
     HiTrash,
 } from 'react-icons/hi';
 import { CgRename } from 'react-icons/cg';
-import { IUser } from 'entities/User';
-import { IFile, useDeleteFileMutation } from 'entities/File';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import { downloadFile } from 'entities/File/model/services/downloadFile';
+import {
+    useAddToFavoriteMutation,
+    useDeleteFileMutation,
+    useGetFavoriteFileQuery,
+    IFile,
+} from 'entities/File';
+import { downloadFile } from '../../model/services/downloadFile';
 
 interface FileMenuProps {
     anchorEl: null | HTMLElement;
     open: boolean;
     handleClose: () => void;
-    user: IUser;
     file: IFile | undefined;
 }
 
 export const FileMenu: FC<FileMenuProps> = (props) => {
-    const { anchorEl, open, handleClose, user, file } = props;
+    const { anchorEl, open, handleClose, file } = props;
 
     const dispatch = useAppDispatch();
     const [deleteFile] = useDeleteFileMutation();
+    const [addToFavorite] = useAddToFavoriteMutation();
+    const {
+        data: favoriteFile,
+        error,
+        isLoading,
+        refetch,
+    } = useGetFavoriteFileQuery({ fileId: file?.id });
 
-    const handleDelete = async () => {
+    const handleDelete = () => {
         if (file?.id) {
-            deleteFile({ token: user.token, fileId: file.id });
+            deleteFile({ fileId: file.id });
         }
     };
 
-    const handleDownload = async () => {
+    const handleAddToFavorite = () => {
+        if (file?.id) {
+            addToFavorite({ fileId: file.id });
+            refetch();
+        }
+    };
+
+    const handleDownload = () => {
         if (file?.id) {
             dispatch(downloadFile({ file }));
         }
@@ -60,12 +77,17 @@ export const FileMenu: FC<FileMenuProps> = (props) => {
                 </ListItemIcon>
                 <ListItemText>Переименовать</ListItemText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={handleAddToFavorite} disabled={isLoading}>
                 <ListItemIcon>
                     <HiBookmarkAlt size={22} />
                 </ListItemIcon>
-                <ListItemText>Добавить в избранное</ListItemText>
+                <ListItemText>
+                    {favoriteFile
+                        ? 'Удалить из избранного'
+                        : 'Добавить в избранное'}
+                </ListItemText>
             </MenuItem>
+
             <Divider />
             <MenuItem onClick={handleDelete}>
                 <ListItemIcon>

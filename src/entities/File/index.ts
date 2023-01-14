@@ -4,7 +4,9 @@ export { FileMenu } from './ui/FileMenu/FileMenu';
 export { getFileIcon } from './lib/getFileIcon';
 export {
     useGetFilesByPathQuery,
+    useAddToFavoriteMutation,
     useGetFavoritesFilesQuery,
+    useGetFavoriteFileQuery,
     useGetRecentFilesQuery,
     useUploadFileMutation,
     useDeleteFileMutation,

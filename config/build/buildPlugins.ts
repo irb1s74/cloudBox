@@ -1,7 +1,8 @@
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
-import { DefinePlugin, HotModuleReplacementPlugin, WebpackPluginInstance } from 'webpack'
-import { BuildOptions } from './types'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { DefinePlugin, HotModuleReplacementPlugin, WebpackPluginInstance } from 'webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import { BuildOptions } from './types';
 
 export const buildPlugins = ({ isDev, paths }: BuildOptions): WebpackPluginInstance[] => {
     const plugins: WebpackPluginInstance[] = [
@@ -15,14 +16,14 @@ export const buildPlugins = ({ isDev, paths }: BuildOptions): WebpackPluginInsta
         new DefinePlugin({
             __IS_DEV__: isDev,
         }),
-    ]
+    ];
 
     if (isDev) {
-    // plugins.push(new ReactRefreshPlugin())
-        plugins.push(new HotModuleReplacementPlugin())
-    // plugins.push(new BundleAnalyzerPlugin({
-    //     openAnalyzer: false,
-    // }));
+        // plugins.push(new ReactRefreshPlugin()); // todo
+        plugins.push(new HotModuleReplacementPlugin());
+        plugins.push(new BundleAnalyzerPlugin({
+            openAnalyzer: false,
+        }));
     }
-    return plugins
-}
+    return plugins;
+};

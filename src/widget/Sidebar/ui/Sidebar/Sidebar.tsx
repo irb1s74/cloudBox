@@ -16,7 +16,7 @@ export const Sidebar: FC<SidebarProps> = ({ className }) => {
 
     return (
         <div className={classNames(styles.Sidebar, {}, [className])}>
-            <SidebarButtons user={user} />
+            <SidebarButtons />
             <SidebarNavigation />
             <SidebarUsage user={user} />
         </div>

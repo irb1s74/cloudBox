@@ -1,4 +1,4 @@
-import { FC, useState, MouseEvent, useCallback } from 'react';
+import { FC, useState, MouseEvent, DragEvent, useCallback } from 'react';
 import { Backdrop, SelectChangeEvent } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import { IUser } from 'entities/User';
@@ -51,29 +51,29 @@ export const Disk: FC<DiskProps> = (props) => {
         [],
     );
 
-    const dragEnterFunc = (event: React.DragEvent<HTMLDivElement>) => {
+    const dragEnterFunc = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
         setDragEnter(true);
     };
 
-    const dragStart = (event: React.DragEvent<HTMLDivElement>) => {
+    const dragStart = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
     };
 
-    const dragLeave = (event: React.DragEvent<HTMLDivElement>) => {
+    const dragLeave = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
         setDragEnter(false);
     };
 
-    const dragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    const dragOver = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
         setDragEnter(true);
     };
 
-    const dropFile = (event: React.DragEvent<HTMLDivElement>) => {
+    const dropFile = (event: DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
         const { dataTransfer } = event;
@@ -85,7 +85,6 @@ export const Disk: FC<DiskProps> = (props) => {
                 formData.append('file', file);
                 formData.append('path', path || '');
                 await uploadFile({
-                    token: user.token,
                     formData,
                 });
             });

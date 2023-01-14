@@ -104,13 +104,14 @@ const FilesPage = () => {
                 files={files}
                 user={user}
             />
-            <FileMenu
-                anchorEl={anchorEl}
-                open={open}
-                handleClose={handleClose}
-                user={user}
-                file={file.current}
-            />
+            {file.current && (
+                <FileMenu
+                    anchorEl={anchorEl}
+                    open={open}
+                    handleClose={handleClose}
+                    file={file.current}
+                />
+            )}
         </section>
     );
 };

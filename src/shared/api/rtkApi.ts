@@ -15,6 +15,6 @@ export const rtkApi = createApi({
             return headers;
         },
     }),
-    tagTypes: ['Files'],
+    tagTypes: ['Files', 'Favorites'],
     endpoints: (builder) => ({}),
 });
