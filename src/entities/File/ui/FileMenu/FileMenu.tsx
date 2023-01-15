@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { memo } from 'react';
 import { DropList } from 'shared/ui/DropList/DropList';
 import { Divider, ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import {
@@ -8,56 +8,34 @@ import {
     HiTrash,
 } from 'react-icons/hi';
 import { CgRename } from 'react-icons/cg';
-import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import {
-    useAddToFavoriteMutation,
-    useDeleteFileMutation,
-    useGetFavoriteFileQuery,
-    IFile,
-} from 'entities/File';
-import { downloadFile } from '../../model/services/downloadFile';
 
 interface FileMenuProps {
     anchorEl: null | HTMLElement;
     open: boolean;
-    handleClose: () => void;
-    file: IFile | undefined;
+    isFavorite: boolean;
+    handleAddToFavorite: () => void;
+    handleDownload: () => void;
+    handleDelete: () => void;
+    handleOnCloseMenu: () => void;
 }
 
-export const FileMenu: FC<FileMenuProps> = (props) => {
-    const { anchorEl, open, handleClose, file } = props;
-
-    const dispatch = useAppDispatch();
-    const [deleteFile] = useDeleteFileMutation();
-    const [addToFavorite, { isLoading }] = useAddToFavoriteMutation();
+export const FileMenu = memo((props: FileMenuProps) => {
     const {
-        data: favoriteFile,
-        error,
-        isFetching,
-        refetch,
-    } = useGetFavoriteFileQuery({ fileId: file?.id });
-
-    const handleDelete = () => {
-        if (file?.id) {
-            deleteFile({ fileId: file.id });
-        }
-    };
-
-    const handleAddToFavorite = async () => {
-        if (file?.id) {
-            await addToFavorite({ fileId: file.id });
-            await refetch();
-        }
-    };
-
-    const handleDownload = () => {
-        if (file?.id) {
-            dispatch(downloadFile({ file }));
-        }
-    };
+        anchorEl,
+        open,
+        isFavorite,
+        handleAddToFavorite,
+        handleOnCloseMenu,
+        handleDownload,
+        handleDelete,
+    } = props;
 
     return (
-        <DropList anchorEl={anchorEl} open={open} handleClose={handleClose}>
+        <DropList
+            anchorEl={anchorEl}
+            open={open}
+            handleClose={handleOnCloseMenu}
+        >
             <MenuItem>
                 <ListItemIcon>
                     <HiShare size={22} />
@@ -77,17 +55,16 @@ export const FileMenu: FC<FileMenuProps> = (props) => {
                 </ListItemIcon>
                 <ListItemText>Переименовать</ListItemText>
             </MenuItem>
-            <MenuItem onClick={handleAddToFavorite} disabled={isFetching || isLoading}>
+            <MenuItem onClick={handleAddToFavorite}>
                 <ListItemIcon>
                     <HiBookmarkAlt size={22} />
                 </ListItemIcon>
                 <ListItemText>
-                    {favoriteFile
+                    {isFavorite
                         ? 'Удалить из избранного'
                         : 'Добавить в избранное'}
                 </ListItemText>
             </MenuItem>
-
             <Divider />
             <MenuItem onClick={handleDelete}>
                 <ListItemIcon>
@@ -97,4 +74,4 @@ export const FileMenu: FC<FileMenuProps> = (props) => {
             </MenuItem>
         </DropList>
     );
-};
+});

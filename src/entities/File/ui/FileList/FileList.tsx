@@ -1,25 +1,29 @@
-import { FC, memo, MouseEvent } from 'react';
+import { memo, MouseEvent } from 'react';
+import dayjs from 'dayjs';
 import {
     List,
     ListItemButton,
     ListItemIcon,
     ListItemText,
 } from '@mui/material';
-import { getFileIcon, IFile } from 'entities/File';
 import { sizeFormatter } from 'shared/lib/sizeFormatter/sizeFormatter';
 import { EmptyData } from 'shared/ui/EmptyData/EmptyData';
-import dayjs from 'dayjs';
+import { getFileIcon } from 'shared/lib/getFileIcon/getFileIcon';
+import { IFile } from '../../model/types/index';
 
-interface DiskListProps {
+interface FileListProps {
     files: IFile[];
+    selectedFileId: number | null;
     handleSelectFileId: (fileId: number) => () => void;
-    selectFileId: number | null;
-    handleOpenMenu: (event: MouseEvent<HTMLElement>, index: number) => void;
+    handleOpenContextFile: (
+        event: MouseEvent<HTMLElement>,
+        index: number,
+    ) => void;
 }
 
-const DiskList: FC<DiskListProps> = (props) => {
-    const { files, handleSelectFileId, handleOpenMenu, selectFileId } = props;
-
+export const FileList = memo((props: FileListProps) => {
+    const { files, handleSelectFileId, handleOpenContextFile, selectedFileId } =
+        props;
     const checkFiles = files && files.length;
 
     if (!checkFiles) {
@@ -32,8 +36,10 @@ const DiskList: FC<DiskListProps> = (props) => {
                 <ListItemButton
                     key={file.id}
                     onClick={handleSelectFileId(file.id)}
-                    onContextMenu={(event) => handleOpenMenu(event, file.id)}
-                    selected={selectFileId === file.id}
+                    onContextMenu={(event) =>
+                        handleOpenContextFile(event, file.id)
+                    }
+                    selected={selectedFileId === file.id}
                     divider
                 >
                     <ListItemIcon>{getFileIcon(file.type)}</ListItemIcon>
@@ -49,6 +55,4 @@ const DiskList: FC<DiskListProps> = (props) => {
             ))}
         </List>
     );
-};
-
-export default memo(DiskList);
+});

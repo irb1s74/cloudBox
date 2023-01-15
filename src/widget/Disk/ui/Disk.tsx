@@ -1,141 +1,139 @@
-import { FC, useState, MouseEvent, DragEvent, useCallback } from 'react';
-import { Backdrop, SelectChangeEvent } from '@mui/material';
-import { useSearchParams } from 'react-router-dom';
-import { IUser } from 'entities/User';
-import { IFile, useUploadFileMutation } from 'entities/File';
-import { USER_DISK_ALIGNMENT_KEY } from 'shared/const/localstorage';
-import { GiFiles } from 'react-icons/gi';
-import DiskList from './DiskList';
-import DiskSetting from './DiskSetting';
-import { DiskGrid } from './DiskGrid';
-
+import { FC, useState, MouseEvent, useCallback, useMemo } from 'react';
+import { SelectChangeEvent, Stack } from '@mui/material';
+import {
+    createSearchParams,
+    useNavigate,
+    useSearchParams,
+} from 'react-router-dom';
+import { DiskToggleView } from 'feature/DiskToggleView';
+import { DiskFilters } from 'feature/DiskFilters';
+import { DiskDragFile } from 'feature/DiskDragFile';
+import { DiskContextFile } from 'feature/DiskContextFile';
+import { DiskFiles } from 'feature/DiskFiles';
+import { useGetFilesByPathQuery } from 'entities/File';
+import {
+    USER_DISK_ALIGNMENT_KEY,
+    USER_DISK_SORT_KEY,
+} from 'shared/const/localstorage';
 import styles from './Disk.module.scss';
 
-interface DiskProps {
-    user: IUser;
-    files: IFile[];
-    selectFileId: number | null;
-    handleSelectFileId: (fileId: number) => () => void;
-    handleOpenMenu: (event: MouseEvent<HTMLElement>, index: number) => void;
-    sort: string;
-    optionSort: boolean;
-    handleSelectSort: (event: SelectChangeEvent) => void;
-}
+interface DiskProps {}
 
-export const Disk: FC<DiskProps> = (props) => {
-    const {
-        user,
-        files,
-        selectFileId,
-        handleOpenMenu,
-        handleSelectFileId,
-        sort,
-        handleSelectSort,
-        optionSort,
-    } = props;
-
-    const [alignment, setAlignment] = useState(
+export const Disk: FC<DiskProps> = () => {
+    const [selectedSort, selectSort] = useState<string>(
+        localStorage.getItem(USER_DISK_SORT_KEY) || 'createdAt',
+    );
+    const [viewType, setViewType] = useState(
         localStorage.getItem(USER_DISK_ALIGNMENT_KEY),
     );
-    const [dragEnter, setDragEnter] = useState(false);
-    const [usePath] = useSearchParams();
-    const [uploadFile] = useUploadFileMutation();
+    const [selectedFileId, selectFileId] = useState<number | null>(null);
+    const [selectedOptionSort, selectOptionSort] = useState<boolean>(true);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const navigate = useNavigate();
 
-    const handleChangeAlignment = useCallback(
-        (event: MouseEvent<HTMLElement>, newAlignment: string) => {
-            if (newAlignment !== null) {
-                localStorage.setItem(USER_DISK_ALIGNMENT_KEY, newAlignment);
-                setAlignment(newAlignment);
-            }
+    const [usePath] = useSearchParams();
+    const contextFileOpen = Boolean(anchorEl);
+    const path = usePath.get('path');
+
+    const {
+        data: files,
+        error,
+        isLoading,
+    } = useGetFilesByPathQuery({
+        path: path || '',
+        sort: selectedSort,
+        option: selectedOptionSort,
+    });
+
+    const selectedFile = useMemo(
+        () => files?.find((file) => file.id === selectedFileId),
+        [selectedFileId, files],
+    );
+
+    const handleSelectSort = useCallback((event: SelectChangeEvent) => {
+        if (event.target.value === 'ascending') {
+            selectOptionSort(true);
+        } else if (event.target.value === 'descending') {
+            selectOptionSort(false);
+        } else {
+            localStorage.setItem(USER_DISK_SORT_KEY, event.target.value);
+            selectSort(event.target.value);
+        }
+    }, []);
+
+    const handleToggleView = useCallback(
+        (event: MouseEvent<HTMLElement>, selectedViewType: string) => {
+            localStorage.setItem(USER_DISK_ALIGNMENT_KEY, selectedViewType);
+            setViewType(selectedViewType);
         },
         [],
     );
 
-    const dragEnterFunc = (event: DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-        setDragEnter(true);
+    const handleOpenContextFile = useCallback(
+        (event: MouseEvent<HTMLElement>, fileId: number) => {
+            event.preventDefault();
+            selectFileId(fileId);
+            setAnchorEl(event.currentTarget);
+        },
+        [],
+    );
+
+    const handleCloseContextFile = () => {
+        setAnchorEl(null);
     };
 
-    const dragStart = (event: DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-    };
-
-    const dragLeave = (event: DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-        setDragEnter(false);
-    };
-
-    const dragOver = (event: DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-        setDragEnter(true);
-    };
-
-    const dropFile = (event: DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
-        event.stopPropagation();
-        const { dataTransfer } = event;
-        const { files } = dataTransfer;
-        const path = usePath.get('path');
-        if (files && files.length) {
-            Array.from(files).forEach(async (file) => {
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('path', path || '');
-                await uploadFile({
-                    formData,
+    const handleSelectFileId = useCallback(
+        (fileId: number) => () => {
+            selectFileId(fileId);
+            const condidate = files.find((file) => file.id === fileId);
+            if (selectedFileId === fileId && condidate.type === 'dir') {
+                navigate({
+                    pathname: '',
+                    search: `?${createSearchParams({
+                        path: `${condidate.path}`,
+                    })}`,
                 });
-            });
-        }
-        setDragEnter(false);
-    };
+                selectFileId(null);
+            } else if (files) {
+                selectFileId(fileId);
+            }
+        },
+        [files, navigate, selectedFileId],
+    );
 
     return (
-        <div
-            className={styles.Disk}
-            onDragEnter={dragEnterFunc}
-            onDragOver={dragOver}
-            onDragLeave={dragLeave}
-        >
-            <DiskSetting
-                alignment={alignment}
-                sort={sort}
-                optionSort={optionSort}
-                handleSelectSort={handleSelectSort}
-                handleChange={handleChangeAlignment}
-            />
-            <div className={styles.Disk__scroll}>
-                {alignment === 'grid' ? (
-                    <DiskGrid
-                        files={files}
-                        handleOpenMenu={handleOpenMenu}
-                        handleSelectFileId={handleSelectFileId}
-                        selectFileId={selectFileId}
-                    />
-                ) : (
-                    <DiskList
-                        files={files}
-                        handleOpenMenu={handleOpenMenu}
-                        handleSelectFileId={handleSelectFileId}
-                        selectFileId={selectFileId}
-                    />
-                )}
-            </div>
-            <Backdrop
-                sx={{
-                    color: '#fff',
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
-                }}
-                onDrop={dropFile}
-                onDragStart={dragStart}
-                onDragOver={dragOver}
-                onDragLeave={dragLeave}
-                open={dragEnter}
+        <section className={styles.Disk}>
+            <Stack
+                sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
             >
-                <GiFiles size={80} color="#FFF" />
-            </Backdrop>
-        </div>
+                <DiskFilters
+                    selectedSort={selectedSort}
+                    selectedOptionSort={selectedOptionSort}
+                    handleSelectSort={handleSelectSort}
+                />
+                <DiskToggleView
+                    viewType={viewType}
+                    handleToggleView={handleToggleView}
+                />
+            </Stack>
+            <DiskDragFile>
+                <DiskFiles
+                    files={files}
+                    viewType={viewType}
+                    handleSelectFileId={handleSelectFileId}
+                    selectedFileId={selectedFileId}
+                    handleOpenContextFile={handleOpenContextFile}
+                />
+            </DiskDragFile>
+            <DiskContextFile
+                open={contextFileOpen}
+                file={selectedFile}
+                handleCloseContextFile={handleCloseContextFile}
+                anchorEl={anchorEl}
+            />
+        </section>
     );
 };

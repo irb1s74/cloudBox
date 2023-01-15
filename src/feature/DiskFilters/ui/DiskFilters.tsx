@@ -1,4 +1,4 @@
-import { FC, MouseEvent, memo, useState } from 'react';
+import { memo, useState } from 'react';
 import {
     Divider,
     FormControl,
@@ -7,26 +7,17 @@ import {
     Select,
     SelectChangeEvent,
     Stack,
-    ToggleButton,
-    ToggleButtonGroup,
 } from '@mui/material';
-import { HiViewGrid, HiViewList } from 'react-icons/hi';
+import classNames from 'classnames';
 
-interface DiskSettingProps {
-    alignment: string;
-    sort: string;
-    optionSort: boolean;
+interface DiskFiltersProps {
+    selectedSort: string;
+    selectedOptionSort: boolean;
     handleSelectSort: (event: SelectChangeEvent) => void;
-    handleChange: (
-        event: MouseEvent<HTMLElement>,
-        newAlignment: string,
-    ) => void;
 }
 
-const DiskSetting: FC<DiskSettingProps> = (props) => {
-    const { alignment, sort, optionSort, handleChange, handleSelectSort } =
-        props;
-
+export const DiskFilters = memo((props: DiskFiltersProps) => {
+    const { selectedSort, selectedOptionSort, handleSelectSort } = props;
     const [sortOpen, setSortOpen] = useState(false);
 
     const toggleSort = () => {
@@ -43,11 +34,11 @@ const DiskSetting: FC<DiskSettingProps> = (props) => {
             <FormControl sx={{ m: 1, minWidth: 230 }}>
                 <InputLabel>Сортировать по</InputLabel>
                 <Select
+                    value={selectedSort}
                     open={sortOpen}
                     onClose={toggleSort}
                     onOpen={toggleSort}
                     onChange={handleSelectSort}
-                    value={sort}
                     label="Сортировать по"
                 >
                     <MenuItem value="name">Названию</MenuItem>
@@ -55,34 +46,23 @@ const DiskSetting: FC<DiskSettingProps> = (props) => {
                     <MenuItem value="createdAt">Дате изменения</MenuItem>
                     <Divider />
                     <MenuItem
-                        className={optionSort ? 'Mui-selected' : ''}
+                        className={classNames({
+                            'Mui-selected': selectedOptionSort,
+                        })}
                         value="ascending"
                     >
                         Возрастанию
                     </MenuItem>
                     <MenuItem
-                        className={!optionSort ? 'Mui-selected' : ''}
+                        className={classNames({
+                            'Mui-selected': !selectedOptionSort,
+                        })}
                         value="descending"
                     >
                         Убыванию
                     </MenuItem>
                 </Select>
             </FormControl>
-            <ToggleButtonGroup
-                value={alignment}
-                onChange={handleChange}
-                exclusive
-                aria-label="Medium sizes"
-            >
-                <ToggleButton value="grid">
-                    <HiViewGrid />
-                </ToggleButton>
-                <ToggleButton value="list">
-                    <HiViewList />
-                </ToggleButton>
-            </ToggleButtonGroup>
         </Stack>
     );
-};
-
-export default memo(DiskSetting);
+});

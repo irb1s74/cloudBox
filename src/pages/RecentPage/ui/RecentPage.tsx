@@ -2,10 +2,9 @@ import { FC, MouseEvent, useCallback, useRef, useState } from 'react';
 import classNames from 'classnames';
 import { PageLoader } from 'widget/PageLoader';
 import { SelectChangeEvent, Typography } from '@mui/material';
-import { DiskList } from 'widget/Disk';
 import { useSelector } from 'react-redux';
 import { getUserAuthData } from 'entities/User';
-import { FileMenu, IFile, useGetRecentFilesQuery } from 'entities/File';
+import { FileList, IFile, useGetRecentFilesQuery } from 'entities/File';
 import {
     createSearchParams,
     useNavigate,
@@ -86,20 +85,12 @@ const RecentPage: FC<FavoritesPageProps> = ({ className }) => {
                     Произошла ошибка при загрузке
                 </Typography>
             )}
-            <DiskList
+            <FileList
                 files={files}
                 handleSelectFileId={handleSelectFileId}
-                selectFileId={selectFileId}
-                handleOpenMenu={handleOpenMenu}
+                selectedFileId={selectFileId}
+                handleOpenContextFile={handleOpenMenu}
             />
-            {file.current && (
-                <FileMenu
-                    anchorEl={anchorEl}
-                    open={open}
-                    handleClose={handleClose}
-                    file={file.current}
-                />
-            )}
         </section>
     );
 };

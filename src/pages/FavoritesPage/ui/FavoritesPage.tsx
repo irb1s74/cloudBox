@@ -1,34 +1,17 @@
-import { FC, MouseEvent, useCallback, useRef, useState } from 'react';
-import classNames from 'classnames';
+import { MouseEvent, useCallback, useMemo, useState } from 'react';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
+import { useGetFavoritesFilesQuery } from 'entities/File';
+import { Page } from 'widget/Page';
 import { PageLoader } from 'widget/PageLoader';
-import { SelectChangeEvent, Typography } from '@mui/material';
-import { DiskList } from 'widget/Disk';
-import { useSelector } from 'react-redux';
-import { getUserAuthData } from 'entities/User';
-import { FileMenu, IFile, useGetFavoritesFilesQuery } from 'entities/File';
-import {
-    createSearchParams,
-    useNavigate,
-    useSearchParams,
-} from 'react-router-dom';
+import { DiskContextFile } from 'feature/DiskContextFile';
+import { DiskFiles } from 'feature/DiskFiles';
 
-import styles from './FavoritesPage.module.scss';
-
-interface FavoritesPageProps {
-    className?: string;
-}
-
-const FavoritesPage: FC<FavoritesPageProps> = ({ className }) => {
-    const user = useSelector(getUserAuthData);
-    const file = useRef<IFile>();
-    const navigate = useNavigate();
-    const [selectFileId, setSelectFileId] = useState<number | null>(null);
+const FavoritesPage = () => {
+    const [selectedFileId, selectFileId] = useState<number | null>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [usePath] = useSearchParams();
-    const [sort, setSort] = useState<string>('createdAt');
-    const [optionSort, setOptionSort] = useState<boolean>(true);
-    const path = usePath.get('path');
-    const open = Boolean(anchorEl);
+    const navigate = useNavigate();
+    const contextFileOpen = Boolean(anchorEl);
 
     const {
         data: files,
@@ -36,46 +19,40 @@ const FavoritesPage: FC<FavoritesPageProps> = ({ className }) => {
         isLoading,
     } = useGetFavoritesFilesQuery(undefined);
 
+    const selectedFile = useMemo(
+        () => files?.find((file) => file.id === selectedFileId),
+        [selectedFileId, files],
+    );
+
     const handleSelectFileId = useCallback(
         (fileId: number) => () => {
+            selectFileId(fileId);
             const condidate = files.find((file) => file.id === fileId);
-            if (selectFileId === fileId && condidate.type === 'dir') {
+            if (selectedFileId === fileId && condidate.type === 'dir') {
                 navigate({
                     pathname: '',
                     search: `?${createSearchParams({
                         path: `${condidate.path}`,
                     })}`,
                 });
-                setSelectFileId(null);
+                selectFileId(null);
             } else if (files) {
-                setSelectFileId(fileId);
-                file.current = condidate;
+                selectFileId(fileId);
             }
         },
-        [files, navigate, selectFileId],
+        [files, navigate, selectedFileId],
     );
 
-    const handleSelectSort = useCallback((event: SelectChangeEvent) => {
-        if (event.target.value === 'ascending') {
-            setOptionSort(true);
-        } else if (event.target.value === 'descending') {
-            setOptionSort(false);
-        } else {
-            setSort(event.target.value);
-        }
-    }, []);
-
-    const handleOpenMenu = useCallback(
+    const handleOpenContextFile = useCallback(
         (event: MouseEvent<HTMLElement>, fileId: number) => {
             event.preventDefault();
-            setSelectFileId(fileId);
-            file.current = files && files.find((file) => file.id === fileId);
+            selectFileId(fileId);
             setAnchorEl(event.currentTarget);
         },
-        [files],
+        [],
     );
 
-    const handleClose = () => {
+    const handleCloseContextFile = () => {
         setAnchorEl(null);
     };
 
@@ -84,28 +61,26 @@ const FavoritesPage: FC<FavoritesPageProps> = ({ className }) => {
     }
 
     return (
-        <section className={classNames(styles.FavoritesPage, {}, [className])}>
-            <div className={styles.FavoritesPage__name}>Избранное</div>
+        <Page pageName="Избранное">
             {error && (
                 <Typography color="error">
                     Произошла ошибка при загрузке
                 </Typography>
             )}
-            <DiskList
+            <DiskFiles
                 files={files}
+                viewType="list"
                 handleSelectFileId={handleSelectFileId}
-                selectFileId={selectFileId}
-                handleOpenMenu={handleOpenMenu}
+                selectedFileId={selectedFileId}
+                handleOpenContextFile={handleOpenContextFile}
             />
-            {file.current && (
-                <FileMenu
-                    anchorEl={anchorEl}
-                    open={open}
-                    handleClose={handleClose}
-                    file={file.current}
-                />
-            )}
-        </section>
+            <DiskContextFile
+                file={selectedFile}
+                handleCloseContextFile={handleCloseContextFile}
+                anchorEl={anchorEl}
+                open={contextFileOpen}
+            />
+        </Page>
     );
 };
 

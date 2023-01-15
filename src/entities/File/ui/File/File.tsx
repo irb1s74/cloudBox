@@ -1,7 +1,7 @@
-import { FC } from 'react';
+import { memo } from 'react';
 import classNames from 'classnames';
+import { getFileIcon } from 'shared/lib/getFileIcon/getFileIcon';
 import { IFile } from '../../model/types';
-import { getFileIcon } from '../../lib/getFileIcon';
 import styles from './File.module.scss';
 
 interface FileProps {
@@ -10,7 +10,9 @@ interface FileProps {
     className?: string;
 }
 
-export const File: FC<FileProps> = ({ file, active, className }) => {
+export const File = memo((props: FileProps) => {
+    const { file, active, className } = props;
+
     return (
         <div
             className={classNames(
@@ -23,4 +25,4 @@ export const File: FC<FileProps> = ({ file, active, className }) => {
             <div className={styles.File__name}>{file.name}</div>
         </div>
     );
-};
+});
