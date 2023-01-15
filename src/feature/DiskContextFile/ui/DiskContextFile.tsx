@@ -50,7 +50,7 @@ export const DiskContextFile = memo((props: DiskContextFileProps) => {
         <FileMenu
             anchorEl={anchorEl}
             open={open}
-            isFavorite
+            isFavorite={!!favoriteFile}
             handleAddToFavorite={handleAddToFavorite}
             handleDelete={handleDelete}
             handleDownload={handleDownload}

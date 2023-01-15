@@ -1,75 +1,54 @@
-import { FC, MouseEvent, useCallback, useRef, useState } from 'react';
-import classNames from 'classnames';
+import { MouseEvent, useCallback, useMemo, useState } from 'react';
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
+import { useGetRecentFilesQuery } from 'entities/File';
+import { DiskFiles } from 'feature/DiskFiles';
+import { DiskContextFile } from 'feature/DiskContextFile';
 import { PageLoader } from 'widget/PageLoader';
-import { SelectChangeEvent, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { getUserAuthData } from 'entities/User';
-import { FileList, IFile, useGetRecentFilesQuery } from 'entities/File';
-import {
-    createSearchParams,
-    useNavigate,
-    useSearchParams,
-} from 'react-router-dom';
-import styles from './RecentPage.module.scss';
+import { Page } from 'widget/Page';
 
-interface FavoritesPageProps {
-    className?: string;
-}
-
-const RecentPage: FC<FavoritesPageProps> = ({ className }) => {
-    const user = useSelector(getUserAuthData);
-    const file = useRef<IFile>();
-    const navigate = useNavigate();
-    const [selectFileId, setSelectFileId] = useState<number | null>(null);
+const RecentPage = () => {
+    const [selectedFileId, selectFileId] = useState<number | null>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [usePath] = useSearchParams();
-    const [sort, setSort] = useState<string>('createdAt');
-    const [optionSort, setOptionSort] = useState<boolean>(true);
-    const path = usePath.get('path');
-    const open = Boolean(anchorEl);
+    const navigate = useNavigate();
+    const contextFileOpen = Boolean(anchorEl);
 
     const { data: files, error, isLoading } = useGetRecentFilesQuery(undefined);
 
+    const selectedFile = useMemo(
+        () => files?.find((file) => file.id === selectedFileId),
+        [selectedFileId, files],
+    );
+
     const handleSelectFileId = useCallback(
         (fileId: number) => () => {
+            selectFileId(fileId);
             const condidate = files.find((file) => file.id === fileId);
-            if (selectFileId === fileId && condidate.type === 'dir') {
+            if (selectedFileId === fileId && condidate.type === 'dir') {
                 navigate({
                     pathname: '',
                     search: `?${createSearchParams({
                         path: `${condidate.path}`,
                     })}`,
                 });
-                setSelectFileId(null);
+                selectFileId(null);
             } else if (files) {
-                setSelectFileId(fileId);
-                file.current = condidate;
+                selectFileId(fileId);
             }
         },
-        [files, navigate, selectFileId],
+        [files, navigate, selectedFileId],
     );
 
-    const handleSelectSort = useCallback((event: SelectChangeEvent) => {
-        if (event.target.value === 'ascending') {
-            setOptionSort(true);
-        } else if (event.target.value === 'descending') {
-            setOptionSort(false);
-        } else {
-            setSort(event.target.value);
-        }
-    }, []);
-
-    const handleOpenMenu = useCallback(
+    const handleOpenContextFile = useCallback(
         (event: MouseEvent<HTMLElement>, fileId: number) => {
             event.preventDefault();
-            setSelectFileId(fileId);
-            file.current = files && files.find((file) => file.id === fileId);
+            selectFileId(fileId);
             setAnchorEl(event.currentTarget);
         },
-        [files],
+        [],
     );
 
-    const handleClose = () => {
+    const handleCloseContextFile = () => {
         setAnchorEl(null);
     };
 
@@ -78,20 +57,26 @@ const RecentPage: FC<FavoritesPageProps> = ({ className }) => {
     }
 
     return (
-        <section className={classNames(styles.RecentPage, {}, [className])}>
-            <div className={styles.RecentPage__name}>Последние</div>
+        <Page pageName="Последние">
             {error && (
                 <Typography color="error">
                     Произошла ошибка при загрузке
                 </Typography>
             )}
-            <FileList
+            <DiskFiles
                 files={files}
+                viewType="list"
                 handleSelectFileId={handleSelectFileId}
-                selectedFileId={selectFileId}
-                handleOpenContextFile={handleOpenMenu}
+                selectedFileId={selectedFileId}
+                handleOpenContextFile={handleOpenContextFile}
             />
-        </section>
+            <DiskContextFile
+                file={selectedFile}
+                handleCloseContextFile={handleCloseContextFile}
+                anchorEl={anchorEl}
+                open={contextFileOpen}
+            />
+        </Page>
     );
 };
 
