@@ -17,6 +17,7 @@ interface FileMenuProps {
     handleDownload: () => void;
     handleDelete: () => void;
     handleOnCloseMenu: () => void;
+    handleOpenRenameFileModal: () => void;
 }
 
 export const FileMenu = memo((props: FileMenuProps) => {
@@ -28,6 +29,7 @@ export const FileMenu = memo((props: FileMenuProps) => {
         handleOnCloseMenu,
         handleDownload,
         handleDelete,
+        handleOpenRenameFileModal,
     } = props;
 
     return (
@@ -49,7 +51,7 @@ export const FileMenu = memo((props: FileMenuProps) => {
                 </ListItemIcon>
                 <ListItemText>Скачать</ListItemText>
             </MenuItem>
-            <MenuItem>
+            <MenuItem onClick={handleOpenRenameFileModal}>
                 <ListItemIcon>
                     <CgRename size={22} />
                 </ListItemIcon>

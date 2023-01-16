@@ -61,24 +61,24 @@ const FavoritesPage = () => {
     }
 
     return (
-        <Page pageName="Избранное">
+        <Page pageName='Избранное'>
             {error && (
-                <Typography color="error">
+                <Typography color='error'>
                     Произошла ошибка при загрузке
                 </Typography>
             )}
             <DiskFiles
                 files={files}
-                viewType="list"
-                handleSelectFileId={handleSelectFileId}
                 selectedFileId={selectedFileId}
+                viewType='list'
+                handleSelectFileId={handleSelectFileId}
                 handleOpenContextFile={handleOpenContextFile}
             />
             <DiskContextFile
-                file={selectedFile}
-                handleCloseContextFile={handleCloseContextFile}
-                anchorEl={anchorEl}
                 open={contextFileOpen}
+                file={selectedFile}
+                anchorEl={anchorEl}
+                handleCloseContextFile={handleCloseContextFile}
             />
         </Page>
     );

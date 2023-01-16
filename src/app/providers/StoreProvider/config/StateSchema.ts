@@ -6,10 +6,12 @@ import {
     Reducer,
     ReducersMapObject,
 } from '@reduxjs/toolkit';
-import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
-import { AxiosInstance } from 'axios';
-import { rtkApi } from 'shared/api/rtkApi';
 import { CreateDirSchema } from 'feature/CreateDir';
+import { LoginSchema } from 'feature/AuthByEmail';
+import { FileEditNameSchema } from 'feature/FileEditName';
+import { rtkApi } from 'shared/api/rtkApi';
+import { AxiosInstance } from 'axios';
+
 
 export interface StateSchema {
     user: UserSchema;
@@ -18,6 +20,7 @@ export interface StateSchema {
     // async
     loginForm?: LoginSchema;
     createDir?: CreateDirSchema;
+    fileEditName?: FileEditNameSchema;
 }
 
 export type StateSchemaKey = keyof StateSchema;

@@ -12,7 +12,6 @@ export const createDirSlice = createSlice({
             state.nameDir = action.payload;
         },
     },
-    extraReducers: (builder) => {},
 });
 
 export const { reducer: createDirReducer } = createDirSlice;

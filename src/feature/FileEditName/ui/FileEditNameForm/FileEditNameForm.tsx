@@ -1,7 +1,4 @@
-import { ChangeEvent, FC, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
-import { IoClose } from 'react-icons/io5';
+import { ChangeEvent, FC, memo, useState } from 'react';
 import {
     Button,
     Card,
@@ -13,48 +10,43 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import { useCreateDirMutation } from 'entities/File';
+import { IoClose } from 'react-icons/io5';
+import { DynamicModuleLoader, ReducersList } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
+import { useSelector } from 'react-redux';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import {
-    DynamicModuleLoader,
-    ReducersList,
-} from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
-import { getNameDir } from '../../model/selectors/getNameDir/getNameDir';
-import {
-    createDirActions,
-    createDirReducer,
-} from '../../model/slice/createDirSlice';
+import { IFile, useRenameFileMutation } from 'entities/File';
+import { fileEditNameReducer, fileEditNameActions } from '../../model/slice/FileEditNameSlice';
+import { getFileEditNameFileName } from '../../model/selectors/getFileEditNameFileName/getFileEditNameFileName';
 
 const initialReducers: ReducersList = {
-    createDir: createDirReducer,
+    fileEditName: fileEditNameReducer,
 };
 
-export interface CreateDirFormProps {
+interface RenameFileFormProps {
+    file: IFile;
     handleCloseModal: () => void;
 }
 
-const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
+const FileEditNameForm: FC<RenameFileFormProps> = (props) => {
+    const { file, handleCloseModal } = props;
     const dispatch = useAppDispatch();
-    const name = useSelector(getNameDir);
-    const [usePath] = useSearchParams();
-    const path = usePath.get('path');
-    const [formError, setFormError] = useState('');
-
-    const [createDir, { data: res, error, isLoading }] = useCreateDirMutation();
+    const name = useSelector(getFileEditNameFileName);
+    const [renameError, setRenameError] = useState('');
+    const [renameFile, { data, error, isLoading }] = useRenameFileMutation();
 
     const handleOnChangeName = (event: ChangeEvent<HTMLInputElement>) => {
-        dispatch(createDirActions.setNameDir(event.target.value));
+        dispatch(fileEditNameActions.setFileName(event.target.value));
     };
 
-    const onClick = () => {
-        createDir({ path: path || '', name })
-            .unwrap() // for use than/catch
+    const handleOnClick = () => {
+        renameFile({ fileName: name, id: file.id })
+            .unwrap()
             .then(() => {
                 handleCloseModal();
             })
             .catch((error) => {
                 if (error.status === 400) {
-                    setFormError('Директория с таким именем уже существует');
+                    setRenameError('Файл с таким именем уже существует');
                 }
             });
     };
@@ -62,14 +54,13 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
     return (
         <DynamicModuleLoader reducers={initialReducers}>
             <Card sx={{ width: 385 }}>
-                {/* <CardHeader title='Создать директорию' /> */}
                 <Stack
                     sx={{ p: '16px' }}
                     direction='row'
                     alignItems='center'
                     justifyContent='space-between'
                 >
-                    <Typography variant='h5'>Создать директорию</Typography>
+                    <Typography variant='h5'>Переименовать файл</Typography>
                     <IconButton onClick={handleCloseModal}>
                         <IoClose />
                     </IconButton>
@@ -80,23 +71,23 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
                         value={name}
                         onChange={handleOnChangeName}
                         variant='outlined'
-                        label='Название директории'
+                        label='Название'
                         fullWidth
                     />
-                    {formError && (
+                    {renameError && (
                         <Typography textAlign='center' color='error'>
-                            {formError}
+                            {renameError}
                         </Typography>
                     )}
                 </CardContent>
                 <CardActions>
                     <Button
-                        onClick={onClick}
+                        onClick={handleOnClick}
                         disabled={isLoading}
                         variant='contained'
                         fullWidth
                     >
-                        Создать
+                        Переименовать
                     </Button>
                 </CardActions>
             </Card>
@@ -104,4 +95,4 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
     );
 };
 
-export default CreateDirForm;
+export default memo(FileEditNameForm);

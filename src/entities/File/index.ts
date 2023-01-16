@@ -12,6 +12,7 @@ export {
     useUploadFileMutation,
     useDeleteFileMutation,
     useCreateDirMutation,
+    useRenameFileMutation,
 } from './model/services/FileService';
 
 export { downloadFile } from './model/services/downloadFile';

@@ -13,21 +13,6 @@ const fileService = rtkApi.injectEndpoints({
             }),
             providesTags: (result) => ['Files'],
         }),
-        getFilesByPath: build.query<
-            IFile[],
-            { path: string | undefined; sort: string; option: boolean }
-        >({
-            query: ({ path = '', sort, option }) => ({
-                url: `file/path`,
-                body: { path, sort, option },
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                },
-                method: 'POST',
-            }),
-            providesTags: (result) => ['Files'],
-        }),
         getFavoritesFiles: build.query<IFile[], undefined>({
             query: () => ({
                 url: `favorites`,
@@ -53,10 +38,25 @@ const fileService = rtkApi.injectEndpoints({
                 refetchOnMountOrArgChange: true,
             }),
         }),
-        createDir: build.mutation<
-            IFile[],
-            { path: string | undefined; name: string }
-        >({
+        getFilesByPath: build.query<IFile[],
+            { path: string | undefined; sort: string; option: boolean }>({
+            query: ({ path = '', sort, option }) => ({
+                url: `file/path`,
+                body: { path, sort, option },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                method: 'POST',
+            }),
+            // providesTags: (result) => ['Files'],
+            providesTags: (result) =>
+                result
+                    ? [...result.map(({ id }) => ({ type: 'Files', id } as const)), { type: 'Files', id: 'LIST' }]
+                    : [{ type: 'Files', id: 'LIST' }],
+        }),
+        createDir: build.mutation<IFile[],
+            { path: string | undefined; name: string }>({
             query: ({ path = '', name }) => ({
                 url: `file/create`,
                 body: { name, path },
@@ -92,11 +92,25 @@ const fileService = rtkApi.injectEndpoints({
                 },
                 method: 'POST',
             }),
-            invalidatesTags: ['Files'],
+            invalidatesTags: [{ type: 'Files', id: 'LIST' }],
         }),
-        deleteFile: build.mutation<IFile[], { fileId: number }>({
-            query: ({ fileId }) => ({
-                url: `file/delete/${fileId}`,
+        renameFile: build.mutation<IFile[], { id: number, fileName: string }>({
+            query: ({ id, fileName }) => ({
+                url: `file/${id}/rename`,
+                body: {
+                    fileName,
+                },
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-Disposition': 'attachment',
+                },
+                method: 'POST',
+            }),
+            invalidatesTags: (result, error, { id }) => [{ type: 'Files', id }],
+        }),
+        deleteFile: build.mutation<IFile[], { id: number }>({
+            query: ({ id }) => ({
+                url: `file/delete/${id}`,
                 headers: {
                     'Access-Control-Allow-Origin': '*',
                     'Content-Type': 'application/octet-stream',
@@ -104,7 +118,7 @@ const fileService = rtkApi.injectEndpoints({
                 },
                 method: 'DELETE',
             }),
-            invalidatesTags: ['Files', 'Favorites'],
+            invalidatesTags: (result, error, { id }) => [{ type: 'Files', id }],
         }),
     }),
 });
@@ -117,5 +131,6 @@ export const {
     useUploadFileMutation,
     useDeleteFileMutation,
     useAddToFavoriteMutation,
+    useRenameFileMutation,
     useCreateDirMutation,
 } = fileService;
