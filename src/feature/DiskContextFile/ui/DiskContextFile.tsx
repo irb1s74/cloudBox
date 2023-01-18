@@ -1,11 +1,11 @@
-import { Fragment, memo, useCallback, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 import {
     downloadFile,
     FileMenu,
     IFile,
     useAddToFavoriteMutation,
     useDeleteFileMutation,
-    useGetFavoriteFileQuery,
+    useLazyGetFavoriteFileQuery,
 } from 'entities/File';
 import { FileEditNameModal } from 'feature/FileEditName';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
@@ -19,22 +19,30 @@ interface DiskContextFileProps {
 
 export const DiskContextFile = memo((props: DiskContextFileProps) => {
     const { file, handleCloseContextFile, anchorEl, open } = props;
-
     const dispatch = useAppDispatch();
+
     const [deleteFile] = useDeleteFileMutation();
     const [addToFavorite] = useAddToFavoriteMutation();
     const [renameFileModalOpen, setRenameFileOpen] = useState(false);
+    const [getFavoriteFile, favoriteFile] = useLazyGetFavoriteFileQuery();
 
-    const { data: favoriteFile, refetch } = useGetFavoriteFileQuery({
-        fileId: file?.id,
-    });
+    useEffect(() => {
+        if (file?.id) {
+            getFavoriteFile({
+                fileId: file.id,
+            });
+        }
+    }, [getFavoriteFile, file]);
+
 
     const handleAddToFavorite = useCallback(async () => {
         if (file?.id) {
             await addToFavorite({ fileId: file.id });
-            await refetch();
+            await getFavoriteFile({
+                fileId: file?.id,
+            });
         }
-    }, [addToFavorite, file, refetch]);
+    }, [addToFavorite, file, getFavoriteFile]);
 
     const handleDelete = useCallback(() => {
         if (file?.id) {

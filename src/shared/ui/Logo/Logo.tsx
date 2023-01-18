@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import logo from 'shared/assets/img/cloud-logo.png';
 import classNames from 'classnames';
+import logo from 'shared/assets/img/cloud-logo.png';
 import styles from './Logo.module.scss';
 
 interface LogoProps {
@@ -9,14 +9,14 @@ interface LogoProps {
 }
 
 export const Logo: FC<LogoProps> = ({ className }) => (
-    <Link to="/recent">
+    <Link to='/files'>
         <div className={classNames(styles.Logo, {}, [className])}>
             <img
-                loading="lazy"
+                loading='lazy'
                 src={logo}
-                width="30"
-                height="30"
-                alt="cloud Logo"
+                width='30'
+                height='30'
+                alt='cloud Logo'
             />
             <div className={styles.name}>cloudBox.</div>
         </div>

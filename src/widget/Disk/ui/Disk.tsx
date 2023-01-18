@@ -36,7 +36,6 @@ export const Disk = () => {
 
     const {
         data: files,
-        error,
         isLoading,
     } = useGetFilesByPathQuery({
         path: path || '',
@@ -106,23 +105,23 @@ export const Disk = () => {
 
     return (
         <section className={styles.Disk}>
-            <Stack
-                sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
-                direction='row'
-                alignItems='center'
-                justifyContent='space-between'
-            >
-                <DiskFilters
-                    selectedSort={selectedSort}
-                    selectedOptionSort={selectedOptionSort}
-                    handleSelectSort={handleSelectSort}
-                />
-                <DiskToggleView
-                    viewType={viewType}
-                    handleToggleView={handleToggleView}
-                />
-            </Stack>
             <DiskDragFile>
+                <Stack
+                    sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
+                    direction='row'
+                    alignItems='center'
+                    justifyContent='space-between'
+                >
+                    <DiskFilters
+                        selectedSort={selectedSort}
+                        selectedOptionSort={selectedOptionSort}
+                        handleSelectSort={handleSelectSort}
+                    />
+                    <DiskToggleView
+                        viewType={viewType}
+                        handleToggleView={handleToggleView}
+                    />
+                </Stack>
                 <DiskFiles
                     files={files}
                     viewType={viewType}
@@ -130,13 +129,13 @@ export const Disk = () => {
                     selectedFileId={selectedFileId}
                     handleOpenContextFile={handleOpenContextFile}
                 />
+                <DiskContextFile
+                    open={contextFileOpen}
+                    file={selectedFile}
+                    handleCloseContextFile={handleCloseContextFile}
+                    anchorEl={anchorEl}
+                />
             </DiskDragFile>
-            <DiskContextFile
-                open={contextFileOpen}
-                file={selectedFile}
-                handleCloseContextFile={handleCloseContextFile}
-                anchorEl={anchorEl}
-            />
         </section>
     );
 };

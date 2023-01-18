@@ -49,7 +49,6 @@ const fileService = rtkApi.injectEndpoints({
                 },
                 method: 'POST',
             }),
-            // providesTags: (result) => ['Files'],
             providesTags: (result) =>
                 result
                     ? [...result.map(({ id }) => ({ type: 'Files', id } as const)), { type: 'Files', id: 'LIST' }]
@@ -125,7 +124,7 @@ const fileService = rtkApi.injectEndpoints({
 
 export const {
     useGetFilesByPathQuery,
-    useGetFavoriteFileQuery,
+    useLazyGetFavoriteFileQuery,
     useGetFavoritesFilesQuery,
     useGetRecentFilesQuery,
     useUploadFileMutation,

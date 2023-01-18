@@ -55,6 +55,7 @@
     padding: 16px 0;
     color: #7B7D7B;
     cursor: pointer;
+    transition: all .2s ease-in-out;
 
     &:hover {
       background-color: rgba(0, 194, 255, 0.1);

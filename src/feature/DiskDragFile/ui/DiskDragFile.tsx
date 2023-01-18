@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useUploadFileMutation } from 'entities/File';
 import { Backdrop } from '@mui/material';
 import { GiFiles } from 'react-icons/gi';
+import styles from './DiskDragFile.module.scss';
 
 interface DiskDragFileProps {
     className?: string;
@@ -58,6 +59,7 @@ export const DiskDragFile = memo((props: DiskDragFileProps) => {
 
     return (
         <div
+            className={styles.DiskDragFile}
             onDragEnter={dragEnterFunc}
             onDragOver={dragOver}
             onDragLeave={dragLeave}
@@ -74,7 +76,7 @@ export const DiskDragFile = memo((props: DiskDragFileProps) => {
                 onDragLeave={dragLeave}
                 open={dragEnter}
             >
-                <GiFiles size={80} color="#FFF" />
+                <GiFiles size={80} color='#FFF' />
             </Backdrop>
         </div>
     );

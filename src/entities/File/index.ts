@@ -7,12 +7,12 @@ export {
     useGetFilesByPathQuery,
     useAddToFavoriteMutation,
     useGetFavoritesFilesQuery,
-    useGetFavoriteFileQuery,
     useGetRecentFilesQuery,
     useUploadFileMutation,
     useDeleteFileMutation,
     useCreateDirMutation,
     useRenameFileMutation,
+    useLazyGetFavoriteFileQuery,
 } from './model/services/FileService';
 
 export { downloadFile } from './model/services/downloadFile';
