@@ -1,14 +1,12 @@
 import { memo, useCallback, useEffect, useState } from 'react';
+import { downloadFile, FileMenu, IFile } from 'entities/File';
+import { FileEditNameModal } from 'feature/FileEditName';
+import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import {
-    downloadFile,
-    FileMenu,
-    IFile,
     useAddToFavoriteMutation,
     useDeleteFileMutation,
     useLazyGetFavoriteFileQuery,
-} from 'entities/File';
-import { FileEditNameModal } from 'feature/FileEditName';
-import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
+} from '../model/service/diskContextFileService';
 
 interface DiskContextFileProps {
     file: IFile;
@@ -24,7 +22,8 @@ export const DiskContextFile = memo((props: DiskContextFileProps) => {
     const [deleteFile] = useDeleteFileMutation();
     const [addToFavorite] = useAddToFavoriteMutation();
     const [renameFileModalOpen, setRenameFileOpen] = useState(false);
-    const [getFavoriteFile, favoriteFile] = useLazyGetFavoriteFileQuery();
+    const [getFavoriteFile, { data: favoriteFile }] =
+        useLazyGetFavoriteFileQuery();
 
     useEffect(() => {
         if (file?.id) {
@@ -33,7 +32,6 @@ export const DiskContextFile = memo((props: DiskContextFileProps) => {
             });
         }
     }, [getFavoriteFile, file]);
-
 
     const handleAddToFavorite = useCallback(async () => {
         if (file?.id) {

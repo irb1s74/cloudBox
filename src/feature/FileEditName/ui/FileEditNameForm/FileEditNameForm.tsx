@@ -10,12 +10,19 @@ import {
     TextField,
     Typography,
 } from '@mui/material';
-import { IoClose } from 'react-icons/io5';
-import { DynamicModuleLoader, ReducersList } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
 import { useSelector } from 'react-redux';
+import { IoClose } from 'react-icons/io5';
+import {
+    DynamicModuleLoader,
+    ReducersList,
+} from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import { IFile, useRenameFileMutation } from 'entities/File';
-import { fileEditNameReducer, fileEditNameActions } from '../../model/slice/FileEditNameSlice';
+import { IFile } from 'entities/File';
+import { useRenameFileMutation } from '../../model/service/renameFileService';
+import {
+    fileEditNameReducer,
+    fileEditNameActions,
+} from '../../model/slice/FileEditNameSlice';
 import { getFileEditNameFileName } from '../../model/selectors/getFileEditNameFileName/getFileEditNameFileName';
 
 const initialReducers: ReducersList = {
@@ -56,11 +63,11 @@ const FileEditNameForm: FC<RenameFileFormProps> = (props) => {
             <Card sx={{ width: 385 }}>
                 <Stack
                     sx={{ p: '16px' }}
-                    direction='row'
-                    alignItems='center'
-                    justifyContent='space-between'
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
                 >
-                    <Typography variant='h5'>Переименовать файл</Typography>
+                    <Typography variant="h5">Переименовать файл</Typography>
                     <IconButton onClick={handleCloseModal}>
                         <IoClose />
                     </IconButton>
@@ -70,12 +77,12 @@ const FileEditNameForm: FC<RenameFileFormProps> = (props) => {
                     <TextField
                         value={name}
                         onChange={handleOnChangeName}
-                        variant='outlined'
-                        label='Название'
+                        variant="outlined"
+                        label="Название"
                         fullWidth
                     />
                     {renameError && (
-                        <Typography textAlign='center' color='error'>
+                        <Typography textAlign="center" color="error">
                             {renameError}
                         </Typography>
                     )}
@@ -84,7 +91,7 @@ const FileEditNameForm: FC<RenameFileFormProps> = (props) => {
                     <Button
                         onClick={handleOnClick}
                         disabled={isLoading}
-                        variant='contained'
+                        variant="contained"
                         fullWidth
                     >
                         Переименовать

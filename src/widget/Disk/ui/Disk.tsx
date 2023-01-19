@@ -34,10 +34,7 @@ export const Disk = () => {
     const contextFileOpen = Boolean(anchorEl);
     const path = usePath.get('path');
 
-    const {
-        data: files,
-        isLoading,
-    } = useGetFilesByPathQuery({
+    const { data: files, isLoading } = useGetFilesByPathQuery({
         path: path || '',
         sort: selectedSort,
         option: selectedOptionSort,
@@ -108,9 +105,9 @@ export const Disk = () => {
             <DiskDragFile>
                 <Stack
                     sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
-                    direction='row'
-                    alignItems='center'
-                    justifyContent='space-between'
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
                 >
                     <DiskFilters
                         selectedSort={selectedSort}

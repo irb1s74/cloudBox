@@ -76,7 +76,7 @@ export const DiskDragFile = memo((props: DiskDragFileProps) => {
                 onDragLeave={dragLeave}
                 open={dragEnter}
             >
-                <GiFiles size={80} color='#FFF' />
+                <GiFiles size={80} color="#FFF" />
             </Backdrop>
         </div>
     );

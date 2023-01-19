@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { HiClock, HiFolder, HiBookmark } from 'react-icons/hi';
 import { useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
@@ -8,7 +8,13 @@ interface SidebarNavigationProps {
     className?: string;
 }
 
-const listRender = [
+interface ItemRender {
+    name: string;
+    path: string;
+    icon: ReactNode;
+}
+
+const listRender: ItemRender[] = [
     {
         name: 'Последние',
         path: 'recent',
@@ -62,8 +68,8 @@ export const SidebarNavigation: FC<SidebarNavigationProps> = ({
             >
                 {listRender.map((item, index) => (
                     <li
-                        key={`${item.name}-${index}`}
                         onClick={toNavigate(item.path)}
+                        key={`${item.name}-${index}`}
                         className={classNames(styles.SidebarNavigation__item, {
                             [styles.SidebarNavigation__itemActive]:
                                 location.pathname.split('/')[1] === item.path,

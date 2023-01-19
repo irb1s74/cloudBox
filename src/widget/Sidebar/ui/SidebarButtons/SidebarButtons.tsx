@@ -1,9 +1,10 @@
 import { FC, useCallback, useRef, useState } from 'react';
-import { HiCloudUpload, HiOutlinePlus } from 'react-icons/hi';
 import { useSearchParams } from 'react-router-dom';
-import classNames from 'classnames';
+import { HiCloudUpload, HiOutlinePlus } from 'react-icons/hi';
 import { useUploadFileMutation } from 'entities/File';
 import { CreateDirModal } from 'feature/CreateDir';
+import { Loader } from 'widget/Loader';
+import classNames from 'classnames';
 import styles from '../Sidebar.module.scss';
 
 interface SidebarButtonsProps {
@@ -14,7 +15,7 @@ export const SidebarButtons: FC<SidebarButtonsProps> = ({ className }) => {
     const filesInput = useRef(document.createElement('input'));
     const [modalIsOpen, setModalOpen] = useState(false);
     const [usePath] = useSearchParams();
-    const [uploadFile] = useUploadFileMutation();
+    const [uploadFile, { isLoading }] = useUploadFileMutation();
 
     const handleOpenCreateDirModal = () => {
         setModalOpen(true);
@@ -51,9 +52,9 @@ export const SidebarButtons: FC<SidebarButtonsProps> = ({ className }) => {
                 type="button"
                 onClick={handleSelectFiles}
                 className={classNames(styles.SidebarButton, [
-                    'btn-reset',
                     styles.SidebarButton__accent,
                 ])}
+                disabled={isLoading}
             >
                 <HiCloudUpload className={styles.SidebarBtnIcon} size={25} />
                 Загрузить
@@ -64,6 +65,11 @@ export const SidebarButtons: FC<SidebarButtonsProps> = ({ className }) => {
                     multiple
                     hidden
                 />
+                {isLoading && (
+                    <div className={styles.SidebarButton__loading}>
+                        <Loader />
+                    </div>
+                )}
             </button>
             <button
                 onClick={handleOpenCreateDirModal}

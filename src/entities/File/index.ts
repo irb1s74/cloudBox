@@ -5,14 +5,10 @@ export { FileGrid } from './ui/FileGrid/FileGrid';
 export { FileList } from './ui/FileList/FileList';
 export {
     useGetFilesByPathQuery,
-    useAddToFavoriteMutation,
     useGetFavoritesFilesQuery,
     useGetRecentFilesQuery,
     useUploadFileMutation,
-    useDeleteFileMutation,
     useCreateDirMutation,
-    useRenameFileMutation,
-    useLazyGetFavoriteFileQuery,
 } from './model/services/FileService';
 
 export { downloadFile } from './model/services/downloadFile';

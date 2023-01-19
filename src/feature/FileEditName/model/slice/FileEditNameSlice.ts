@@ -15,6 +15,5 @@ export const FileEditNameSlice = createSlice({
     },
 });
 
-
 export const { actions: fileEditNameActions } = FileEditNameSlice;
 export const { reducer: fileEditNameReducer } = FileEditNameSlice;

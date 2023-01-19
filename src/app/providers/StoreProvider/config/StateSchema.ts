@@ -12,7 +12,6 @@ import { FileEditNameSchema } from 'feature/FileEditName';
 import { rtkApi } from 'shared/api/rtkApi';
 import { AxiosInstance } from 'axios';
 
-
 export interface StateSchema {
     user: UserSchema;
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;

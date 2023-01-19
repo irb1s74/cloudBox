@@ -9,14 +9,14 @@ interface LogoProps {
 }
 
 export const Logo: FC<LogoProps> = ({ className }) => (
-    <Link to='/files'>
+    <Link to="/files">
         <div className={classNames(styles.Logo, {}, [className])}>
             <img
-                loading='lazy'
+                loading="lazy"
                 src={logo}
-                width='30'
-                height='30'
-                alt='cloud Logo'
+                width="30"
+                height="30"
+                alt="cloud Logo"
             />
             <div className={styles.name}>cloudBox.</div>
         </div>

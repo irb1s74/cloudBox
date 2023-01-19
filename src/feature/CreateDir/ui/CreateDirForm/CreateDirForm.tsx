@@ -65,11 +65,11 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
                 {/* <CardHeader title='Создать директорию' /> */}
                 <Stack
                     sx={{ p: '16px' }}
-                    direction='row'
-                    alignItems='center'
-                    justifyContent='space-between'
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
                 >
-                    <Typography variant='h5'>Создать директорию</Typography>
+                    <Typography variant="h5">Создать директорию</Typography>
                     <IconButton onClick={handleCloseModal}>
                         <IoClose />
                     </IconButton>
@@ -79,12 +79,12 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
                     <TextField
                         value={name}
                         onChange={handleOnChangeName}
-                        variant='outlined'
-                        label='Название директории'
+                        variant="outlined"
+                        label="Название директории"
                         fullWidth
                     />
                     {formError && (
-                        <Typography textAlign='center' color='error'>
+                        <Typography textAlign="center" color="error">
                             {formError}
                         </Typography>
                     )}
@@ -93,7 +93,7 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
                     <Button
                         onClick={onClick}
                         disabled={isLoading}
-                        variant='contained'
+                        variant="contained"
                         fullWidth
                     >
                         Создать
