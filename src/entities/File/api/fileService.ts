@@ -3,10 +3,8 @@ import { IFile } from '../model/types';
 
 const fileService = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getFilesByPath: build.query<
-            IFile[],
-            { path: string | undefined; sort: string; option: boolean }
-        >({
+        getFilesByPath: build.query<IFile[],
+            { path: string | undefined; sort: string; option: boolean }>({
             query: ({ path = '', sort, option }) => ({
                 url: `file/path`,
                 body: { path, sort, option },
@@ -19,12 +17,32 @@ const fileService = rtkApi.injectEndpoints({
             providesTags: (result) =>
                 result
                     ? [
-                          ...result.map(
-                              ({ id }) => ({ type: 'Files', id } as const),
-                          ),
-                          { type: 'Files', id: 'LIST' },
-                      ]
+                        ...result.map(
+                            ({ id }) => ({ type: 'Files', id } as const),
+                        ),
+                        { type: 'Files', id: 'LIST' },
+                    ]
                     : [{ type: 'Files', id: 'LIST' }],
+        }),
+        getFilesByName: build.query<IFile[], { fileName: string }>({
+            query: ({ fileName = '' }) => ({
+                url: `file/find`,
+                body: { fileName },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                method: 'POST',
+            }),
+            providesTags: (result) =>
+                result
+                    ? [
+                        ...result.map(
+                            ({ id }) => ({ type: 'SearchFiles', id } as const),
+                        ),
+                        { type: 'SearchFiles', id: 'LIST' },
+                    ]
+                    : [{ type: 'SearchFiles', id: 'LIST' }],
         }),
         getRecentFiles: build.query<IFile[], undefined>({
             query: () => ({
@@ -37,11 +55,11 @@ const fileService = rtkApi.injectEndpoints({
             providesTags: (result) =>
                 result
                     ? [
-                          ...result.map(
-                              ({ id }) => ({ type: 'Recent', id } as const),
-                          ),
-                          { type: 'Recent', id: 'LIST' },
-                      ]
+                        ...result.map(
+                            ({ id }) => ({ type: 'Recent', id } as const),
+                        ),
+                        { type: 'Recent', id: 'LIST' },
+                    ]
                     : [{ type: 'Recent', id: 'LIST' }],
         }),
         getFavoritesFiles: build.query<IFile[], undefined>({
@@ -59,11 +77,11 @@ const fileService = rtkApi.injectEndpoints({
             providesTags: (result) =>
                 result
                     ? [
-                          ...result.map(
-                              ({ id }) => ({ type: 'Favorites', id } as const),
-                          ),
-                          { type: 'Favorites', id: 'LIST' },
-                      ]
+                        ...result.map(
+                            ({ id }) => ({ type: 'Favorites', id } as const),
+                        ),
+                        { type: 'Favorites', id: 'LIST' },
+                    ]
                     : [{ type: 'Favorites', id: 'LIST' }],
         }),
 
@@ -86,6 +104,7 @@ const fileService = rtkApi.injectEndpoints({
 
 export const {
     useGetFilesByPathQuery,
+    useGetFilesByNameQuery,
     useGetFavoritesFilesQuery,
     useGetRecentFilesQuery,
     useUploadFileMutation,

@@ -10,6 +10,7 @@ export {
     useGetFavoritesFilesQuery,
     useGetRecentFilesQuery,
     useUploadFileMutation,
+    useGetFilesByNameQuery,
 } from './api/fileService';
 
 export { downloadFile } from './api/downloadFile';

@@ -11,7 +11,7 @@ interface EmptyDataProps {
 export const EmptyData: FC<EmptyDataProps> = ({ className }) => {
     return (
         <div className={classNames(styles.EmptyData, {}, [className])}>
-            <Typography variant="h5">Папка пуста</Typography>
+            <Typography variant="h5">Пусто</Typography>
             <EmptyIcon className={styles.EmptyData__svg} />
         </div>
     );

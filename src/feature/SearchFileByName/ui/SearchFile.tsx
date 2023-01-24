@@ -1,27 +1,27 @@
 import { IconButton, InputBase, Paper } from '@mui/material';
 import { IoSearch } from 'react-icons/io5';
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 
 export const SearchFile = () => {
-    const fileName = useRef('');
+    const [fileName, setFileName] = useState('');
     const navigate = useNavigate();
 
     const handleOnSearch = () => {
         navigate({
-            pathname: '',
+            pathname: '/search',
             search: `?${createSearchParams({
-                name: `${fileName.current}`,
+                name: `${fileName}`,
             })}`,
         });
     };
 
     const handleOnChangeFileName = (event: ChangeEvent<HTMLInputElement>) => {
-        fileName.current = event.target.value;
+        setFileName(event.target.value);
     };
     return (
         <Paper
-            component="form"
+            component='form'
             sx={{
                 p: '2px 4px',
                 display: 'flex',
@@ -29,12 +29,18 @@ export const SearchFile = () => {
                 width: 400,
             }}
         >
-            <InputBase sx={{ ml: 1, flex: 1 }} placeholder="Искать" />
+            <InputBase
+                sx={{ ml: 1, flex: 1 }}
+                value={fileName}
+                placeholder='Искать'
+                onChange={handleOnChangeFileName}
+            />
             <IconButton
-                color="primary"
-                type="button"
+                color='primary'
+                type='button'
                 sx={{ p: '10px' }}
-                aria-label="search"
+                aria-label='search'
+                onClick={handleOnSearch}
             >
                 <IoSearch />
             </IconButton>
