@@ -24,6 +24,7 @@ export const Modal: FC<ModalProps> = (props) => {
     if (!isOpen) {
         return null;
     }
+
     return (
         <Portal>
             <div className={classNames(styles.Modal, mods, [className])}>

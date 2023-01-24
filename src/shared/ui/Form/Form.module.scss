@@ -1,0 +1,43 @@
+.Form {
+  width: 400px;
+  max-width: 400px;
+  height: 300px;
+  max-height: 350px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 0.375rem;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+
+  &__header {
+    padding: 15px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      font-size: 22px;
+      margin: 0;
+    }
+  }
+
+
+  &__content {
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > div {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__footer {
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

@@ -1,2 +1,2 @@
-export { LoginFormAsync as LoginForm } from './ui/LoginForm.async';
+export { LoginFormAsync as LoginForm } from './components/LoginForm.async';
 export { LoginSchema } from './model/types/loginTypes';

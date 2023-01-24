@@ -1,11 +1,10 @@
 import { MouseEvent, useCallback, useMemo, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
-import { useGetFavoritesFilesQuery } from 'entities/File';
+import { Files, useGetFavoritesFilesQuery } from 'entities/File';
 import { Page } from 'widget/Page';
 import { PageLoader } from 'widget/PageLoader';
-import { DiskContextFile } from 'feature/DiskContextFile';
-import { DiskFiles } from 'feature/DiskFiles';
+import { FileMenu } from 'feature/FileMenu';
 
 const FavoritesPage = () => {
     const [selectedFileId, selectFileId] = useState<number | null>(null);
@@ -67,14 +66,14 @@ const FavoritesPage = () => {
                     Произошла ошибка при загрузке
                 </Typography>
             )}
-            <DiskFiles
+            <Files
                 files={files}
                 selectedFileId={selectedFileId}
                 viewType="list"
                 handleSelectFileId={handleSelectFileId}
                 handleOpenContextFile={handleOpenContextFile}
             />
-            <DiskContextFile
+            <FileMenu
                 open={contextFileOpen}
                 file={selectedFile}
                 anchorEl={anchorEl}

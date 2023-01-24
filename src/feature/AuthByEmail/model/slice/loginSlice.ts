@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
-import { loginByEmail } from 'feature/AuthByEmail/model/services/loginByEmail';
+import { loginByEmail } from 'feature/AuthByEmail/api/loginByEmail';
 
 const initialState: LoginSchema = {
     email: undefined,

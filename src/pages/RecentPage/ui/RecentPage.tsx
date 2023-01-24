@@ -1,9 +1,8 @@
 import { MouseEvent, useCallback, useMemo, useState } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
-import { useGetRecentFilesQuery } from 'entities/File';
-import { DiskFiles } from 'feature/DiskFiles';
-import { DiskContextFile } from 'feature/DiskContextFile';
+import { Files, useGetRecentFilesQuery } from 'entities/File';
+import { FileMenu } from 'feature/FileMenu';
 import { PageLoader } from 'widget/PageLoader';
 import { Page } from 'widget/Page';
 
@@ -63,14 +62,14 @@ const RecentPage = () => {
                     Произошла ошибка при загрузке
                 </Typography>
             )}
-            <DiskFiles
+            <Files
                 files={files}
                 viewType="list"
                 handleSelectFileId={handleSelectFileId}
                 selectedFileId={selectedFileId}
                 handleOpenContextFile={handleOpenContextFile}
             />
-            <DiskContextFile
+            <FileMenu
                 file={selectedFile}
                 handleCloseContextFile={handleCloseContextFile}
                 anchorEl={anchorEl}

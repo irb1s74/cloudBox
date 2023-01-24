@@ -1,4 +1,6 @@
 import { memo, ReactNode } from 'react';
+import { Navbar } from 'widget/Navbar';
+import { Sidebar } from 'widget/Sidebar';
 import classNames from 'classnames';
 import styles from './Page.module.scss';
 
@@ -13,8 +15,14 @@ export const Page = memo((props: PageProps) => {
 
     return (
         <main className={classNames(styles.Page, {}, [className])}>
-            <div className={styles.Page__name}>{pageName}</div>
-            {children}
+            <Navbar />
+            <div className={styles.Page__container}>
+                <Sidebar />
+                <div className={styles.Page__content}>
+                    <div className={styles.Page__name}>{pageName}</div>
+                    {children}
+                </div>
+            </div>
         </main>
     );
 });

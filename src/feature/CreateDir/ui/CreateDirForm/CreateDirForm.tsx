@@ -1,24 +1,14 @@
 import { ChangeEvent, FC, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
-import { IoClose } from 'react-icons/io5';
-import {
-    Button,
-    Card,
-    CardActions,
-    CardContent,
-    Divider,
-    IconButton,
-    Stack,
-    TextField,
-    Typography,
-} from '@mui/material';
-import { useCreateDirMutation } from 'entities/File';
+import { Button, TextField } from '@mui/material';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import {
     DynamicModuleLoader,
     ReducersList,
 } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
+import { Form } from 'shared/ui/Form/Form';
+import { useCreateDirMutation } from '../../api/createDir';
 import { getNameDir } from '../../model/selectors/getNameDir/getNameDir';
 import {
     createDirActions,
@@ -48,7 +38,7 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
 
     const onClick = () => {
         createDir({ path: path || '', name })
-            .unwrap() // for use than/catch
+            .unwrap()
             .then(() => {
                 handleCloseModal();
             })
@@ -61,35 +51,10 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
 
     return (
         <DynamicModuleLoader reducers={initialReducers}>
-            <Card sx={{ width: 385 }}>
-                {/* <CardHeader title='Создать директорию' /> */}
-                <Stack
-                    sx={{ p: '16px' }}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                >
-                    <Typography variant="h5">Создать директорию</Typography>
-                    <IconButton onClick={handleCloseModal}>
-                        <IoClose />
-                    </IconButton>
-                </Stack>
-                <Divider />
-                <CardContent>
-                    <TextField
-                        value={name}
-                        onChange={handleOnChangeName}
-                        variant="outlined"
-                        label="Название директории"
-                        fullWidth
-                    />
-                    {formError && (
-                        <Typography textAlign="center" color="error">
-                            {formError}
-                        </Typography>
-                    )}
-                </CardContent>
-                <CardActions>
+            <Form
+                titleForm="Создать директорию"
+                error={formError}
+                actions={
                     <Button
                         onClick={onClick}
                         disabled={isLoading}
@@ -98,8 +63,17 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
                     >
                         Создать
                     </Button>
-                </CardActions>
-            </Card>
+                }
+                handleClose={handleCloseModal}
+            >
+                <TextField
+                    value={name}
+                    onChange={handleOnChangeName}
+                    variant="outlined"
+                    label="Название директории"
+                    fullWidth
+                />
+            </Form>
         </DynamicModuleLoader>
     );
 };

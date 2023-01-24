@@ -5,33 +5,32 @@ import {
     useNavigate,
     useSearchParams,
 } from 'react-router-dom';
-import { DiskToggleView } from 'feature/DiskToggleView';
-import { DiskFilters } from 'feature/DiskFilters';
-import { DiskDragFile } from 'feature/DiskDragFile';
-import { DiskContextFile } from 'feature/DiskContextFile';
-import { DiskFiles } from 'feature/DiskFiles';
-import { useGetFilesByPathQuery } from 'entities/File';
+import { DragFile } from 'feature/DragFile';
+import { FileMenu } from 'feature/FileMenu';
+import { Files, useGetFilesByPathQuery } from 'entities/File';
 import {
     USER_DISK_ALIGNMENT_KEY,
     USER_DISK_SORT_KEY,
 } from 'shared/const/localstorage';
 import { PageLoader } from 'widget/PageLoader';
+import { DiskToggleView } from './DiskToggleView';
+import { DiskFilters } from './DiskFilters';
 import styles from './Disk.module.scss';
 
 export const Disk = () => {
     const [selectedSort, selectSort] = useState<string>(
         localStorage.getItem(USER_DISK_SORT_KEY) || 'createdAt',
     );
+    const [selectedOptionSort, selectOptionSort] = useState<boolean>(true);
     const [viewType, setViewType] = useState(
         localStorage.getItem(USER_DISK_ALIGNMENT_KEY),
     );
     const [selectedFileId, selectFileId] = useState<number | null>(null);
-    const [selectedOptionSort, selectOptionSort] = useState<boolean>(true);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const navigate = useNavigate();
 
-    const [usePath] = useSearchParams();
     const contextFileOpen = Boolean(anchorEl);
+    const [usePath] = useSearchParams();
+    const navigate = useNavigate();
     const path = usePath.get('path');
 
     const { data: files, isLoading } = useGetFilesByPathQuery({
@@ -64,6 +63,25 @@ export const Disk = () => {
         [],
     );
 
+    const handleSelectFileId = useCallback(
+        (fileId: number) => () => {
+            selectFileId(fileId);
+            const candidate = files.find((file) => file.id === fileId);
+            if (selectedFileId === fileId && candidate.type === 'dir') {
+                navigate({
+                    pathname: '',
+                    search: `?${createSearchParams({
+                        path: `${candidate.path}`,
+                    })}`,
+                });
+                selectFileId(null);
+            } else if (files) {
+                selectFileId(fileId);
+            }
+        },
+        [files, navigate, selectedFileId],
+    );
+
     const handleOpenContextFile = useCallback(
         (event: MouseEvent<HTMLElement>, fileId: number) => {
             event.preventDefault();
@@ -77,32 +95,13 @@ export const Disk = () => {
         setAnchorEl(null);
     };
 
-    const handleSelectFileId = useCallback(
-        (fileId: number) => () => {
-            selectFileId(fileId);
-            const condidate = files.find((file) => file.id === fileId);
-            if (selectedFileId === fileId && condidate.type === 'dir') {
-                navigate({
-                    pathname: '',
-                    search: `?${createSearchParams({
-                        path: `${condidate.path}`,
-                    })}`,
-                });
-                selectFileId(null);
-            } else if (files) {
-                selectFileId(fileId);
-            }
-        },
-        [files, navigate, selectedFileId],
-    );
-
     if (isLoading) {
         return <PageLoader />;
     }
 
     return (
         <section className={styles.Disk}>
-            <DiskDragFile>
+            <DragFile>
                 <Stack
                     sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
                     direction="row"
@@ -119,20 +118,20 @@ export const Disk = () => {
                         handleToggleView={handleToggleView}
                     />
                 </Stack>
-                <DiskFiles
+                <Files
                     files={files}
                     viewType={viewType}
                     handleSelectFileId={handleSelectFileId}
                     selectedFileId={selectedFileId}
                     handleOpenContextFile={handleOpenContextFile}
                 />
-                <DiskContextFile
+                <FileMenu
                     open={contextFileOpen}
                     file={selectedFile}
                     handleCloseContextFile={handleCloseContextFile}
                     anchorEl={anchorEl}
                 />
-            </DiskDragFile>
+            </DragFile>
         </section>
     );
 };

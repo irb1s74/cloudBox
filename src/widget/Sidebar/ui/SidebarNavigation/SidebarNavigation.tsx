@@ -52,7 +52,7 @@ export const SidebarNavigation: FC<SidebarNavigationProps> = ({
 
     const toNavigate = (link: string) => () => {
         if (location.pathname.split('/')[1] !== link) {
-            navigate(link);
+            navigate(`/${link}`);
         }
     };
 

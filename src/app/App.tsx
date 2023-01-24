@@ -1,8 +1,6 @@
 import { FC, Suspense, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 import { AppRouter } from 'app/providers/router';
-import { Navbar } from 'widget/Navbar';
-import { Sidebar } from 'widget/Sidebar';
 import './styles/index.scss';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { refByToken } from 'entities/User/model/services/refByToken';
@@ -21,11 +19,7 @@ export const App: FC<AppProps> = ({ className }) => {
     return (
         <div className={classNames('app', {}, ['light'])}>
             <Suspense fallback="">
-                <Navbar />
-                <div className="app-flex">
-                    <Sidebar />
-                    <AppRouter />
-                </div>
+                <AppRouter />
             </Suspense>
         </div>
     );

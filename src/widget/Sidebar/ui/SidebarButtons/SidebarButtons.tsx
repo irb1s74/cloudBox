@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { HiCloudUpload, HiOutlinePlus } from 'react-icons/hi';
 import { useUploadFileMutation } from 'entities/File';
 import { CreateDirModal } from 'feature/CreateDir';
-import { Loader } from 'widget/Loader';
+import { Loader } from 'shared/ui/Loader/Loader';
 import classNames from 'classnames';
 import styles from '../Sidebar.module.scss';
 

@@ -1,5 +1,5 @@
-import React, { FC, Fragment, useState } from 'react';
-import { Search } from 'shared/ui/Search/Search';
+import React, { FC, useState } from 'react';
+// import { Search } from 'shared/components/Search/Search';
 import { DropList } from 'shared/ui/DropList/DropList';
 import { BiLogOut } from 'react-icons/bi';
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
@@ -7,6 +7,7 @@ import { Avatar } from 'shared/ui/Avatar/Avatar';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserAuthData, userActions } from 'entities/User';
+import { SearchFile } from 'feature/SearchFileByName';
 import styles from '../Navbar.module.scss';
 
 interface NavbarActionsProps {
@@ -33,7 +34,7 @@ export const NavbarActions: FC<NavbarActionsProps> = ({ className }) => {
     return (
         <>
             <div className={classNames(styles.NavbarActions, {}, [className])}>
-                <Search />
+                <SearchFile />
                 <div onClick={handleClick} className={styles.NavbarAvatar}>
                     <Avatar user={user} />
                 </div>

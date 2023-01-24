@@ -4,6 +4,9 @@ export enum AppRoutes {
     FILES = 'FILES',
     FAVORITES = 'FAVORITES',
     RECENT = 'RECENT',
+    SHARE = 'SHARE',
+    SEARCH = 'SEARCH',
+
     NOT_FOUND = 'NOT_FOUND',
     AUTH = 'AUTH',
 }
