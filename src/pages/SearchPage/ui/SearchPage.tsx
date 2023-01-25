@@ -1,6 +1,10 @@
 import { FC, MouseEvent, useCallback, useMemo, useState } from 'react';
 import { Page } from 'widget/Page';
-import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+    createSearchParams,
+    useNavigate,
+    useSearchParams,
+} from 'react-router-dom';
 import { Files, useGetFilesByNameQuery } from 'entities/File';
 import { PageLoader } from 'widget/PageLoader';
 import { Typography } from '@mui/material';
@@ -18,7 +22,11 @@ const SearchPage: FC<SearchPageProps> = ({ className }) => {
 
     const [usePath] = useSearchParams();
     const fileName = usePath.get('name');
-    const { data: files, isLoading, error } = useGetFilesByNameQuery({ fileName });
+    const {
+        data: files,
+        isLoading,
+        error,
+    } = useGetFilesByNameQuery({ fileName });
 
     const selectedFile = useMemo(
         () => files?.find((file) => file.id === selectedFileId),
@@ -59,26 +67,28 @@ const SearchPage: FC<SearchPageProps> = ({ className }) => {
     if (isLoading) {
         return <PageLoader />;
     }
-    return <Page pageName={`Поиск "${fileName}"`}>
-        {error && (
-            <Typography color='error'>
-                Произошла ошибка при загрузке
-            </Typography>
-        )}
-        <Files
-            files={files}
-            viewType='list'
-            handleSelectFileId={handleSelectFileId}
-            selectedFileId={selectedFileId}
-            handleOpenContextFile={handleOpenContextFile}
-        />
-        <FileMenu
-            file={selectedFile}
-            handleCloseContextFile={handleCloseContextFile}
-            anchorEl={anchorEl}
-            open={contextFileOpen}
-        />
-    </Page>;
+    return (
+        <Page pageName={`Поиск "${fileName}"`}>
+            {error && (
+                <Typography color="error">
+                    Произошла ошибка при загрузке
+                </Typography>
+            )}
+            <Files
+                files={files}
+                viewType="list"
+                handleSelectFileId={handleSelectFileId}
+                selectedFileId={selectedFileId}
+                handleOpenContextFile={handleOpenContextFile}
+            />
+            <FileMenu
+                file={selectedFile}
+                handleCloseContextFile={handleCloseContextFile}
+                anchorEl={anchorEl}
+                open={contextFileOpen}
+            />
+        </Page>
+    );
 };
 
 export default SearchPage;

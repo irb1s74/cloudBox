@@ -8,9 +8,11 @@ interface downloadFileProps {
     file: IFile;
 }
 
-export const downloadFile = createAsyncThunk<void,
+export const downloadFile = createAsyncThunk<
+    void,
     downloadFileProps,
-    { rejectValue: string }>('file/downloadFile', async ({ file }, thunkAPI) => {
+    { rejectValue: string }
+>('file/downloadFile', async ({ file }, thunkAPI) => {
     try {
         const user = JSON.parse(localStorage.getItem(USER_LOCALSTORAGE_KEY));
         return axios

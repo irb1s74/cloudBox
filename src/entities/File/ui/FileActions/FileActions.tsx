@@ -13,9 +13,10 @@ interface FileMenuProps {
     anchorEl: null | HTMLElement;
     open: boolean;
     isFavorite: boolean;
-    handleAddToFavorite: () => void;
-    handleDownload: () => void;
-    handleDelete: () => void;
+    handleShareFile?: () => void;
+    handleAddToFavorite?: () => void;
+    handleDownload?: () => void;
+    handleDelete?: () => void;
     handleOnCloseMenu: () => void;
     handleOpenRenameFileModal: () => void;
 }
@@ -25,6 +26,7 @@ export const FileActions = memo((props: FileMenuProps) => {
         anchorEl,
         open,
         isFavorite,
+        handleShareFile,
         handleAddToFavorite,
         handleOnCloseMenu,
         handleDownload,
@@ -38,7 +40,7 @@ export const FileActions = memo((props: FileMenuProps) => {
             open={open}
             handleClose={handleOnCloseMenu}
         >
-            <MenuItem>
+            <MenuItem onClick={handleShareFile}>
                 <ListItemIcon>
                     <HiShare size={22} />
                 </ListItemIcon>

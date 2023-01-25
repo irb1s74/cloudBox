@@ -4,3 +4,4 @@ export { getUserAuthData } from './model/selectors/getUserAuthData/getUserAuthDa
 export { getUserUsedSpace } from './model/selectors/getUserUsedSpace/getUserUsedSpace';
 export { getUserDiskSpace } from './model/selectors/getUserDiskSpace/getUserDiskSpace';
 export { getUserIsLoadingAuth } from './model/selectors/getUserIsLoadingAuth/getUserIsLoadingAuth';
+export { refByToken } from './api/refByToken';

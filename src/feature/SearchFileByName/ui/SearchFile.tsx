@@ -21,7 +21,7 @@ export const SearchFile = () => {
     };
     return (
         <Paper
-            component='form'
+            component="form"
             sx={{
                 p: '2px 4px',
                 display: 'flex',
@@ -32,14 +32,14 @@ export const SearchFile = () => {
             <InputBase
                 sx={{ ml: 1, flex: 1 }}
                 value={fileName}
-                placeholder='Искать'
+                placeholder="Искать"
                 onChange={handleOnChangeFileName}
             />
             <IconButton
-                color='primary'
-                type='button'
+                color="primary"
+                type="button"
                 sx={{ p: '10px' }}
-                aria-label='search'
+                aria-label="search"
                 onClick={handleOnSearch}
             >
                 <IoSearch />

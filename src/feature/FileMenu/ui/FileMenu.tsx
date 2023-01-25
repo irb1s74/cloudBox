@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useState } from 'react';
 import { downloadFile, FileActions, IFile } from 'entities/File';
 import { EditFileNameModal } from 'feature/EditFileName';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
+import { toast } from 'react-toastify';
 import {
     useAddToFavoriteMutation,
     useDeleteFileMutation,
@@ -32,6 +33,10 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
             });
         }
     }, [open, getFavoriteFile, file]);
+
+    const handleShareFile = useCallback(() => {
+        toast.info('Ссылка скопирована', {});
+    }, []);
 
     const handleAddToFavorite = useCallback(async () => {
         if (file?.id) {
@@ -68,6 +73,7 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
                 anchorEl={anchorEl}
                 open={open}
                 isFavorite={!!favoriteFile}
+                handleShareFile={handleShareFile}
                 handleAddToFavorite={handleAddToFavorite}
                 handleDelete={handleDelete}
                 handleDownload={handleDownload}

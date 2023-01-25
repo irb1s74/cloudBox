@@ -6,6 +6,8 @@ interface SharePageProps {
     className?: string;
 }
 
-export const SharePage: FC<SharePageProps> = ({ className }) => {
+const SharePage: FC<SharePageProps> = ({ className }) => {
     return <div className={classNames(styles.SharePage, {}, [className])} />;
 };
+
+export default SharePage;

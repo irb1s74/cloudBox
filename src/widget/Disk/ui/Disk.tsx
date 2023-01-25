@@ -91,6 +91,13 @@ export const Disk = () => {
         [],
     );
 
+    const onContextClick = (event: MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        if (anchorEl) {
+            setAnchorEl(null);
+        }
+    };
+
     const handleCloseContextFile = () => {
         setAnchorEl(null);
     };
@@ -100,7 +107,7 @@ export const Disk = () => {
     }
 
     return (
-        <section className={styles.Disk}>
+        <section onContextMenu={onContextClick} className={styles.Disk}>
             <DragFile>
                 <Stack
                     sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}

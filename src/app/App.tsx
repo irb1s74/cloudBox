@@ -1,9 +1,10 @@
 import { FC, Suspense, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 import { AppRouter } from 'app/providers/router';
-import './styles/index.scss';
+import { refByToken } from 'entities/User';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
-import { refByToken } from 'entities/User/model/services/refByToken';
+import { ToastContainer } from 'react-toastify';
+import './styles/index.scss';
 
 interface AppProps {
     className?: string;
@@ -11,7 +12,6 @@ interface AppProps {
 
 export const App: FC<AppProps> = ({ className }) => {
     const dispatch = useAppDispatch();
-
     useLayoutEffect(() => {
         dispatch(refByToken());
     }, [dispatch]);
@@ -20,6 +20,18 @@ export const App: FC<AppProps> = ({ className }) => {
         <div className={classNames('app', {}, ['light'])}>
             <Suspense fallback="">
                 <AppRouter />
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                />
             </Suspense>
         </div>
     );
