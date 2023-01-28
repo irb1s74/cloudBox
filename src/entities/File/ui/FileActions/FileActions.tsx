@@ -12,6 +12,7 @@ import { CgRename } from 'react-icons/cg';
 interface FileMenuProps {
     anchorEl: null | HTMLElement;
     open: boolean;
+    isShared?: boolean;
     isFavorite: boolean;
     handleShareFile?: () => void;
     handleAddToFavorite?: () => void;
@@ -25,6 +26,7 @@ export const FileActions = memo((props: FileMenuProps) => {
     const {
         anchorEl,
         open,
+        isShared,
         isFavorite,
         handleShareFile,
         handleAddToFavorite,
@@ -44,7 +46,9 @@ export const FileActions = memo((props: FileMenuProps) => {
                 <ListItemIcon>
                     <HiShare size={22} />
                 </ListItemIcon>
-                <ListItemText>Поделиться</ListItemText>
+                <ListItemText>
+                    {isShared ? 'Удалить ссылку' : 'Поделиться'}
+                </ListItemText>
             </MenuItem>
             <Divider />
             <MenuItem onClick={handleDownload}>

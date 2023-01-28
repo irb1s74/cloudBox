@@ -3,10 +3,11 @@ import { downloadFile, FileActions, IFile } from 'entities/File';
 import { EditFileNameModal } from 'feature/EditFileName';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { toast } from 'react-toastify';
+import { rootURL } from 'shared/const/rootURL';
 import {
     useAddToFavoriteMutation,
     useDeleteFileMutation,
-    useLazyGetFavoriteFileQuery,
+    useLazyGetFavoriteFileQuery, useShareFileMutation,
 } from '../api/diskContextFileService';
 
 interface DiskContextFileProps {
@@ -25,6 +26,7 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
     const [renameFileModalOpen, setRenameFileOpen] = useState(false);
     const [getFavoriteFile, { data: favoriteFile }] =
         useLazyGetFavoriteFileQuery();
+    const [shareFile, { data }] = useShareFileMutation();
 
     useEffect(() => {
         if (file?.id && open) {
@@ -34,9 +36,13 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
         }
     }, [open, getFavoriteFile, file]);
 
-    const handleShareFile = useCallback(() => {
-        toast.info('Ссылка скопирована', {});
-    }, []);
+    const handleShareFile = useCallback(async () => {
+        const res = await shareFile({ fileId: file.id });
+        if ('data' in res && res.data.accessLink) {
+            await navigator.clipboard.writeText(`${rootURL}share/${res.data.accessLink}`);
+            toast.info('Ссылка скопирована', {});
+        }
+    }, [file, shareFile]);
 
     const handleAddToFavorite = useCallback(async () => {
         if (file?.id) {
@@ -72,6 +78,7 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
             <FileActions
                 anchorEl={anchorEl}
                 open={open}
+                isShared={!!file?.accessLink}
                 isFavorite={!!favoriteFile}
                 handleShareFile={handleShareFile}
                 handleAddToFavorite={handleAddToFavorite}

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { memo } from 'react';
 import { IUser } from 'entities/User';
 import { HiOutlineUser } from 'react-icons/hi';
 import classNames from 'classnames';
@@ -9,14 +9,18 @@ interface AvatarProps {
     className?: string;
 }
 
-export const Avatar: FC<AvatarProps> = ({ user = {}, className }) => (
-    <div className={classNames(styles.Avatar, {}, [className])}>
-        <img
-            loading="lazy"
-            src={'avatar' in user ? user.avatar : undefined}
-            alt={'nickname' in user ? user.nickname : ''}
-            className={styles.AvatarImage}
-        />
-        <HiOutlineUser size={25} className={styles.AvatarIcon} />
-    </div>
-);
+export const Avatar = memo((props: AvatarProps) => {
+    const { user, className } = props;
+
+    return (
+        <div className={classNames(styles.Avatar, {}, [className])}>
+            <img
+                loading='lazy'
+                src={user?.avatar ? user.avatar : undefined}
+                alt='avatar'
+                className={styles.AvatarImage}
+            />
+            <HiOutlineUser size={25} className={styles.AvatarIcon} />
+        </div>
+    );
+});

@@ -41,6 +41,17 @@ const diskContextFileService = rtkApi.injectEndpoints({
                 refetchOnMountOrArgChange: true,
             }),
         }),
+        shareFile: build.mutation<IFile, { fileId: number }>({
+            query: ({ fileId }) => ({
+                url: `file/share/${fileId}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                method: 'GET',
+            }),
+            invalidatesTags: (result, error, { fileId }) => [{ type: 'Files', id: fileId }],
+        }),
     }),
 });
 
@@ -48,4 +59,5 @@ export const {
     useLazyGetFavoriteFileQuery,
     useDeleteFileMutation,
     useAddToFavoriteMutation,
+    useShareFileMutation,
 } = diskContextFileService;
