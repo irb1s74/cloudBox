@@ -50,7 +50,9 @@ const diskContextFileService = rtkApi.injectEndpoints({
                 },
                 method: 'GET',
             }),
-            invalidatesTags: (result, error, { fileId }) => [{ type: 'Files', id: fileId }],
+            invalidatesTags: (result, error, { fileId }) => [
+                { type: 'Files', id: fileId },
+            ],
         }),
     }),
 });

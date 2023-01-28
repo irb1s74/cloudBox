@@ -15,9 +15,9 @@ export const Avatar = memo((props: AvatarProps) => {
     return (
         <div className={classNames(styles.Avatar, {}, [className])}>
             <img
-                loading='lazy'
+                loading="lazy"
                 src={user?.avatar ? user.avatar : undefined}
-                alt='avatar'
+                alt="avatar"
                 className={styles.AvatarImage}
             />
             <HiOutlineUser size={25} className={styles.AvatarIcon} />

@@ -29,7 +29,7 @@ export const UploadFileButton = memo(() => {
 
     return (
         <button
-            type='button'
+            type="button"
             onClick={handleSelectFiles}
             className={styles.UploadFileButton}
             disabled={isLoading}
@@ -39,7 +39,7 @@ export const UploadFileButton = memo(() => {
             <input
                 ref={filesInput}
                 onChange={handleUpdateFiles}
-                type='file'
+                type="file"
                 multiple
                 hidden
             />

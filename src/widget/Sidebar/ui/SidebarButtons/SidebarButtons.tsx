@@ -21,13 +21,15 @@ export const SidebarButtons = memo(({ className }: SidebarButtonsProps) => {
 
     return (
         <div
-            className={classNames(styles.SidebarWrapperButtons, {}, [className])}
+            className={classNames(styles.SidebarWrapperButtons, {}, [
+                className,
+            ])}
         >
             <UploadFileButton />
             <button
                 onClick={handleOpenCreateDirModal}
                 className={classNames(styles.SidebarButton, ['btn-reset'])}
-                type='button'
+                type="button"
             >
                 <HiOutlinePlus className={styles.SidebarBtnIcon} size={25} />
                 Создать

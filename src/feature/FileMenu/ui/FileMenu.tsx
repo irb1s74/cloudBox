@@ -7,7 +7,8 @@ import { rootURL } from 'shared/const/rootURL';
 import {
     useAddToFavoriteMutation,
     useDeleteFileMutation,
-    useLazyGetFavoriteFileQuery, useShareFileMutation,
+    useLazyGetFavoriteFileQuery,
+    useShareFileMutation,
 } from '../api/diskContextFileService';
 
 interface DiskContextFileProps {
@@ -39,7 +40,9 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
     const handleShareFile = useCallback(async () => {
         const res = await shareFile({ fileId: file.id });
         if ('data' in res && res.data.accessLink) {
-            await navigator.clipboard.writeText(`${rootURL}share/${res.data.accessLink}`);
+            await navigator.clipboard.writeText(
+                `${rootURL}share/${res.data.accessLink}`,
+            );
             toast.info('Ссылка скопирована', {});
         }
     }, [file, shareFile]);
