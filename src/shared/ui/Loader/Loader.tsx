@@ -15,7 +15,7 @@ export const Loader: FC<LoaderProps> = ({ className }) => (
                         theme.palette.mode === 'light' ? 200 : 800
                     ],
             }}
-            size={40}
+            size={60}
             thickness={4}
             value={100}
         />
@@ -31,7 +31,7 @@ export const Loader: FC<LoaderProps> = ({ className }) => (
                     strokeLinecap: 'round',
                 },
             }}
-            size={40}
+            size={60}
             thickness={4}
         />
     </Box>

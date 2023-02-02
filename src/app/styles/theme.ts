@@ -19,6 +19,14 @@ export const theme = createTheme({
                     color: '#FFF',
                 },
             },
+            variants: [
+                {
+                    props: { variant: 'text' },
+                    style: {
+                        color: '#00C2ff',
+                    },
+                },
+            ],
         },
     },
 });

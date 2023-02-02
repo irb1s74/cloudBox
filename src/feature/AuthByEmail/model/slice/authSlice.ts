@@ -1,17 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LoginSchema } from 'feature/AuthByEmail/model/types/loginTypes';
 import { loginByEmail } from 'feature/AuthByEmail/api/loginByEmail';
+import { AuthSchema } from '../types/authTypes';
 
-const initialState: LoginSchema = {
+const initialState: AuthSchema = {
+    nickname: undefined,
     email: undefined,
     password: undefined,
     isLoading: false,
 };
 
-export const loginSlice = createSlice({
-    name: 'loginSlice',
+export const authSlice = createSlice({
+    name: 'authSlice',
     initialState,
     reducers: {
+        setNickname: (state, action: PayloadAction<string>) => {
+            state.nickname = action.payload;
+        },
         setEmail: (state, action: PayloadAction<string>) => {
             state.email = action.payload;
         },
@@ -35,5 +39,5 @@ export const loginSlice = createSlice({
     },
 });
 
-export const { actions: loginActions } = loginSlice;
-export const { reducer: loginReducer } = loginSlice;
+export const { actions: authActions } = authSlice;
+export const { reducer: authReducer } = authSlice;

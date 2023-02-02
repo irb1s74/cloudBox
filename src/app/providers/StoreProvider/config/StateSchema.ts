@@ -7,7 +7,7 @@ import {
     ReducersMapObject,
 } from '@reduxjs/toolkit';
 import { CreateDirSchema } from 'feature/CreateDir';
-import { LoginSchema } from 'feature/AuthByEmail';
+import { AuthSchema } from 'feature/AuthByEmail';
 import { FileEditNameSchema } from 'feature/EditFileName';
 import { rtkApi } from 'shared/api/rtkApi';
 import { AxiosInstance } from 'axios';
@@ -17,7 +17,7 @@ export interface StateSchema {
     [rtkApi.reducerPath]: ReturnType<typeof rtkApi.reducer>;
 
     // async
-    loginForm?: LoginSchema;
+    authForm?: AuthSchema;
     createDir?: CreateDirSchema;
     fileEditName?: FileEditNameSchema;
 }

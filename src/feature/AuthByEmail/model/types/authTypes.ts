@@ -1,4 +1,5 @@
-export interface LoginSchema {
+export interface AuthSchema {
+    nickname: string;
     email: string;
     password: string;
     isLoading: boolean;

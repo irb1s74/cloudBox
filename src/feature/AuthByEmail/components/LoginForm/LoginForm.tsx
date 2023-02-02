@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useCallback } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Button, Stack, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import {
     DynamicModuleLoader,
@@ -7,36 +7,40 @@ import {
 } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Form } from 'shared/ui/Form/Form';
-import { loginByEmail } from '../api/loginByEmail';
-import { getLoginEmail } from '../model/selectors/getLoginEmail/getLoginEmail';
-import { getLoginPassword } from '../model/selectors/getLoginPassowrd/getLoginPassword';
-import { getLoginError } from '../model/selectors/getLoginError/getLoginError';
-import { loginActions, loginReducer } from '../model/slice/loginSlice';
+import { loginByEmail } from '../../api/loginByEmail';
+import { getAuthEmail } from '../../model/selectors/getAuthEmail/getAuthEmail';
+import { getAuthPassword } from '../../model/selectors/getAuthPassword/getAuthPassword';
+import { getAuthError } from '../../model/selectors/getAuthError/getAuthError';
+import { authActions, authReducer } from '../../model/slice/authSlice';
 
 interface LoginFormProps {
     className?: string;
+
+    handleSetIsLogin?: (value: boolean) => () => void;
 }
 
 const initialReducers: ReducersList = {
-    loginForm: loginReducer,
+    authForm: authReducer,
 };
 
-const LoginForm: FC<LoginFormProps> = () => {
+const LoginForm: FC<LoginFormProps> = (props) => {
+    const { handleSetIsLogin, className } = props;
+
     const dispatch = useAppDispatch();
-    const email = useSelector(getLoginEmail);
-    const password = useSelector(getLoginPassword);
-    const error = useSelector(getLoginError);
+    const email = useSelector(getAuthEmail);
+    const password = useSelector(getAuthPassword);
+    const error = useSelector(getAuthError);
 
     const onChangeEmail = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
-            dispatch(loginActions.setEmail(event.target.value));
+            dispatch(authActions.setEmail(event.target.value));
         },
         [dispatch],
     );
 
     const onChangePassword = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
-            dispatch(loginActions.setPassword(event.target.value));
+            dispatch(authActions.setPassword(event.target.value));
         },
         [dispatch],
     );
@@ -50,13 +54,21 @@ const LoginForm: FC<LoginFormProps> = () => {
             <Form
                 titleForm="Авторизация"
                 actions={
-                    <Button
-                        onClick={onLoginClick}
-                        variant="contained"
-                        fullWidth
-                    >
-                        войти
-                    </Button>
+                    <Stack spacing={1} sx={{ width: '100%' }}>
+                        <Button
+                            variant="text"
+                            onClick={handleSetIsLogin(false)}
+                        >
+                            Регистрация
+                        </Button>
+                        <Button
+                            onClick={onLoginClick}
+                            variant="contained"
+                            fullWidth
+                        >
+                            войти
+                        </Button>
+                    </Stack>
                 }
                 error={error}
             >

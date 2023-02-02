@@ -1,9 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import { Suspense, useCallback } from 'react';
-import AlreadyAuth from 'app/providers/router/ui/AlreadyAuth';
 import { PageLoader } from 'widget/PageLoader';
 import { AppRoutesProps } from '../types/index';
 import { routeConfig } from '../config/routerConfig';
+import AlreadyAuth from './AlreadyAuth';
 import RequireAuth from './RequireAuth';
 
 export const AppRouter = () => {

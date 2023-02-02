@@ -6,7 +6,7 @@ import axios from 'axios';
 
 interface RegProps {
     email: string;
-    username: string;
+    nickname: string;
     password: string;
 }
 
@@ -16,13 +16,13 @@ export const sigInByEmail = createAsyncThunk<
     { rejectValue: string }
 >(
     'sigInByEmail/sigInByEmail',
-    async ({ email, username, password }, thunkAPI) => {
+    async ({ email, nickname, password }, thunkAPI) => {
         try {
             const response = await axios.post(
                 'auth/reg',
                 {
                     email,
-                    username,
+                    nickname,
                     password,
                 },
                 {
