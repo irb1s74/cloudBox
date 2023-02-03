@@ -1,12 +1,8 @@
 import { memo } from 'react';
 import { DropList } from 'shared/ui/DropList/DropList';
 import { Divider, ListItemIcon, ListItemText, MenuItem } from '@mui/material';
-import {
-    HiBookmarkAlt,
-    HiCloudDownload,
-    HiShare,
-    HiTrash,
-} from 'react-icons/hi';
+import { HiBookmarkAlt, HiCloudDownload, HiTrash } from 'react-icons/hi';
+import { IoUnlink, IoLink } from 'react-icons/io5';
 import { CgRename } from 'react-icons/cg';
 
 interface FileMenuProps {
@@ -17,6 +13,8 @@ interface FileMenuProps {
     handleShareFile?: () => void;
     handleAddToFavorite?: () => void;
     handleDownload?: () => void;
+    handleCopyLink?: () => void;
+    handleDeleteShare?: () => void;
     handleDelete?: () => void;
     handleOnCloseMenu: () => void;
     handleOpenRenameFileModal: () => void;
@@ -34,6 +32,8 @@ export const FileActions = memo((props: FileMenuProps) => {
         handleDownload,
         handleDelete,
         handleOpenRenameFileModal,
+        handleCopyLink,
+        handleDeleteShare,
     } = props;
 
     return (
@@ -42,12 +42,20 @@ export const FileActions = memo((props: FileMenuProps) => {
             open={open}
             handleClose={handleOnCloseMenu}
         >
-            <MenuItem onClick={handleShareFile}>
+            {isShared && (
+                <MenuItem onClick={handleDeleteShare}>
+                    <ListItemIcon>
+                        <IoUnlink size={22} />
+                    </ListItemIcon>
+                    <ListItemText>Удалить ссылку</ListItemText>
+                </MenuItem>
+            )}
+            <MenuItem onClick={isShared ? handleCopyLink : handleShareFile}>
                 <ListItemIcon>
-                    <HiShare size={22} />
+                    <IoLink size={22} />
                 </ListItemIcon>
                 <ListItemText>
-                    {isShared ? 'Удалить ссылку' : 'Поделиться'}
+                    {isShared ? 'Скопировать ссылку' : 'Поделиться'}
                 </ListItemText>
             </MenuItem>
             <Divider />

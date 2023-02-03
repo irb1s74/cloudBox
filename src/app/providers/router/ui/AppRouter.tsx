@@ -3,7 +3,6 @@ import { Suspense, useCallback } from 'react';
 import { PageLoader } from 'widget/PageLoader';
 import { AppRoutesProps } from '../types/index';
 import { routeConfig } from '../config/routerConfig';
-import AlreadyAuth from './AlreadyAuth';
 import RequireAuth from './RequireAuth';
 
 export const AppRouter = () => {
@@ -20,7 +19,7 @@ export const AppRouter = () => {
                     route.authOnly ? (
                         <RequireAuth>{element}</RequireAuth>
                     ) : (
-                        <AlreadyAuth>{element}</AlreadyAuth>
+                        element
                     )
                 }
             />

@@ -4,6 +4,7 @@ import { NotFoundPage } from 'pages/NotFoundPage';
 import { FavoritesPage } from 'pages/FavoritesPage';
 import { RecentPage } from 'pages/RecentPage';
 import { SearchPage } from 'pages/SearchPage';
+import { SharePage } from 'pages/SharePage';
 import { AppRoutes, AppRoutesProps } from '../types';
 
 export const RoutePath: Record<AppRoutes, string> = {
@@ -34,7 +35,7 @@ export const routeConfig: Record<AppRoutes, AppRoutesProps> = {
     },
     [AppRoutes.SHARE]: {
         path: RoutePath.SHARE,
-        element: <RecentPage />,
+        element: <SharePage />,
     },
     [AppRoutes.SEARCH]: {
         path: RoutePath.SEARCH,

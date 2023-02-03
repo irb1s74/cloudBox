@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loginByEmail } from 'feature/AuthByEmail/api/loginByEmail';
+import { loginByEmail } from '../../api/loginByEmail';
+import { sigUpByEmail } from '../../api/sigUpByEmail';
 import { AuthSchema } from '../types/authTypes';
 
 const initialState: AuthSchema = {
@@ -34,6 +35,18 @@ export const authSlice = createSlice({
             })
             .addCase(loginByEmail.rejected, (state, action) => {
                 state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(sigUpByEmail.pending, (state, action) => {
+                state.isLoading = true;
+            })
+            .addCase(sigUpByEmail.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.error = undefined;
+            })
+            .addCase(sigUpByEmail.rejected, (state, action) => {
+                state.isLoading = false;
+
                 state.error = action.payload;
             });
     },

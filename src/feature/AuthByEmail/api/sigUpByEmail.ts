@@ -10,12 +10,12 @@ interface RegProps {
     password: string;
 }
 
-export const sigInByEmail = createAsyncThunk<
+export const sigUpByEmail = createAsyncThunk<
     IUser,
     RegProps,
     { rejectValue: string }
 >(
-    'sigInByEmail/sigInByEmail',
+    'sigUpByEmail/sigUpByEmail',
     async ({ email, nickname, password }, thunkAPI) => {
         try {
             const response = await axios.post(
@@ -38,7 +38,10 @@ export const sigInByEmail = createAsyncThunk<
             );
             thunkAPI.dispatch(userActions.setAuthData(response.data));
             return response.data;
-        } catch (e) {
+        } catch (error) {
+            if (error?.response?.data?.message) {
+                return thunkAPI.rejectWithValue(error.response.data.message);
+            }
             return thunkAPI.rejectWithValue('Ошибка');
         }
     },

@@ -3,10 +3,12 @@ import { downloadFile, FileActions, IFile } from 'entities/File';
 import { EditFileNameModal } from 'feature/EditFileName';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { toast } from 'react-toastify';
-import { rootURL } from 'shared/const/rootURL';
+import { createSearchParams } from 'react-router-dom';
+import { rootClientApi } from 'shared/const/rootURL';
 import {
     useAddToFavoriteMutation,
     useDeleteFileMutation,
+    useDeleteShareFileMutation,
     useLazyGetFavoriteFileQuery,
     useShareFileMutation,
 } from '../api/diskContextFileService';
@@ -28,6 +30,7 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
     const [getFavoriteFile, { data: favoriteFile }] =
         useLazyGetFavoriteFileQuery();
     const [shareFile, { data }] = useShareFileMutation();
+    const [deleteShareFile] = useDeleteShareFileMutation();
 
     useEffect(() => {
         if (file?.id && open) {
@@ -41,11 +44,26 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
         const res = await shareFile({ fileId: file.id });
         if ('data' in res && res.data.accessLink) {
             await navigator.clipboard.writeText(
-                `${rootURL}share/${res.data.accessLink}`,
+                `${rootClientApi}share?${createSearchParams({
+                    accessLink: `${res.data.accessLink}`,
+                })}`,
             );
             toast.info('Ссылка скопирована', {});
         }
     }, [file, shareFile]);
+
+    const handleDeleteShareFile = useCallback(async () => {
+        deleteShareFile({ fileId: file.id });
+        toast.info('Ссылка удалена', {});
+    }, [file, deleteShareFile]);
+
+    const handleCopyLink = useCallback(async () => {
+        const link = `${rootClientApi}share?${createSearchParams({
+            accessLink: `${file.accessLink}`,
+        })}`;
+        await navigator.clipboard.writeText(link);
+        toast.info('Ссылка скопирована', {});
+    }, [file]);
 
     const handleAddToFavorite = useCallback(async () => {
         if (file?.id) {
@@ -89,6 +107,8 @@ export const FileMenu = memo((props: DiskContextFileProps) => {
                 handleDownload={handleDownload}
                 handleOnCloseMenu={handleCloseContextFile}
                 handleOpenRenameFileModal={handleOpenRenameFileModal}
+                handleDeleteShare={handleDeleteShareFile}
+                handleCopyLink={handleCopyLink}
             />
             <EditFileNameModal
                 isOpen={renameFileModalOpen}

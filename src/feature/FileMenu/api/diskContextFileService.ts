@@ -54,6 +54,19 @@ const diskContextFileService = rtkApi.injectEndpoints({
                 { type: 'Files', id: fileId },
             ],
         }),
+        deleteShareFile: build.mutation<IFile, { fileId: number }>({
+            query: ({ fileId }) => ({
+                url: `file/share/${fileId}`,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                },
+                method: 'DELETE',
+            }),
+            invalidatesTags: (result, error, { fileId }) => [
+                { type: 'Files', id: fileId },
+            ],
+        }),
     }),
 });
 
@@ -62,4 +75,5 @@ export const {
     useDeleteFileMutation,
     useAddToFavoriteMutation,
     useShareFileMutation,
+    useDeleteShareFileMutation,
 } = diskContextFileService;

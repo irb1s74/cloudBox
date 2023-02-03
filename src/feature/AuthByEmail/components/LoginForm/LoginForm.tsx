@@ -11,6 +11,7 @@ import { loginByEmail } from '../../api/loginByEmail';
 import { getAuthEmail } from '../../model/selectors/getAuthEmail/getAuthEmail';
 import { getAuthPassword } from '../../model/selectors/getAuthPassword/getAuthPassword';
 import { getAuthError } from '../../model/selectors/getAuthError/getAuthError';
+import { getAuthIsLoading } from '../../model/selectors/getAuthIsLoading/getAuthIsLoading';
 import { authActions, authReducer } from '../../model/slice/authSlice';
 
 interface LoginFormProps {
@@ -30,6 +31,7 @@ const LoginForm: FC<LoginFormProps> = (props) => {
     const email = useSelector(getAuthEmail);
     const password = useSelector(getAuthPassword);
     const error = useSelector(getAuthError);
+    const isLoading = useSelector(getAuthIsLoading);
 
     const onChangeEmail = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -58,12 +60,14 @@ const LoginForm: FC<LoginFormProps> = (props) => {
                         <Button
                             variant="text"
                             onClick={handleSetIsLogin(false)}
+                            disabled={isLoading}
                         >
                             Регистрация
                         </Button>
                         <Button
                             onClick={onLoginClick}
                             variant="contained"
+                            disabled={isLoading}
                             fullWidth
                         >
                             войти

@@ -7,8 +7,9 @@ import {
 } from 'shared/lib/DynamicModuleLoader/DynamicModuleLoader';
 import { useAppDispatch } from 'shared/lib/hooks/useAppDispatch';
 import { Form } from 'shared/ui/Form/Form';
-import { getAuthNickname } from 'feature/AuthByEmail/model/selectors/getAuthNickname/getAuthNickname';
-import { sigInByEmail } from '../../api/sigInByEmail';
+import { sigUpByEmail } from '../../api/sigUpByEmail';
+import { getAuthNickname } from '../../model/selectors/getAuthNickname/getAuthNickname';
+import { getAuthIsLoading } from '../../model/selectors/getAuthIsLoading/getAuthIsLoading';
 import { getAuthEmail } from '../../model/selectors/getAuthEmail/getAuthEmail';
 import { getAuthPassword } from '../../model/selectors/getAuthPassword/getAuthPassword';
 import { getAuthError } from '../../model/selectors/getAuthError/getAuthError';
@@ -31,6 +32,7 @@ const SignUpForm: FC<SignUpFormProps> = (props) => {
     const email = useSelector(getAuthEmail);
     const password = useSelector(getAuthPassword);
     const error = useSelector(getAuthError);
+    const isLoading = useSelector(getAuthIsLoading);
 
     const onChangeNickname = useCallback(
         (event: ChangeEvent<HTMLInputElement>) => {
@@ -54,7 +56,7 @@ const SignUpForm: FC<SignUpFormProps> = (props) => {
     );
 
     const onSignUpClick = useCallback(() => {
-        dispatch(sigInByEmail({ nickname, email, password }));
+        dispatch(sigUpByEmail({ nickname, email, password }));
     }, [nickname, dispatch, email, password]);
 
     return (
@@ -66,6 +68,7 @@ const SignUpForm: FC<SignUpFormProps> = (props) => {
                         <Button
                             color="secondary"
                             variant="text"
+                            disabled={isLoading}
                             onClick={handleSetIsLogin(true)}
                         >
                             Уже есть аккаунт?
@@ -73,6 +76,7 @@ const SignUpForm: FC<SignUpFormProps> = (props) => {
                         <Button
                             onClick={onSignUpClick}
                             variant="contained"
+                            disabled={isLoading}
                             fullWidth
                         >
                             Регистрация
