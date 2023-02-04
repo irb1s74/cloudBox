@@ -1,9 +1,7 @@
 import React, { FC, useState } from 'react';
-// import { Search } from 'shared/components/Search/Search';
 import { DropList } from 'shared/ui/DropList/DropList';
 import { BiLogOut } from 'react-icons/bi';
-import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
-import { Avatar } from 'shared/ui/Avatar/Avatar';
+import { Avatar, ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserAuthData, userActions } from 'entities/User';
@@ -36,7 +34,7 @@ export const NavbarActions: FC<NavbarActionsProps> = ({ className }) => {
             <div className={classNames(styles.NavbarActions, {}, [className])}>
                 <SearchFile />
                 <div onClick={handleClick} className={styles.NavbarAvatar}>
-                    <Avatar user={user} />
+                    <Avatar src={user?.avatar ? user.avatar : undefined} />
                 </div>
             </div>
             <DropList anchorEl={anchorEl} open={open} handleClose={handleClose}>

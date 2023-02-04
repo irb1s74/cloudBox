@@ -8,4 +8,8 @@
   font-weight: 700;
   margin-left: 10px;
   color: var(--dark-color);
+
+  @media (max-width: 590px) {
+    display: none;
+  }
 }

@@ -9,6 +9,10 @@
 .NavbarNavigation {
   margin-left: 5%;
   margin-right: auto;
+
+  @media (max-width: 590px) {
+    display: none;
+  }
 }
 
 .NavbarBreadcrumb {
@@ -28,9 +32,12 @@
 .NavbarActions {
   display: flex;
   align-items: center;
+
+  @media (max-width: 590px) {
+    width: 100%;
+  }
 }
 
 .NavbarAvatar {
-  margin-left: 20px;
   cursor: pointer;
 }

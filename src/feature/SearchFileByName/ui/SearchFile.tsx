@@ -29,10 +29,11 @@ export const SearchFile = () => {
                 display: 'flex',
                 alignItems: 'center',
                 width: {
-                    xs: 100,
-                    md: 250,
+                    xs: '100%',
                     xl: 400,
                 },
+                ml: '10px',
+                mr: '10px',
             }}
         >
             <InputBase

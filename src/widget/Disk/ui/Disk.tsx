@@ -108,7 +108,7 @@ export const Disk = () => {
     return (
         <section onContextMenu={onContextClick} className={styles.Disk}>
             <Stack
-                sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
+                sx={{ width: '100%' }}
                 direction='row'
                 alignItems='center'
                 justifyContent='space-between'

@@ -4,11 +4,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+
 }
 
 
 .SidebarWrapperButtons {
   margin: 30px 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  > *:not(:last-child) {
+    margin-bottom: 12px;
+  }
 }
 
 .SidebarButton {
@@ -31,11 +40,17 @@
     margin-bottom: 15px;
     color: var(--light-color);
     background-color: var(--accent-color) !important;
+
+    @media (max-width: 590px) {
+      display: none;
+    }
   }
 
-
-
+  @media (max-width: 590px) {
+    display: none;
+  }
 }
+
 
 .SidebarBtnIcon {
   margin-right: 5px;

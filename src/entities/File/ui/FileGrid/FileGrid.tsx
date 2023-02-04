@@ -37,54 +37,6 @@ export const FileGrid = memo((props: FileGridProps) => {
                     <File file={file} active={selectFileId === file.id} />
                 </div>
             ))}
-            {files.map((file) => (
-                <div
-                    className={styles.FileGrid__item}
-                    key={file.id}
-                    onClick={handleSelectFileId(file.id)}
-                    onContextMenu={(event) =>
-                        handleOpenContextFile(event, file.id)
-                    }
-                >
-                    <File file={file} active={selectFileId === file.id} />
-                </div>
-            ))}
-            {files.map((file) => (
-                <div
-                    className={styles.FileGrid__item}
-                    key={file.id}
-                    onClick={handleSelectFileId(file.id)}
-                    onContextMenu={(event) =>
-                        handleOpenContextFile(event, file.id)
-                    }
-                >
-                    <File file={file} active={selectFileId === file.id} />
-                </div>
-            ))}
-            {files.map((file) => (
-                <div
-                    className={styles.FileGrid__item}
-                    key={file.id}
-                    onClick={handleSelectFileId(file.id)}
-                    onContextMenu={(event) =>
-                        handleOpenContextFile(event, file.id)
-                    }
-                >
-                    <File file={file} active={selectFileId === file.id} />
-                </div>
-            ))}
-            {files.map((file) => (
-                <div
-                    className={styles.FileGrid__item}
-                    key={file.id}
-                    onClick={handleSelectFileId(file.id)}
-                    onContextMenu={(event) =>
-                        handleOpenContextFile(event, file.id)
-                    }
-                >
-                    <File file={file} active={selectFileId === file.id} />
-                </div>
-            ))}
         </div>
     );
 });
