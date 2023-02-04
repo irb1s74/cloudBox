@@ -12,6 +12,7 @@ import {
     USER_DISK_SORT_KEY,
 } from 'shared/const/localstorage';
 import { PageLoader } from 'widget/PageLoader';
+import { DragFile } from 'feature/DragFile';
 import { DiskToggleView } from './DiskToggleView';
 import { DiskFilters } from './DiskFilters';
 import styles from './Disk.module.scss';
@@ -123,13 +124,15 @@ export const Disk = () => {
                     handleToggleView={handleToggleView}
                 />
             </Stack>
-            <Files
-                files={files}
-                viewType={viewType}
-                handleSelectFileId={handleSelectFileId}
-                selectedFileId={selectedFileId}
-                handleOpenContextFile={handleOpenContextFile}
-            />
+            <DragFile>
+                <Files
+                    files={files}
+                    viewType={viewType}
+                    handleSelectFileId={handleSelectFileId}
+                    selectedFileId={selectedFileId}
+                    handleOpenContextFile={handleOpenContextFile}
+                />
+            </DragFile>
             <FileMenu
                 open={contextFileOpen}
                 file={selectedFile}
