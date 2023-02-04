@@ -27,12 +27,60 @@ export const FileGrid = memo((props: FileGridProps) => {
         <div className={styles.FileGrid}>
             {files.map((file) => (
                 <div
+                    className={styles.FileGrid__item}
                     key={file.id}
                     onClick={handleSelectFileId(file.id)}
                     onContextMenu={(event) =>
                         handleOpenContextFile(event, file.id)
                     }
-                    className={styles.FileGridItem}
+                >
+                    <File file={file} active={selectFileId === file.id} />
+                </div>
+            ))}
+            {files.map((file) => (
+                <div
+                    className={styles.FileGrid__item}
+                    key={file.id}
+                    onClick={handleSelectFileId(file.id)}
+                    onContextMenu={(event) =>
+                        handleOpenContextFile(event, file.id)
+                    }
+                >
+                    <File file={file} active={selectFileId === file.id} />
+                </div>
+            ))}
+            {files.map((file) => (
+                <div
+                    className={styles.FileGrid__item}
+                    key={file.id}
+                    onClick={handleSelectFileId(file.id)}
+                    onContextMenu={(event) =>
+                        handleOpenContextFile(event, file.id)
+                    }
+                >
+                    <File file={file} active={selectFileId === file.id} />
+                </div>
+            ))}
+            {files.map((file) => (
+                <div
+                    className={styles.FileGrid__item}
+                    key={file.id}
+                    onClick={handleSelectFileId(file.id)}
+                    onContextMenu={(event) =>
+                        handleOpenContextFile(event, file.id)
+                    }
+                >
+                    <File file={file} active={selectFileId === file.id} />
+                </div>
+            ))}
+            {files.map((file) => (
+                <div
+                    className={styles.FileGrid__item}
+                    key={file.id}
+                    onClick={handleSelectFileId(file.id)}
+                    onContextMenu={(event) =>
+                        handleOpenContextFile(event, file.id)
+                    }
                 >
                     <File file={file} active={selectFileId === file.id} />
                 </div>

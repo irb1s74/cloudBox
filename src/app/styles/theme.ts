@@ -8,6 +8,9 @@ export const theme = createTheme({
         secondary: {
             main: '#1F1F1F',
         },
+        background: {
+            default: '#F9FAFCFF'
+        }
     },
     typography: {
         fontFamily: ['Inter', 'sans-serif'].join(','),

@@ -5,7 +5,6 @@ import {
     useNavigate,
     useSearchParams,
 } from 'react-router-dom';
-import { DragFile } from 'feature/DragFile';
 import { FileMenu } from 'feature/FileMenu';
 import { Files, useGetFilesByPathQuery } from 'entities/File';
 import {
@@ -108,37 +107,35 @@ export const Disk = () => {
 
     return (
         <section onContextMenu={onContextClick} className={styles.Disk}>
-            <DragFile>
-                <Stack
-                    sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                >
-                    <DiskFilters
-                        selectedSort={selectedSort}
-                        selectedOptionSort={selectedOptionSort}
-                        handleSelectSort={handleSelectSort}
-                    />
-                    <DiskToggleView
-                        viewType={viewType}
-                        handleToggleView={handleToggleView}
-                    />
-                </Stack>
-                <Files
-                    files={files}
+            <Stack
+                sx={{ pr: '10px', pl: '10px', pb: '15px', width: '100%' }}
+                direction='row'
+                alignItems='center'
+                justifyContent='space-between'
+            >
+                <DiskFilters
+                    selectedSort={selectedSort}
+                    selectedOptionSort={selectedOptionSort}
+                    handleSelectSort={handleSelectSort}
+                />
+                <DiskToggleView
                     viewType={viewType}
-                    handleSelectFileId={handleSelectFileId}
-                    selectedFileId={selectedFileId}
-                    handleOpenContextFile={handleOpenContextFile}
+                    handleToggleView={handleToggleView}
                 />
-                <FileMenu
-                    open={contextFileOpen}
-                    file={selectedFile}
-                    handleCloseContextFile={handleCloseContextFile}
-                    anchorEl={anchorEl}
-                />
-            </DragFile>
+            </Stack>
+            <Files
+                files={files}
+                viewType={viewType}
+                handleSelectFileId={handleSelectFileId}
+                selectedFileId={selectedFileId}
+                handleOpenContextFile={handleOpenContextFile}
+            />
+            <FileMenu
+                open={contextFileOpen}
+                file={selectedFile}
+                handleCloseContextFile={handleCloseContextFile}
+                anchorEl={anchorEl}
+            />
         </section>
     );
 };

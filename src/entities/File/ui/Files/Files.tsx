@@ -1,6 +1,5 @@
 import { memo, MouseEvent } from 'react';
 import { FileGrid, FileList, IFile } from 'entities/File';
-import styles from './Files.module.scss';
 
 interface DiskFilesProps {
     selectedFileId: number;
@@ -22,23 +21,23 @@ export const Files = memo((props: DiskFilesProps) => {
         handleSelectFileId,
     } = props;
 
+    if (viewType === 'grid') {
+        return (
+            <FileGrid
+                files={files}
+                selectFileId={selectedFileId}
+                handleOpenContextFile={handleOpenContextFile}
+                handleSelectFileId={handleSelectFileId}
+            />
+        );
+    }
+
     return (
-        <div className={styles.Files}>
-            {viewType === 'grid' ? (
-                <FileGrid
-                    files={files}
-                    selectFileId={selectedFileId}
-                    handleOpenContextFile={handleOpenContextFile}
-                    handleSelectFileId={handleSelectFileId}
-                />
-            ) : (
-                <FileList
-                    files={files}
-                    selectedFileId={selectedFileId}
-                    handleOpenContextFile={handleOpenContextFile}
-                    handleSelectFileId={handleSelectFileId}
-                />
-            )}
-        </div>
+        <FileList
+            files={files}
+            selectedFileId={selectedFileId}
+            handleOpenContextFile={handleOpenContextFile}
+            handleSelectFileId={handleSelectFileId}
+        />
     );
 });
