@@ -24,7 +24,7 @@ export const NavbarNavigation: FC<NavigationProps> = ({ className }) => {
     const handleClick = (index: number) => () => {
         if (splitPath) {
             navigate({
-                pathname: '/recent',
+                pathname: '/files',
                 search: `?${createSearchParams({
                     path: `${splitPath.slice(0, index + 1).join('\\')}`,
                 })}`,

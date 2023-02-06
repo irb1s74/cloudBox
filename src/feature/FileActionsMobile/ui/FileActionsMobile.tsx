@@ -1,4 +1,4 @@
-import { memo, useRef } from 'react';
+import { createRef, memo } from 'react';
 import { Fab, Stack } from '@mui/material';
 import { HiCloudUpload, HiOutlinePlus } from 'react-icons/hi';
 import { useUploadFileMutation } from 'entities/File';
@@ -11,12 +11,13 @@ interface FileActionsMobileProps {
 
 const FileActionsMobile = memo((props: FileActionsMobileProps) => {
     const { openModal, className } = props;
+    const filesInput = createRef<HTMLInputElement>();
 
-    const filesInput = useRef(document.createElement('input'));
     const [uploadFile, { isLoading }] = useUploadFileMutation();
     const [usePath] = useSearchParams();
     const handleUpdateFiles = () => {
         const path = usePath.get('path');
+
         if (filesInput.current.files && filesInput.current.files.length) {
             Array.from(filesInput.current.files).forEach(async (file) => {
                 const formData = new FormData();
@@ -27,6 +28,7 @@ const FileActionsMobile = memo((props: FileActionsMobileProps) => {
                 });
             });
         }
+
     };
     const handleSelectFiles = () => {
         filesInput.current.click();

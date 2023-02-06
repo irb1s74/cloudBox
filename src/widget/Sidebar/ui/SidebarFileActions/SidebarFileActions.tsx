@@ -1,4 +1,4 @@
-import { memo, useCallback, useRef, useState } from 'react';
+import { createRef, memo, useCallback, useState } from 'react';
 import { HiCloudUpload, HiOutlinePlus } from 'react-icons/hi';
 import { CreateDirModal } from 'feature/CreateDir';
 import classNames from 'classnames';
@@ -13,9 +13,10 @@ interface SidebarFileActionsProps {
 
 export const SidebarFileActions = memo(({ className }: SidebarFileActionsProps) => {
     const [modalIsOpen, setModalOpen] = useState(false);
-    const filesInput = useRef(document.createElement('input'));
+    const filesInput = createRef<HTMLInputElement>();
     const [uploadFile, { isLoading }] = useUploadFileMutation();
     const [usePath] = useSearchParams();
+
     const handleUpdateFiles = () => {
         const path = usePath.get('path');
         if (filesInput.current.files && filesInput.current.files.length) {
@@ -27,6 +28,7 @@ export const SidebarFileActions = memo(({ className }: SidebarFileActionsProps) 
                     formData,
                 });
             });
+
         }
     };
     const handleSelectFiles = () => {
