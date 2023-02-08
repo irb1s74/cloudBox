@@ -1,10 +1,10 @@
 import { createRef, memo, useCallback, useState } from 'react';
 import { HiCloudUpload, HiOutlinePlus } from 'react-icons/hi';
 import { CreateDirModal } from 'feature/CreateDir';
-import classNames from 'classnames';
 import { useUploadFileMutation } from 'entities/File';
 import { useSearchParams } from 'react-router-dom';
 import { Fab } from '@mui/material';
+import classNames from 'classnames';
 import styles from '../Sidebar.module.scss';
 
 interface SidebarFileActionsProps {
@@ -29,6 +29,7 @@ export const SidebarFileActions = memo(
                         formData,
                     });
                 });
+                filesInput.current.files = null;
             }
         };
         const handleSelectFiles = () => {
@@ -56,8 +57,8 @@ export const SidebarFileActions = memo(
                         boxShadow: 'none',
                         zIndex: '0',
                     }}
-                    color="primary"
-                    variant="extended"
+                    color='primary'
+                    variant='extended'
                     onClick={handleSelectFiles}
                     disabled={isLoading}
                 >
@@ -69,13 +70,13 @@ export const SidebarFileActions = memo(
                     <input
                         ref={filesInput}
                         onChange={handleUpdateFiles}
-                        type="file"
+                        type='file'
                         multiple
                         hidden
                     />
                 </Fab>
                 <Fab
-                    variant="extended"
+                    variant='extended'
                     sx={{
                         width: '80%',
                         height: '60px',

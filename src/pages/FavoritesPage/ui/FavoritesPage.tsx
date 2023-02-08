@@ -56,7 +56,11 @@ const FavoritesPage = () => {
     };
 
     if (isLoading) {
-        return <PageLoader />;
+        return (
+            <Page pageName='Избранное'>
+                <PageLoader />
+            </Page>
+        );
     }
 
     return (

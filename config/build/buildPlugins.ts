@@ -17,7 +17,9 @@ export const buildPlugins = ({ isDev, paths }: BuildOptions): WebpackPluginInsta
         new DefinePlugin({
             __IS_DEV__: isDev,
         }),
-
+        // new BundleAnalyzerPlugin({
+        //     openAnalyzer: true,
+        // })
     ];
 
     if (isDev) {

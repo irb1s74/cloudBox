@@ -64,19 +64,25 @@ const SearchPage: FC<SearchPageProps> = ({ className }) => {
     const handleCloseContextFile = () => {
         setAnchorEl(null);
     };
+
     if (isLoading) {
-        return <PageLoader />;
+        return (
+            <Page pageName={`Поиск "${fileName}"`}>
+                <PageLoader />
+            </Page>
+        );
     }
+
     return (
         <Page pageName={`Поиск "${fileName}"`}>
             {error && (
-                <Typography color="error">
+                <Typography color='error'>
                     Произошла ошибка при загрузке
                 </Typography>
             )}
             <Files
                 files={files}
-                viewType="list"
+                viewType='list'
                 handleSelectFileId={handleSelectFileId}
                 selectedFileId={selectedFileId}
                 handleOpenContextFile={handleOpenContextFile}

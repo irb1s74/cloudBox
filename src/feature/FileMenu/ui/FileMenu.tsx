@@ -22,14 +22,14 @@ interface DiskContextFileProps {
 
 export const FileMenu = memo((props: DiskContextFileProps) => {
     const { file, handleCloseContextFile, anchorEl, open } = props;
+    const [renameFileModalOpen, setRenameFileOpen] = useState(false);
     const dispatch = useAppDispatch();
 
     const [deleteFile] = useDeleteFileMutation();
     const [addToFavorite] = useAddToFavoriteMutation();
-    const [renameFileModalOpen, setRenameFileOpen] = useState(false);
     const [getFavoriteFile, { data: favoriteFile }] =
         useLazyGetFavoriteFileQuery();
-    const [shareFile, { data }] = useShareFileMutation();
+    const [shareFile] = useShareFileMutation();
     const [deleteShareFile] = useDeleteShareFileMutation();
 
     useEffect(() => {

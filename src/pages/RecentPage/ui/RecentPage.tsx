@@ -52,19 +52,23 @@ const RecentPage = () => {
     };
 
     if (isLoading) {
-        return <PageLoader />;
+        return (
+            <Page pageName='Последние'>
+                <PageLoader />
+            </Page>
+        );
     }
 
     return (
-        <Page pageName="Последние">
+        <Page pageName='Последние'>
             {error && (
-                <Typography color="error">
+                <Typography color='error'>
                     Произошла ошибка при загрузке
                 </Typography>
             )}
             <Files
                 files={files}
-                viewType="list"
+                viewType='list'
                 handleSelectFileId={handleSelectFileId}
                 selectedFileId={selectedFileId}
                 handleOpenContextFile={handleOpenContextFile}
