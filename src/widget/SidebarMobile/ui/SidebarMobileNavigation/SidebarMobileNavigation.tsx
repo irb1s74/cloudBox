@@ -9,7 +9,6 @@ interface SidebarMobileNavigatorProps {
     className?: string;
 }
 
-
 const listRender: {
     name: string;
     path: string;
@@ -19,7 +18,7 @@ const listRender: {
         name: 'Последние',
         path: 'recent',
         icon: (
-            <HiClock size='30' className={styles.SidebarNavigation__itemIcon} />
+            <HiClock size="30" className={styles.SidebarNavigation__itemIcon} />
         ),
     },
     {
@@ -27,7 +26,7 @@ const listRender: {
         path: 'files',
         icon: (
             <HiFolder
-                size='30'
+                size="30"
                 className={styles.SidebarNavigation__itemIcon}
             />
         ),
@@ -37,13 +36,15 @@ const listRender: {
         path: 'favorites',
         icon: (
             <HiBookmark
-                size='30'
+                size="30"
                 className={styles.SidebarNavigation__itemIcon}
             />
         ),
     },
 ];
-export const SidebarMobileNavigation: FC<SidebarMobileNavigatorProps> = ({ className }) => {
+export const SidebarMobileNavigation: FC<SidebarMobileNavigatorProps> = ({
+    className,
+}) => {
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -53,15 +54,21 @@ export const SidebarMobileNavigation: FC<SidebarMobileNavigatorProps> = ({ class
         }
     };
 
-
     return (
         <div className={classNames(styles.SidebarMobileNavigation)}>
             {listRender.map((item, index) => (
-                <div className={classNames(styles.SidebarMobileNavigation__item)}>
+                <div
+                    key={index}
+                    className={classNames(styles.SidebarMobileNavigation__item)}
+                >
                     <IconButton
-                        size='large'
+                        size="large"
                         onClick={toNavigate(item.path)}
-                        color={location.pathname.split('/')[1] === item.path ? 'primary' : undefined}
+                        color={
+                            location.pathname.split('/')[1] === item.path
+                                ? 'primary'
+                                : undefined
+                        }
                     >
                         {item.icon}
                     </IconButton>

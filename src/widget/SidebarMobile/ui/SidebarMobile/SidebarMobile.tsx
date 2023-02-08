@@ -9,7 +9,6 @@ interface SidebarMobileProps {
     className?: string;
 }
 
-
 export const SidebarMobile: FC<SidebarMobileProps> = ({ className }) => {
     const [createDirModal, setCreateDirModal] = useState(false);
 
@@ -25,7 +24,10 @@ export const SidebarMobile: FC<SidebarMobileProps> = ({ className }) => {
         <div className={classNames(styles.SidebarMobile, {}, [className])}>
             <FileActionsMobile openModal={handleOpenCreateDirModal} />
             <SidebarMobileNavigation />
-            <CreateDirModal isOpen={createDirModal} onClose={handleOnCloseModal} />
+            <CreateDirModal
+                isOpen={createDirModal}
+                onClose={handleOnCloseModal}
+            />
         </div>
     );
 };

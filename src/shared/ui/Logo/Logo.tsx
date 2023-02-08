@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import logo from 'shared/assets/img/cloud-logo.png';
+import logo from '../../../../public/cloud-logo.png';
 import styles from './Logo.module.scss';
 
 interface LogoProps {

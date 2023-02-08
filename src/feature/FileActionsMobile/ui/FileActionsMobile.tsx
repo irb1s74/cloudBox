@@ -17,7 +17,6 @@ const FileActionsMobile = memo((props: FileActionsMobileProps) => {
     const [usePath] = useSearchParams();
     const handleUpdateFiles = () => {
         const path = usePath.get('path');
-
         if (filesInput.current.files && filesInput.current.files.length) {
             Array.from(filesInput.current.files).forEach(async (file) => {
                 const formData = new FormData();
@@ -28,7 +27,6 @@ const FileActionsMobile = memo((props: FileActionsMobileProps) => {
                 });
             });
         }
-
     };
     const handleSelectFiles = () => {
         filesInput.current.click();
@@ -36,18 +34,23 @@ const FileActionsMobile = memo((props: FileActionsMobileProps) => {
 
     return (
         <Stack spacing={1} sx={{ position: 'fixed', bottom: 96, right: 16 }}>
-            <Fab onClick={handleSelectFiles} color='primary' aria-label='add'>
-                <HiCloudUpload color='#FFF' size={25} />
+            <Fab
+                onClick={handleSelectFiles}
+                color="primary"
+                disabled={isLoading}
+                aria-label="add"
+            >
+                <HiCloudUpload color="#FFF" size={25} />
                 <input
                     ref={filesInput}
                     onChange={handleUpdateFiles}
-                    type='file'
+                    type="file"
                     multiple
                     hidden
                 />
             </Fab>
-            <Fab onClick={openModal} color='primary' aria-label='add'>
-                <HiOutlinePlus color='#FFF' size={25} />
+            <Fab onClick={openModal} color="primary" aria-label="add">
+                <HiOutlinePlus color="#FFF" size={25} />
             </Fab>
         </Stack>
     );

@@ -110,9 +110,9 @@ export const Disk = () => {
         <section onContextMenu={onContextClick} className={styles.Disk}>
             <Stack
                 sx={{ width: '100%' }}
-                direction='row'
-                alignItems='center'
-                justifyContent='space-between'
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
             >
                 <DiskFilters
                     selectedSort={selectedSort}

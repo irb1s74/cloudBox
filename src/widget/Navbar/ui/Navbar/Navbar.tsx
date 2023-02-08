@@ -10,11 +10,9 @@ interface NavbarProps {
 }
 
 export const Navbar: FC<NavbarProps> = ({ className }) => (
-
     <div className={classNames(styles.Navbar, {}, [className])}>
         <Logo />
         <NavbarNavigation />
         <NavbarActions />
     </div>
-
 );
