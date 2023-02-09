@@ -57,7 +57,7 @@ const FavoritesPage = () => {
 
     if (isLoading) {
         return (
-            <Page pageName='Избранное'>
+            <Page pageName="Избранное">
                 <PageLoader />
             </Page>
         );

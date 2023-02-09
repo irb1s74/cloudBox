@@ -30,7 +30,7 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
     const path = usePath.get('path');
     const [formError, setFormError] = useState('');
 
-    const [createDir, { data: res, isLoading }] = useCreateDirMutation();
+    const [createDir, { isLoading }] = useCreateDirMutation();
 
     const handleOnChangeName = (event: ChangeEvent<HTMLInputElement>) => {
         dispatch(createDirActions.setNameDir(event.target.value));
@@ -52,13 +52,13 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
     return (
         <DynamicModuleLoader reducers={initialReducers}>
             <Form
-                titleForm='Создать директорию'
+                titleForm="Создать директорию"
                 error={formError}
                 actions={
                     <Button
                         onClick={onClick}
                         disabled={isLoading}
-                        variant='contained'
+                        variant="contained"
                         fullWidth
                     >
                         Создать
@@ -69,8 +69,8 @@ const CreateDirForm: FC<CreateDirFormProps> = ({ handleCloseModal }) => {
                 <TextField
                     value={name}
                     onChange={handleOnChangeName}
-                    variant='outlined'
-                    label='Название директории'
+                    variant="outlined"
+                    label="Название директории"
                     fullWidth
                 />
             </Form>

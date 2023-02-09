@@ -1,5 +1,5 @@
 import { useState, MouseEvent, useCallback, useMemo } from 'react';
-import { SelectChangeEvent, Stack } from '@mui/material';
+import { Divider, SelectChangeEvent, Stack } from '@mui/material';
 import {
     createSearchParams,
     useNavigate,
@@ -30,8 +30,8 @@ export const Disk = () => {
 
     const contextFileOpen = Boolean(anchorEl);
     const [usePath] = useSearchParams();
-    const navigate = useNavigate();
     const path = usePath.get('path');
+    const navigate = useNavigate();
 
     const { data: files, isLoading } = useGetFilesByPathQuery({
         path: path || '',
@@ -124,6 +124,7 @@ export const Disk = () => {
                     handleToggleView={handleToggleView}
                 />
             </Stack>
+            <Divider sx={{ mb: '25px' }} />
             <DragFile>
                 <Files
                     files={files}

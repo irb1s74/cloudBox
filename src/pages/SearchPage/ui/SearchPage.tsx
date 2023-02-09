@@ -10,11 +10,9 @@ import { PageLoader } from 'widget/PageLoader';
 import { Typography } from '@mui/material';
 import { FileMenu } from 'feature/FileMenu';
 
-interface SearchPageProps {
-    className?: string;
-}
+interface SearchPageProps {}
 
-const SearchPage: FC<SearchPageProps> = ({ className }) => {
+const SearchPage: FC<SearchPageProps> = () => {
     const [selectedFileId, selectFileId] = useState<number | null>(null);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const navigate = useNavigate();
@@ -76,13 +74,13 @@ const SearchPage: FC<SearchPageProps> = ({ className }) => {
     return (
         <Page pageName={`Поиск "${fileName}"`}>
             {error && (
-                <Typography color='error'>
+                <Typography color="error">
                     Произошла ошибка при загрузке
                 </Typography>
             )}
             <Files
                 files={files}
-                viewType='list'
+                viewType="list"
                 handleSelectFileId={handleSelectFileId}
                 selectedFileId={selectedFileId}
                 handleOpenContextFile={handleOpenContextFile}

@@ -7,7 +7,7 @@ import styles from './FileGrid.module.scss';
 interface FileGridProps {
     files: IFile[];
     handleSelectFileId: (fileId: number) => () => void;
-    selectFileId: number | null;
+    selectedFileId: number | null;
     handleOpenContextFile: (
         event: MouseEvent<HTMLElement>,
         index: number,
@@ -15,8 +15,12 @@ interface FileGridProps {
 }
 
 export const FileGrid = memo((props: FileGridProps) => {
-    const { files, selectFileId, handleOpenContextFile, handleSelectFileId } =
-        props;
+    const {
+        files,
+        selectedFileId = null,
+        handleSelectFileId = () => null,
+        handleOpenContextFile = () => null,
+    } = props;
     const checkFiles = files && files.length;
 
     if (!checkFiles) {
@@ -34,7 +38,7 @@ export const FileGrid = memo((props: FileGridProps) => {
                         handleOpenContextFile(event, file.id)
                     }
                 >
-                    <File file={file} active={selectFileId === file.id} />
+                    <File file={file} active={selectedFileId === file.id} />
                 </div>
             ))}
         </div>

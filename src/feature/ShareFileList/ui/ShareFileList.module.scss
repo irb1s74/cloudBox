@@ -1,0 +1,26 @@
+.ShareFileList {
+  background-color: #FFF;
+  border-radius: 10px;
+  max-width: 100%;
+  width: 1290px;
+  color: var(--dark-color);
+  height: 80%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+  }
+
+  &__file {
+    flex: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

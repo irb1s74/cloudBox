@@ -4,7 +4,6 @@ import { toast } from 'react-toastify';
 
 export const rtkQueryErrorLogger: Middleware =
     (api: MiddlewareAPI) => (next) => (action) => {
-
         if (isRejectedWithValue(action) && action.payload?.data?.message) {
             toast.warn(action.payload.data.message);
         }

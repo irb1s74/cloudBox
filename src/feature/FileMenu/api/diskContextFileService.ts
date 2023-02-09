@@ -48,10 +48,12 @@ const diskContextFileService = rtkApi.injectEndpoints({
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*',
                 },
-                method: 'GET',
+                method: 'POST',
             }),
             invalidatesTags: (result, error, { fileId }) => [
                 { type: 'Files', id: fileId },
+                { type: 'Recent', id: fileId },
+                { type: 'Favorites', id: fileId },
             ],
         }),
         deleteShareFile: build.mutation<IFile, { fileId: number }>({
@@ -65,6 +67,8 @@ const diskContextFileService = rtkApi.injectEndpoints({
             }),
             invalidatesTags: (result, error, { fileId }) => [
                 { type: 'Files', id: fileId },
+                { type: 'Recent', id: fileId },
+                { type: 'Favorites', id: fileId },
             ],
         }),
     }),

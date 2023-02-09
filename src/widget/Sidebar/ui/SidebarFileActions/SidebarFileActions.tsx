@@ -57,8 +57,8 @@ export const SidebarFileActions = memo(
                         boxShadow: 'none',
                         zIndex: '0',
                     }}
-                    color='primary'
-                    variant='extended'
+                    color="primary"
+                    variant="extended"
                     onClick={handleSelectFiles}
                     disabled={isLoading}
                 >
@@ -70,13 +70,13 @@ export const SidebarFileActions = memo(
                     <input
                         ref={filesInput}
                         onChange={handleUpdateFiles}
-                        type='file'
+                        type="file"
                         multiple
                         hidden
                     />
                 </Fab>
                 <Fab
-                    variant='extended'
+                    variant="extended"
                     sx={{
                         width: '80%',
                         height: '60px',

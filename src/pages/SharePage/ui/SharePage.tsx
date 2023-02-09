@@ -1,13 +1,19 @@
 import { FC } from 'react';
-import classNames from 'classnames';
-import styles from './SharePage.module.scss';
+import { Backdrop } from '@mui/material';
+import { ShareFileList } from 'feature/ShareFileList';
 
 interface SharePageProps {
-    className?: string;
 }
 
-const SharePage: FC<SharePageProps> = ({ className }) => {
-    return <div className={classNames(styles.SharePage, {}, [className])} />;
+const SharePage: FC<SharePageProps> = () => {
+    return (
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open
+        >
+            <ShareFileList />
+        </Backdrop>
+    );
 };
 
 export default SharePage;

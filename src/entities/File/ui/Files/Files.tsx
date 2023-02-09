@@ -25,7 +25,7 @@ export const Files = memo((props: DiskFilesProps) => {
         return (
             <FileGrid
                 files={files}
-                selectFileId={selectedFileId}
+                selectedFileId={selectedFileId}
                 handleOpenContextFile={handleOpenContextFile}
                 handleSelectFileId={handleSelectFileId}
             />

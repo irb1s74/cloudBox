@@ -11,7 +11,7 @@ interface AuthProps {
     className?: string;
 }
 
-export const AuthPage: FC<AuthProps> = ({ className }) => {
+const AuthPage: FC<AuthProps> = ({ className }) => {
     const user = useSelector(getUserAuthData);
     const navigate = useNavigate();
     useEffect(() => {
@@ -40,3 +40,5 @@ export const AuthPage: FC<AuthProps> = ({ className }) => {
         </div>
     );
 };
+
+export default AuthPage;

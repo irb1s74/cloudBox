@@ -13,26 +13,30 @@ import { IFile } from '../../model/types/index';
 
 interface FileListProps {
     files: IFile[];
-    selectedFileId: number | null;
-    handleSelectFileId: (fileId: number) => () => void;
-    handleOpenContextFile: (
+    selectedFileId?: number | null;
+    handleSelectFileId?: (fileId: number) => () => void;
+    handleOpenContextFile?: (
         event: MouseEvent<HTMLElement>,
         index: number,
     ) => void;
 }
 
 export const FileList = memo((props: FileListProps) => {
-    const { files, handleSelectFileId, handleOpenContextFile, selectedFileId } =
-        props;
-    const checkFiles = files && files.length;
+    const {
+        files,
+        handleSelectFileId = () => null,
+        handleOpenContextFile = () => null,
+        selectedFileId = null,
+    } = props;
 
+    const checkFiles = files && files.length;
     if (!checkFiles) {
         return <EmptyData />;
     }
 
     return (
         <List sx={{ width: '100%', height: '100%' }}>
-            {files.map((file, index) => (
+            {files.map((file) => (
                 <ListItemButton
                     key={file.id}
                     onClick={handleSelectFileId(file.id)}
